@@ -16,6 +16,13 @@
       "upstream": "gstack@main",
       "skill_count_browser": 11,
       "skill_count_total": 28
+    },
+    "roles": {
+      "installed": true,
+      "skill_count_non_browser": 19,
+      "skill_count_browser": 1,
+      "skill_count_total": 20,
+      "upstream": "gstack@main"
     }
   },
   "drivers": {
