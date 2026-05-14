@@ -1,1 +1,1 @@
-The driver is selected automatically by `gpowers-browser` (see drivers/browser/select-driver.sh).
+Non-CC: `gpowers-browser` (driver auto-selected).

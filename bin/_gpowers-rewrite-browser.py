@@ -42,6 +42,9 @@ RULES = [
     (re.compile(
         r"`mcp__claude-in-chrome__read_console_messages`"),
      r'`gpowers-browser read` (mode: console)'),
+    (re.compile(
+        r"\bmcp__claude-in-chrome__read_console_messages\b"),
+     r'gpowers-browser read (mode: console)'),
 
     # 7. tabs_close_mcp → close
     (re.compile(
@@ -64,37 +67,61 @@ RULES = [
     # 10. read_page (standalone)
     (re.compile(r"`mcp__claude-in-chrome__read_page`"),
      r'`gpowers-browser read`'),
+    (re.compile(r"\bmcp__claude-in-chrome__read_page\b"),
+     r'gpowers-browser read'),
 
     # 11. find (standalone) — rare on its own; map to wait selector
     (re.compile(r"`mcp__claude-in-chrome__find`"),
      r'`gpowers-browser wait` (condition: selector:<css>)'),
+    (re.compile(r"\bmcp__claude-in-chrome__find\b"),
+     r'gpowers-browser wait (condition: selector:<css>)'),
 
     # 12. computer (standalone)
     (re.compile(r"`mcp__claude-in-chrome__computer`"),
      r'`gpowers-browser screenshot`'),
+    (re.compile(r"\bmcp__claude-in-chrome__computer\b"),
+     r'gpowers-browser screenshot'),
 
     # 13. tabs_create_mcp (standalone)
     (re.compile(r"`mcp__claude-in-chrome__tabs_create_mcp`"),
      r'`gpowers-browser open`'),
+    (re.compile(r"\bmcp__claude-in-chrome__tabs_create_mcp\b"),
+     r'gpowers-browser open'),
 
     # 14. javascript_tool (standalone)
     (re.compile(r"`mcp__claude-in-chrome__javascript_tool`"),
      r'`gpowers-browser eval`'),
+    (re.compile(r"\bmcp__claude-in-chrome__javascript_tool\b"),
+     r'gpowers-browser eval'),
 
-    # 15. Generic playwright fallback lines — replace whole line
+    # 15. Generic playwright fallback lines
     (re.compile(
-        r"^(Non-CC:|On non[- ]Claude[- ]Code\b[^\n]*?:)\s+`?npx\s+playwright[^`\n]*`?\.?$",
+        r"`npx\s+playwright[^`]*`",
         re.MULTILINE),
-     r"The driver is selected automatically by `gpowers-browser` (see drivers/browser/select-driver.sh)."),
+     r"`gpowers-browser` (driver auto-selected)"),
     (re.compile(
-        r"^(Non-CC:|On non[- ]Claude[- ]Code\b[^\n]*?:)\s+`?playwright[^`\n]*`?\.?$",
+        r"`playwright[^`]*`",
         re.MULTILINE),
+     r"`gpowers-browser` (driver auto-selected)"),
+    (re.compile(
+        r"(Non-CC:|On non[- ]Claude[- ]Code\b[^\n]*?:)[^\n]*?\bplaywright\b[^\n]*\.?",
+        re.MULTILINE | re.IGNORECASE),
      r"The driver is selected automatically by `gpowers-browser` (see drivers/browser/select-driver.sh)."),
     # Fallback prefix: "fall back: <command>" → strip
     (re.compile(
         r"On non-Claude-Code platforms, fall back:\s+`npx playwright[^`]*`\.",
         re.IGNORECASE),
      r"The driver is selected automatically by `gpowers-browser` (see drivers/browser/select-driver.sh)."),
+
+    # 16. Bare verb words in pipeline descriptions (aidesigner-frontend style)
+    (re.compile(r"\bnavigate,\s+form_input\b"),
+     r'gpowers-browser open, gpowers-browser type'),
+    (re.compile(r"\bfind\+click\b"),
+     r'gpowers-browser wait + gpowers-browser click'),
+    (re.compile(r"\bcomputer screenshot\b"),
+     r'gpowers-browser screenshot'),
+    (re.compile(r"\bjavascript_tool eval\b"),
+     r'gpowers-browser eval'),
 ]
 
 
