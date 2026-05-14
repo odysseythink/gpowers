@@ -1,0 +1,3 @@
+tests/.tmp/
+*.local.*
+.DS_Store

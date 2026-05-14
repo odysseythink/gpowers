@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "modules": {
+    "core": {
+      "upstream": "https://github.com/obra/superpowers",
+      "branch": "main",
+      "subtree_prefix": "core",
+      "last_sha": null
+    },
+    "roles": {
+      "upstream": "https://github.com/garrytan/gstack",
+      "branch": "main",
+      "subtree_prefix": "roles",
+      "last_sha": null,
+      "skill_subset": ["office-hours", "plan-ceo-review", "plan-eng-review", "plan-design-review", "plan-devex-review", "design-consultation", "design-shotgun", "design-html", "design-review", "devex-review", "pr-review", "cso", "codex", "retro", "document-release", "investigate", "learn", "autoplan", "pair-agent", "plan-tune"]
+    },
+    "tools": {
+      "upstream": "https://github.com/garrytan/gstack",
+      "branch": "main",
+      "subtree_prefix": "tools",
+      "last_sha": null
+    },
+    "business": {
+      "upstream": "https://github.com/garrytan/gstack",
+      "branch": "main",
+      "subtree_prefix": "business",
+      "last_sha": null
+    }
+  }
+}
