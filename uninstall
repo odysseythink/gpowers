@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# uninstall — Remove gpowers from this machine.
+# Default keeps user data; --remove-global-data also removes data/config/analytics/logs.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/runtime-dirs.sh
+. "$SCRIPT_DIR/lib/runtime-dirs.sh"
+# shellcheck source=lib/platform-paths.sh
+. "$SCRIPT_DIR/lib/platform-paths.sh"
+# shellcheck source=bin/_gpowers-lib.sh
+. "$SCRIPT_DIR/bin/_gpowers-lib.sh"
+
+usage() {
+  cat <<'EOF'
+usage: gpowers uninstall [options]
+
+Options:
+  --keep-data           keep ~/.gpowers/data/, config/, analytics/, logs/ (default)
+  --remove-global-data  also remove data/config/analytics/logs
+  --remove-all-data     also remove per-project <repo>/.gpowers/ (DANGEROUS: modifies git working trees)
+  --platform=NAME       only unregister from one platform; do not touch ~/.gpowers/
+  --dry-run             print actions, change nothing
+  --help                show this message
+EOF
+}
+
+opt_remove_global_data=0
+opt_remove_all_data=0
+opt_platform=""
+opt_dry_run=0
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --help) usage; exit 0 ;;
+    --keep-data) ;;  # default
+    --remove-global-data) opt_remove_global_data=1 ;;
+    --remove-all-data) opt_remove_all_data=1; opt_remove_global_data=1 ;;
+    --platform=*) opt_platform="${1#--platform=}" ;;
+    --dry-run) opt_dry_run=1 ;;
+    *) gpowers_die "unknown flag: $1" 2 ;;
+  esac
+  shift
+done
+
+do_run() {
+  if [ "$opt_dry_run" -eq 1 ]; then
+    printf '[dry-run] would %s\n' "$1"
+  else
+    printf '[uninstall] %s\n' "$1"
+    eval "$2"
+  fi
+}
+
+# 1. Remove platform symlinks
+platforms_to_clean="$GPOWERS_ALL_PLATFORMS"
+if [ -n "$opt_platform" ]; then
+  platforms_to_clean="${opt_platform//-/_}"
+fi
+for platform in $platforms_to_clean; do
+  plugin_dir_var="GPOWERS_PLATFORM_PLUGIN_DIR_${platform}"
+  plugin_dir="${!plugin_dir_var:-}"
+  if [ -z "$plugin_dir" ]; then continue; fi
+  if [ "$platform" = "kimi" ]; then
+    # Remove gpowers-* prefixed entries in ~/.kimi/skills
+    if [ -d "$plugin_dir" ]; then
+      shopt -s nullglob
+      for entry in "$plugin_dir"/gpowers-* "$plugin_dir"/gpowers; do
+        do_run "remove $entry" "rm -rf '$entry'"
+      done
+      shopt -u nullglob
+    fi
+  else
+    if [ -L "$plugin_dir" ] || [ -e "$plugin_dir" ]; then
+      do_run "remove $plugin_dir" "rm -rf '$plugin_dir'"
+    fi
+  fi
+done
+
+# 2. If --platform was set, stop here
+if [ -n "$opt_platform" ]; then
+  exit 0
+fi
+
+# 3. Remove ~/.gpowers/ module dirs and ephemeral runtime dirs
+for d in core roles tools business platforms bin lib templates state cache tmp; do
+  path="$GPOWERS_HOME/$d"
+  [ -e "$path" ] && do_run "remove $path" "rm -rf '$path'"
+done
+
+# Remove top-level shipped files
+for f in install uninstall manifest.json upstream-sources.json README.md LICENSE; do
+  path="$GPOWERS_HOME/$f"
+  [ -e "$path" ] && do_run "remove $path" "rm -f '$path'"
+done
+
+# 4. Optionally remove data dirs
+if [ "$opt_remove_global_data" -eq 1 ]; then
+  for d in data config analytics logs; do
+    path="$GPOWERS_HOME/$d"
+    [ -e "$path" ] && do_run "remove $path" "rm -rf '$path'"
+  done
+  # If GPOWERS_HOME is now empty, remove it
+  if [ -d "$GPOWERS_HOME" ] && [ -z "$(ls -A "$GPOWERS_HOME" 2>/dev/null)" ]; then
+    do_run "remove empty $GPOWERS_HOME" "rmdir '$GPOWERS_HOME'"
+  fi
+fi
+
+# 5. --remove-all-data: per-project <repo>/.gpowers/
+if [ "$opt_remove_all_data" -eq 1 ]; then
+  printf '[uninstall] note: --remove-all-data leaves per-project <repo>/.gpowers/ alone unless removed explicitly per-repo.\n' >&2
+fi
+
+if [ "$opt_dry_run" -eq 0 ]; then
+  printf '[uninstall] done.\n'
+fi
