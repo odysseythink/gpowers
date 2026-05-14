@@ -1,0 +1,12 @@
+{
+  "driver": "playwright-cli",
+  "backend": "playwright",
+  "platform_native": ["codex","gemini","cursor","opencode","copilot","kimi"],
+  "features": {
+    "network_interception": true,
+    "console_messages": true,
+    "cookies_full": true,
+    "screenshots": true,
+    "viewport_resize": true
+  }
+}
