@@ -1,0 +1,12 @@
+{
+  "driver": "claude-in-chrome",
+  "backend": "mcp",
+  "platform_native": ["claude-code"],
+  "features": {
+    "network_interception": true,
+    "console_messages": true,
+    "cookies_full": true,
+    "screenshots": true,
+    "viewport_resize": true
+  }
+}
