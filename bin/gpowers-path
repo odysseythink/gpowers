@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# bin/gpowers-path — Resolve runtime data paths.
+# Usage:
+#   gpowers-path <kind> [subpath ...]
+# Kinds (global mode): home config state cache data analytics tmp
+# Kind (project mode): project [subpath ...]   (implemented in Task 5)
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=_gpowers-lib.sh
+. "$SCRIPT_DIR/_gpowers-lib.sh"
+# shellcheck source=../lib/runtime-dirs.sh
+. "$SCRIPT_DIR/../lib/runtime-dirs.sh"
+
+usage() {
+  cat <<'EOF' >&2
+usage: gpowers-path <kind> [subpath ...]
+
+Global kinds:
+  home       -> $GPOWERS_HOME
+  config     -> $GPOWERS_CONFIG
+  state      -> $GPOWERS_STATE
+  cache      -> $GPOWERS_CACHE
+  data       -> $GPOWERS_DATA
+  analytics  -> $GPOWERS_ANALYTICS
+  tmp        -> $GPOWERS_TMP
+
+Project kind (resolves to <repo>/.gpowers when in a project, else falls back to global data):
+  project [subpath ...]
+EOF
+}
+
+if [ $# -lt 1 ]; then
+  usage
+  exit 2
+fi
+
+kind="$1"
+shift
+
+case "$kind" in
+  home)      base="$GPOWERS_HOME" ;;
+  config)    base="$GPOWERS_CONFIG" ;;
+  state)     base="$GPOWERS_STATE" ;;
+  cache)     base="$GPOWERS_CACHE" ;;
+  data)      base="$GPOWERS_DATA" ;;
+  analytics) base="$GPOWERS_ANALYTICS" ;;
+  tmp)       base="$GPOWERS_TMP" ;;
+  project)
+    gpowers_die "project mode not implemented yet (Task 5)" 3
+    ;;
+  *)
+    gpowers_die "unknown kind: $kind" 2
+    ;;
+esac
+
+if [ $# -eq 0 ]; then
+  printf '%s\n' "$base"
+else
+  gpowers_path_join "$base" "$@"
+fi
