@@ -3,5 +3,12 @@
   "schema_version": 1,
   "installed_modules": [],
   "installed_at": null,
-  "install_location": null
+  "install_location": null,
+  "modules": {
+    "core": {
+      "installed": true,
+      "skill_count": 14,
+      "upstream": "superpowers@v5.1.0"
+    }
+  }
 }

@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 # lib/manifest.sh — Read and write manifest.json.
 
+gpowers_manifest_set() {
+  local manifest_path="$1"
+  local module="$2"
+  local key="$3"
+  shift 3
+  local val="$*"
+  local tmp
+  tmp="$(mktemp)"
+  jq --arg mod "$module" --arg key "$key" --argjson val "$val" \
+     '.modules[$mod][$key] = $val' \
+     "$manifest_path" > "$tmp"
+  mv "$tmp" "$manifest_path"
+}
+
 gpowers_manifest_set_installed() {
   local manifest_path="$1"
   local location="$2"
