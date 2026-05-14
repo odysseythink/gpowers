@@ -13,12 +13,12 @@ teardown() {
 
 PATH_BIN="${BATS_TEST_DIRNAME}/../../bin/gpowers-path"
 
-@test "gpowers-path home prints \$GPOWERS_HOME" {
+@test "gpowers-path home prints $GPOWERS_HOME" {
   result="$("$PATH_BIN" home)"
   [ "$result" = "$HOME/.gpowers" ]
 }
 
-@test "gpowers-path config prints \$GPOWERS_CONFIG" {
+@test "gpowers-path config prints $GPOWERS_CONFIG" {
   result="$("$PATH_BIN" config)"
   [ "$result" = "$HOME/.gpowers/config" ]
 }
@@ -54,4 +54,35 @@ PATH_BIN="${BATS_TEST_DIRNAME}/../../bin/gpowers-path"
   export GPOWERS_HOME=/custom/gp
   result="$("$PATH_BIN" config)"
   [ "$result" = "/custom/gp/config" ]
+}
+
+@test "gpowers-path project resolves to repo/.gpowers when in project" {
+  TESTREPO="${BATS_TMPDIR}/proj-$$"
+  mkdir -p "$TESTREPO/.git" "$TESTREPO/sub"
+  cd "$TESTREPO/sub"
+  result="$("$PATH_BIN" project)"
+  [ "$result" = "$TESTREPO/.gpowers" ]
+}
+
+@test "gpowers-path project plans ceo joins subpath in project mode" {
+  TESTREPO="${BATS_TMPDIR}/proj2-$$"
+  mkdir -p "$TESTREPO/.git"
+  cd "$TESTREPO"
+  result="$("$PATH_BIN" project plans ceo)"
+  [ "$result" = "$TESTREPO/.gpowers/plans/ceo" ]
+}
+
+@test "gpowers-path project falls back to global data when no project" {
+  cd "$BATS_TMPDIR"
+  result="$("$PATH_BIN" project sessions)"
+  [ "$result" = "$HOME/.gpowers/data/sessions" ]
+}
+
+@test "GPOWERS_PROJECT_DIR override is honored by project kind" {
+  TESTREPO="${BATS_TMPDIR}/proj3-$$"
+  mkdir -p "$TESTREPO"
+  export GPOWERS_PROJECT_DIR="$TESTREPO"
+  cd "$BATS_TMPDIR"
+  result="$("$PATH_BIN" project plans)"
+  [ "$result" = "$TESTREPO/.gpowers/plans" ]
 }

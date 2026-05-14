@@ -48,7 +48,11 @@ case "$kind" in
   analytics) base="$GPOWERS_ANALYTICS" ;;
   tmp)       base="$GPOWERS_TMP" ;;
   project)
-    gpowers_die "project mode not implemented yet (Task 5)" 3
+    if [ -n "${GPOWERS_PROJECT_DATA:-}" ]; then
+      base="$GPOWERS_PROJECT_DATA"
+    else
+      base="$GPOWERS_DATA"
+    fi
     ;;
   *)
     gpowers_die "unknown kind: $kind" 2
