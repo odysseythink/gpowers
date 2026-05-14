@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# stub: gstack-update-check
+echo "stub gstack-update-check" "$@"
