@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# bin/gpowers — Top-level dispatcher.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=_gpowers-lib.sh
+. "$SCRIPT_DIR/_gpowers-lib.sh"
+
+usage() {
+  cat <<'EOF'
+usage: gpowers <subcommand> [args...]
+
+Subcommands (foundation set):
+  init                 initialize <repo>/.gpowers/ in current project
+  path <kind> [sub..]  print a runtime path (kinds: home config state cache data analytics tmp project)
+  detect-platforms     list AI CLI platforms with markers on this machine
+
+Other subcommands are added by later plans (install, uninstall, upgrade, migrate).
+Run with --help on any subcommand for details.
+EOF
+}
+
+if [ $# -eq 0 ]; then
+  usage
+  exit 0
+fi
+
+case "$1" in
+  --help|-h|help) usage; exit 0 ;;
+esac
+
+sub="$1"
+shift
+script="$SCRIPT_DIR/gpowers-$sub"
+if [ ! -x "$script" ]; then
+  gpowers_die "unknown subcommand: $sub" 2
+fi
+exec "$script" "$@"
