@@ -111,4 +111,70 @@ if [ "$opt_dry_run" -eq 1 ]; then
   exit 0
 fi
 
-gpowers_die "actual install action not implemented yet (Task 8)" 3
+# shellcheck source=lib/manifest.sh
+. "$SCRIPT_DIR/lib/manifest.sh"
+
+# 1. Create install location
+mkdir -p "$opt_location"
+
+# 2. Stage source repo (copy or symlink)
+if [ "$opt_link" -eq 1 ]; then
+  # Symlink each top-level dir from source to install location
+  for entry in core roles tools business platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE; do
+    src="$SCRIPT_DIR/$entry"
+    dst="$opt_location/$entry"
+    if [ -e "$src" ]; then
+      [ -e "$dst" ] || ln -s "$src" "$dst"
+    fi
+  done
+else
+  # Copy
+  for entry in core roles tools business platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE; do
+    src="$SCRIPT_DIR/$entry"
+    if [ -e "$src" ]; then
+      cp -R "$src" "$opt_location/" 2>/dev/null || true
+    fi
+  done
+fi
+
+# 3. Create runtime directories
+for d in config state cache data analytics tmp logs; do
+  mkdir -p "$opt_location/$d"
+done
+
+# 4. Update manifest.json
+gpowers_manifest_set_installed \
+  "$opt_location/manifest.json" \
+  "$opt_location" \
+  "${final_modules[@]}"
+
+# 5. Register each detected platform
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  platform_key="${p//-/_}"
+  plugin_dir_var="GPOWERS_PLATFORM_PLUGIN_DIR_${platform_key}"
+  plugin_dir="${!plugin_dir_var:-}"
+  if [ -z "$plugin_dir" ]; then
+    printf '[install] skip unknown platform: %s\n' "$p" >&2
+    continue
+  fi
+  if [ "$platform_key" = "kimi" ]; then
+    # Kimi uses prefix-mode (gpowers-* skill names); for foundation plan we
+    # only ensure the parent directory exists. Per-skill adapter generation
+    # is implemented in plan-08-platform-registration.
+    mkdir -p "$plugin_dir"
+    printf '[install] kimi parent dir ready: %s\n' "$plugin_dir"
+  else
+    parent="$(dirname "$plugin_dir")"
+    mkdir -p "$parent"
+    if [ -L "$plugin_dir" ]; then
+      rm "$plugin_dir"
+    elif [ -e "$plugin_dir" ]; then
+      printf '[install] warn: %s exists and is not a symlink; skipping\n' "$plugin_dir" >&2
+      continue
+    fi
+    ln -s "$opt_location" "$plugin_dir"
+    printf '[install] linked %s -> %s\n' "$plugin_dir" "$opt_location"
+  fi
+done
+
+printf '[install] done. location: %s\n' "$opt_location"
