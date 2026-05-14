@@ -1,0 +1,19 @@
+{
+  "module": "tools",
+  "upstream": {
+    "repo": "github.com/garrytan/gstack",
+    "ref": "main",
+    "sha": "0000000000000000000000000000000000000000"
+  },
+  "imported_at": "2026-05-14T00:00:00Z",
+  "submodules": {
+    "non_browser": [
+      "ship","land-and-deploy","landing-report","setup-deploy","health",
+      "benchmark-models","context-save","context-restore","careful","freeze",
+      "guard","unfreeze","make-pdf","fix-the-roof","simplify",
+      "fewer-permission-prompts"
+    ],
+    "browser_dependent": ["__pending_plan_5__"],
+    "local_renamed": {"gstack-upgrade": "gpowers-upgrade"}
+  }
+}

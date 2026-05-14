@@ -9,6 +9,11 @@
       "installed": true,
       "skill_count": 14,
       "upstream": "superpowers@v5.1.0"
+    },
+    "tools": {
+      "installed": true,
+      "skill_count_non_browser": 17,
+      "upstream": "gstack@main"
     }
   },
   "drivers": {
