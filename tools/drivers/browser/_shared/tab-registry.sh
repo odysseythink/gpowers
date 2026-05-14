@@ -39,4 +39,5 @@ tab_release() {
   local id="${1:?}"
   local dir; dir="$(_tab_root)/$id"
   [ -d "$dir" ] && rm -rf "$dir"
+  return 0
 }
