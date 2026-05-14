@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+# install — Install gpowers onto this machine.
+# Resolves a target install location, plans which modules + platforms to wire up,
+# then executes the plan (or prints it under --dry-run).
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/runtime-dirs.sh
+. "$SCRIPT_DIR/lib/runtime-dirs.sh"
+# shellcheck source=lib/platform-paths.sh
+. "$SCRIPT_DIR/lib/platform-paths.sh"
+# shellcheck source=bin/_gpowers-lib.sh
+. "$SCRIPT_DIR/bin/_gpowers-lib.sh"
+
+usage() {
+  cat <<'EOF'
+usage: gpowers install [options]
+
+Options:
+  --core-only          install only core/ (no roles, tools, business)
+  --with-business      include business/ module (default: off)
+  --no-tools           skip tools/ module
+  --no-roles           skip roles/ module
+  --platforms=LIST     comma-separated subset of platforms to register
+                       valid: claude-code,codex,gemini,cursor,opencode,copilot,kimi
+                       default: all detected
+  --location=PATH      install location (default: $GPOWERS_HOME)
+  --link               symlink source repo into location (dev mode)
+  --dry-run            print planned actions, do not execute
+  --help               show this message
+EOF
+}
+
+# Defaults
+opt_modules=(core roles tools)
+opt_with_business=0
+opt_no_tools=0
+opt_no_roles=0
+opt_platforms=""
+opt_location="$GPOWERS_HOME"
+opt_link=0
+opt_dry_run=0
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --help) usage; exit 0 ;;
+    --core-only) opt_modules=(core); opt_with_business=0; opt_no_tools=1; opt_no_roles=1 ;;
+    --with-business) opt_with_business=1 ;;
+    --no-tools) opt_no_tools=1 ;;
+    --no-roles) opt_no_roles=1 ;;
+    --platforms=*) opt_platforms="${1#--platforms=}" ;;
+    --location=*) opt_location="${1#--location=}" ;;
+    --link) opt_link=1 ;;
+    --dry-run) opt_dry_run=1 ;;
+    *) gpowers_die "unknown flag: $1" 2 ;;
+  esac
+  shift
+done
+
+# Compute final module set
+final_modules=(core)
+[ "$opt_no_roles" -eq 0 ] && final_modules+=(roles)
+[ "$opt_no_tools" -eq 0 ] && final_modules+=(tools)
+[ "$opt_with_business" -eq 1 ] && final_modules+=(business)
+# If --core-only, override
+if [ ${#opt_modules[@]} -eq 1 ] && [ "${opt_modules[0]}" = "core" ]; then
+  final_modules=(core)
+fi
+
+# Compute final platform set
+detected_platforms="$("$SCRIPT_DIR/bin/gpowers-detect-platforms" || true)"
+if [ -n "$opt_platforms" ]; then
+  IFS=',' read -r -a requested <<< "$opt_platforms"
+  final_platforms=()
+  for p in "${requested[@]}"; do
+    final_platforms+=("$p")
+  done
+else
+  final_platforms=()
+  while IFS= read -r p; do
+    [ -n "$p" ] && final_platforms+=("$p")
+  done <<< "$detected_platforms"
+fi
+
+# Print plan
+plan_line() {
+  if [ "$opt_dry_run" -eq 1 ]; then
+    printf '[plan] %s\n' "$1"
+  else
+    printf '[install] %s\n' "$1"
+  fi
+}
+
+plan_line "install location: $opt_location"
+plan_line "modules: ${final_modules[*]}"
+plan_line "platforms: ${final_platforms[*]:-<none detected>}"
+[ "$opt_link" -eq 1 ] && plan_line "mode: symlink (dev)"
+
+if [ "$opt_no_tools" -eq 0 ]; then
+  plan_line "link tools to platforms"
+fi
+for m in "${final_modules[@]}"; do
+  plan_line "stage module: $m"
+done
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  plan_line "register platform: $p"
+done
+
+if [ "$opt_dry_run" -eq 1 ]; then
+  exit 0
+fi
+
+gpowers_die "actual install action not implemented yet (Task 8)" 3
