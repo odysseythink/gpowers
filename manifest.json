@@ -10,5 +10,14 @@
       "skill_count": 14,
       "upstream": "superpowers@v5.1.0"
     }
+  },
+  "drivers": {
+    "browser": {
+      "interface_version": 1,
+      "available": [
+        "claude-in-chrome",
+        "playwright-cli"
+      ]
+    }
   }
 }
