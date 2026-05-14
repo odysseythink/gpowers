@@ -1,0 +1,10 @@
+# gpowers project runtime data
+# Default: commit decision artifacts (plans, designs, retros, etc.)
+# Ignore noise and locks below:
+logs/
+tmp/
+sessions/*.pid
+sessions/*.lock
+*.local.*
+.cache/
+ship-queue.lock

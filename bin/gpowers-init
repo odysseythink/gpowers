@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# bin/gpowers-init — Initialize <repo>/.gpowers/ for the current project.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=_gpowers-lib.sh
+. "$SCRIPT_DIR/_gpowers-lib.sh"
+# shellcheck source=../lib/runtime-dirs.sh
+. "$SCRIPT_DIR/../lib/runtime-dirs.sh"
+
+if [ -z "${GPOWERS_PROJECT_DIR:-}" ]; then
+  gpowers_die "no project detected (no .gpowers/, no .git/, no GPOWERS_PROJECT_DIR)" 2
+fi
+
+target="$GPOWERS_PROJECT_DATA"
+mkdir -p "$target"
+
+for sub in plans plans/ceo plans/eng plans/design plans/devex plans/autoplan \
+           designs evals sessions retros learnings investigate \
+           canary health benchmark browser-skills logs tmp; do
+  mkdir -p "$target/$sub"
+done
+
+# Templates
+TEMPLATES="$SCRIPT_DIR/../templates"
+if [ ! -f "$target/.gitignore" ]; then
+  cp "$TEMPLATES/project-gitignore" "$target/.gitignore"
+fi
+if [ ! -f "$target/README.md" ]; then
+  cp "$TEMPLATES/project-readme.md" "$target/README.md"
+fi
+
+printf '[gpowers-init] initialized %s\n' "$target"
