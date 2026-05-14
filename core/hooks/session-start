@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# gpowers session-start hook
+# Usage: session-start <platform>
+# Platforms: claude-code | codex | gemini | cursor | opencode | copilot
+# Emits the using-gpowers skill content with platform-appropriate framing.
+set -euo pipefail
+
+PLATFORM="${1:-claude-code}"
+: "${GPOWERS_HOME:?GPOWERS_HOME must be set}"
+
+SKILL_FILE="$GPOWERS_HOME/core/skills/using-gpowers/SKILL.md"
+[ -f "$SKILL_FILE" ] || {
+  echo "gpowers: using-gpowers skill not found at $SKILL_FILE" >&2
+  exit 1
+}
+
+# Strip YAML frontmatter for output
+content=$(awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$SKILL_FILE")
+
+case "$PLATFORM" in
+  claude-code|codex|opencode|copilot)
+    printf '<EXTREMELY_IMPORTANT>\n%s\n</EXTREMELY_IMPORTANT>\n' "$content"
+    ;;
+  gemini)
+    # GEMINI.md injection: bare markdown, no XML tags
+    printf '%s\n' "$content"
+    ;;
+  cursor)
+    # .cursorrules style: bare markdown
+    printf '%s\n' "$content"
+    ;;
+  *)
+    # Unknown platform: emit raw content; let caller decide framing
+    printf '%s\n' "$content"
+    ;;
+esac
