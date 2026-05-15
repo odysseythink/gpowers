@@ -39,5 +39,17 @@
         "playwright-cli"
       ]
     }
+  },
+  "platforms": {
+    "supported": [
+      "claude-code",
+      "codex",
+      "gemini",
+      "cursor",
+      "opencode",
+      "copilot",
+      "kimi"
+    ],
+    "generator_version": "1.0"
   }
 }
