@@ -1,0 +1,12 @@
+---
+slash: /setup-deploy
+module: tools
+skill: setup-deploy
+requires_driver: none
+---
+
+<!-- SOURCE: $GPOWERS_HOME/tools/skills/setup-deploy/SKILL.md -->
+
+This command invokes the gpowers skill **setup-deploy** (tools).
+
+Refer to the source SKILL.md (above) for the full workflow. The platform's skill mechanism will load it on demand.
