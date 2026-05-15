@@ -2,7 +2,7 @@
 
 setup() {
   GPOWERS_REPO="$BATS_TEST_DIRNAME/../../.."
-  REWRITER="$GPOWERS_REPO/bin/_gpowers-rewrite-browser.py"
+  REWRITER="$GPOWERS_REPO/bin/_gpowers-rewrite-browser"
   FIX="$GPOWERS_REPO/tests/fixtures/tools-browser/rewriter-snippets"
 }
 

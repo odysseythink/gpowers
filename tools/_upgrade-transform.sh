@@ -3,7 +3,7 @@ set -euo pipefail
 : "${GPOWERS_HOME:?GPOWERS_HOME required}"
 
 # Tools split: non-browser uses Plan #4 importer; browser ones additionally
-# get Plan #5's _gpowers-rewrite-browser.py applied to the body.
+# get Plan #5's _gpowers-rewrite-browser applied to the body.
 SCRATCH=$(mktemp -d)
 mv "$GPOWERS_HOME/tools/skills" "$SCRATCH/upstream-skills"
 mkdir -p "$GPOWERS_HOME/tools/skills"
@@ -20,7 +20,7 @@ for src in "$SCRATCH/upstream-skills"/*/; do
     fm_end=$(awk '/^---$/{c++; if(c==2){print NR; exit}}' "$file")
     head -n "$fm_end" "$file" > "$SCRATCH/fm.md"
     tail -n +$((fm_end+1)) "$file" \
-      | "$GPOWERS_HOME/bin/_gpowers-rewrite-browser.py" > "$SCRATCH/body.md"
+      | "$GPOWERS_HOME/bin/_gpowers-rewrite-browser" > "$SCRATCH/body.md"
     cat "$SCRATCH/fm.md" "$SCRATCH/body.md" > "$file"
   fi
 done

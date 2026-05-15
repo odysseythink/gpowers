@@ -26,7 +26,7 @@ DR="$GPOWERS_HOME/roles/skills/design-review/SKILL.md"
 if [ -f "$DR" ] && ! grep -q "^requires-driver: browser$" "$DR"; then
   fm_end=$(awk '/^---$/{c++; if(c==2){print NR; exit}}' "$DR")
   head -n "$fm_end" "$DR" > "$SCRATCH/fm.md"
-  tail -n +$((fm_end+1)) "$DR" | "$GPOWERS_HOME/bin/_gpowers-rewrite-browser.py" > "$SCRATCH/body.md"
+  tail -n +$((fm_end+1)) "$DR" | "$GPOWERS_HOME/bin/_gpowers-rewrite-browser" > "$SCRATCH/body.md"
   awk '/^---$/{c++; if(c==2)print "requires-driver: browser"; print; next} {print}' \
        "$SCRATCH/fm.md" > "$DR"
   cat "$SCRATCH/body.md" >> "$DR"
