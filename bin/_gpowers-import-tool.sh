@@ -21,6 +21,10 @@ awk -v tag="$TAG" '
   in_fm { print; next }
   fm_done {
     # Rewrite gstack paths and CLI names in body
+    gsub(/~\/\.claude\/skills\/gstack\/bin\//, "$(gpowers-path home)/bin/")
+    gsub(/\.claude\/skills\/gstack\/bin\//, "$(gpowers-path home)/bin/")
+    gsub(/~\/\.claude\/skills\/gstack\//, "$(gpowers-path home)/")
+    gsub(/\.claude\/skills\/gstack\//, "$(gpowers-path home)/")
     gsub(/~\/\.gstack\/state/, "$(gpowers-path state)")
     gsub(/~\/\.gstack\/config/, "$(gpowers-path config)")
     gsub(/~\/\.gstack\/cache/, "$(gpowers-path cache)")

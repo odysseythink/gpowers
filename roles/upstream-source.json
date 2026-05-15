@@ -3,9 +3,9 @@
   "upstream": {
     "repo": "github.com/garrytan/gstack",
     "ref": "main",
-    "sha": "0000000000000000000000000000000000000000"
+    "sha": "25cf5edf210fee2cd296ffb2dfb2eff370ebcf35"
   },
-  "imported_at": "2026-05-14T00:00:00Z",
+  "imported_at": "2026-05-15T05:40:18Z",
   "submodules": {
     "non_browser": [
       "autoplan",

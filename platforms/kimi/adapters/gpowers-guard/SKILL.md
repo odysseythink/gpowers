@@ -1,6 +1,6 @@
 ---
 name: gpowers-guard
-description: stub fixture for gstack guard (gpowers adapter for Kimi)
+description: | (gpowers adapter for Kimi)
 gpowers-source: tools/skills/guard/SKILL.md
 gpowers-module: tools
 ---
@@ -48,8 +48,55 @@ Path queries go through `gpowers-path` (`gpowers-path config`, `gpowers-path pro
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/guard/SKILL.md -->
 
+<!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
+<!-- Regenerate: bun run gen:skill-docs -->
 
-# guard
+# /guard — Full Safety Mode
 
-This skill writes state to $(gpowers-path state) and reads from $(gpowers-path config).
-It invokes `gpowers-guard` when needed. Cache lives under $(gpowers-path cache).
+Activates both destructive command warnings and directory-scoped edit restrictions.
+This is the combination of `/careful` + `/freeze` in a single command.
+
+**Dependency note:** This skill references hook scripts from the sibling `/careful`
+and `/freeze` skill directories. Both must be installed (they are installed together
+by the gstack setup script).
+
+```bash
+mkdir -p $(gpowers-path analytics)
+echo '{"skill":"guard","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> $(gpowers-path analytics)/skill-usage.jsonl 2>/dev/null || true
+```
+
+## Setup
+
+Ask the user which directory to restrict edits to. Use AskUserQuestion:
+
+- Question: "Guard mode: which directory should edits be restricted to? Destructive command warnings are always on. Files outside the chosen path will be blocked from editing."
+- Text input (not multiple choice) — the user types a path.
+
+Once the user provides a directory path:
+
+1. Resolve it to an absolute path:
+```bash
+FREEZE_DIR=$(cd "<user-provided-path>" 2>/dev/null && pwd)
+echo "$FREEZE_DIR"
+```
+
+2. Ensure trailing slash and save to the freeze state file:
+```bash
+FREEZE_DIR="${FREEZE_DIR%/}/"
+eval "$($(gpowers-path home)/bin/gpowers-paths)"
+STATE_DIR="$GSTACK_STATE_ROOT"
+mkdir -p "$STATE_DIR"
+echo "$FREEZE_DIR" > "$STATE_DIR/freeze-dir.txt"
+echo "Freeze boundary set: $FREEZE_DIR"
+```
+
+Tell the user:
+- "**Guard mode active.** Two protections are now running:"
+- "1. **Destructive command warnings** — rm -rf, DROP TABLE, force-push, etc. will warn before executing (you can override)"
+- "2. **Edit boundary** — file edits restricted to `<path>/`. Edits outside this directory are blocked."
+- "To remove the edit boundary, run `/unfreeze`. To deactivate everything, end the session."
+
+## What's protected
+
+See `/careful` for the full list of destructive command patterns and safe exceptions.
+See `/freeze` for how edit boundary enforcement works.

@@ -1,6 +1,6 @@
 ---
 name: gpowers-unfreeze
-description: stub fixture for gstack unfreeze (gpowers adapter for Kimi)
+description: | (gpowers adapter for Kimi)
 gpowers-source: tools/skills/unfreeze/SKILL.md
 gpowers-module: tools
 ---
@@ -48,8 +48,32 @@ Path queries go through `gpowers-path` (`gpowers-path config`, `gpowers-path pro
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/unfreeze/SKILL.md -->
 
+<!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
+<!-- Regenerate: bun run gen:skill-docs -->
 
-# unfreeze
+# /unfreeze — Clear Freeze Boundary
 
-This skill writes state to $(gpowers-path state) and reads from $(gpowers-path config).
-It invokes `gpowers-unfreeze` when needed. Cache lives under $(gpowers-path cache).
+Remove the edit restriction set by `/freeze`, allowing edits to all directories.
+
+```bash
+mkdir -p $(gpowers-path analytics)
+echo '{"skill":"unfreeze","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> $(gpowers-path analytics)/skill-usage.jsonl 2>/dev/null || true
+```
+
+## Clear the boundary
+
+```bash
+eval "$($(gpowers-path home)/bin/gpowers-paths)"
+STATE_DIR="$GSTACK_STATE_ROOT"
+if [ -f "$STATE_DIR/freeze-dir.txt" ]; then
+  PREV=$(cat "$STATE_DIR/freeze-dir.txt")
+  rm -f "$STATE_DIR/freeze-dir.txt"
+  echo "Freeze boundary cleared (was: $PREV). Edits are now allowed everywhere."
+else
+  echo "No freeze boundary was set."
+fi
+```
+
+Tell the user the result. Note that `/freeze` hooks are still registered for the
+session — they will just allow everything since no state file exists. To re-freeze,
+run `/freeze` again.
