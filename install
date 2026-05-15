@@ -146,6 +146,66 @@ if [ "$opt_dry_run" -eq 1 ]; then
   exit 0
 fi
 
+# --- Dependency: jq ----------------------------------------------------------
+# jq is required by many gpowers scripts (manifest generation, migration,
+# browser drivers, etc.). If the system does not provide it, download a
+# prebuilt binary into the install location so the rest of the install can
+# proceed without manual steps.
+
+ensure_jq() {
+  if command -v jq >/dev/null 2>&1; then
+    printf '[install] jq found: %s\n' "$(command -v jq)"
+    return 0
+  fi
+
+  local jq_version="1.7.1"
+  local os arch dest url
+
+  case "$(uname -s)" in
+    Darwin) os="macos" ;;
+    Linux)  os="linux" ;;
+    *)
+      printf '[install] error: unsupported OS for automatic jq download: %s\n' "$(uname -s)" >&2
+      return 1
+      ;;
+  esac
+
+  case "$(uname -m)" in
+    x86_64|amd64)  arch="amd64" ;;
+    arm64|aarch64) arch="arm64" ;;
+    i386|i686)     arch="i386"  ;;
+    *)
+      printf '[install] error: unsupported architecture for automatic jq download: %s\n' "$(uname -m)" >&2
+      return 1
+      ;;
+  esac
+
+  dest="$opt_location/bin/jq"
+  url="https://github.com/jqlang/jq/releases/download/jq-${jq_version}/jq-${os}-${arch}"
+
+  printf '[install] jq not found; downloading %s binary...\n' "$jq_version"
+  mkdir -p "$(dirname "$dest")"
+
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL -o "$dest" "$url"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -q -O "$dest" "$url"
+  else
+    printf '[install] error: neither curl nor wget is available; cannot download jq\n' >&2
+    return 1
+  fi
+
+  chmod +x "$dest"
+  printf '[install] jq installed: %s\n' "$dest"
+}
+
+ensure_jq
+
+# Make sure the just-downloaded jq is on PATH for the rest of this script.
+if [ -x "$opt_location/bin/jq" ]; then
+  export PATH="$opt_location/bin:$PATH"
+fi
+
 # shellcheck source=lib/manifest.sh
 . "$SCRIPT_DIR/lib/manifest.sh"
 
