@@ -3,3 +3,4 @@ tests/.tmp/
 .DS_Store
 .worktrees/
 .stfolder/
+state/
