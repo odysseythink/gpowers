@@ -109,6 +109,9 @@ done
 for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
   plan_line "register platform: $p"
 done
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  plan_line "generate platform manifest: $p"
+done
 if [ "$opt_with_business" -eq 0 ]; then
   plan_line "business module: skipped (not requested)"
 fi
@@ -184,7 +187,17 @@ gpowers_manifest_set_installed \
   "$opt_location" \
   "${final_modules[@]}"
 
-# 5. Register each detected platform
+# 5. Generate platform manifests
+export GPOWERS_HOME="$opt_location"
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  if [ "$p" = "kimi" ]; then
+    "$opt_location/bin/_gpowers-gen-kimi.sh" 2>/dev/null || true
+  else
+    "$opt_location/bin/_gpowers-gen-platform.sh" "$p" 2>/dev/null || true
+  fi
+done
+
+# 6. Register each detected platform
 for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
   platform_key="${p//-/_}"
   plugin_dir_var="GPOWERS_PLATFORM_PLUGIN_DIR_${platform_key}"
@@ -208,7 +221,7 @@ for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
       printf '[install] warn: %s exists and is not a symlink; skipping\n' "$plugin_dir" >&2
       continue
     fi
-    ln -s "$opt_location" "$plugin_dir"
+    ln -s "$opt_location/platforms/$p" "$plugin_dir"
     printf '[install] linked %s -> %s\n' "$plugin_dir" "$opt_location"
   fi
 done
