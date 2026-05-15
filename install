@@ -1,0 +1,247 @@
+#!/usr/bin/env bash
+# install — Install gpowers onto this machine.
+# Resolves a target install location, plans which modules + platforms to wire up,
+# then executes the plan (or prints it under --dry-run).
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/runtime-dirs.sh
+. "$SCRIPT_DIR/lib/runtime-dirs.sh"
+# shellcheck source=lib/platform-paths.sh
+. "$SCRIPT_DIR/lib/platform-paths.sh"
+# shellcheck source=bin/_gpowers-lib.sh
+. "$SCRIPT_DIR/bin/_gpowers-lib.sh"
+
+usage() {
+  cat <<'EOF'
+usage: gpowers install [options]
+
+Options:
+  --core-only          install only core/ (no roles, tools, business)
+  --with-business      include business/ module (default: off)
+  --no-tools           skip tools/ module
+  --no-roles           skip roles/ module
+  --platforms=LIST     comma-separated subset of platforms to register
+                       valid: claude-code,codex,gemini,cursor,opencode,copilot,kimi
+                       default: all detected
+  --location=PATH      install location (default: $GPOWERS_HOME)
+  --link               symlink source repo into location (dev mode)
+  --dry-run            print planned actions, do not execute
+  --non-interactive    skip prompts (auto-accept disclaimer)
+  --help               show this message
+EOF
+}
+
+# Defaults
+opt_modules=(core roles tools)
+opt_with_business=0
+opt_no_tools=0
+opt_no_roles=0
+opt_platforms=""
+opt_location="$GPOWERS_HOME"
+opt_link=0
+opt_dry_run=0
+opt_non_interactive=0
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --help) usage; exit 0 ;;
+    --core-only) opt_modules=(core); opt_with_business=0; opt_no_tools=1; opt_no_roles=1 ;;
+    --with-business) opt_with_business=1 ;;
+    --no-tools) opt_no_tools=1 ;;
+    --no-roles) opt_no_roles=1 ;;
+    --platforms=*) opt_platforms="${1#--platforms=}" ;;
+    --location=*) opt_location="${1#--location=}" ;;
+    --link) opt_link=1 ;;
+    --dry-run) opt_dry_run=1 ;;
+    --non-interactive) opt_non_interactive=1 ;;
+    *) gpowers_die "unknown flag: $1" 2 ;;
+  esac
+  shift
+done
+
+# Compute final module set
+final_modules=(core)
+[ "$opt_no_roles" -eq 0 ] && final_modules+=(roles)
+[ "$opt_no_tools" -eq 0 ] && final_modules+=(tools)
+[ "$opt_with_business" -eq 1 ] && final_modules+=(business)
+# If --core-only, override
+if [ ${#opt_modules[@]} -eq 1 ] && [ "${opt_modules[0]}" = "core" ]; then
+  final_modules=(core)
+fi
+
+# Compute final platform set
+detected_platforms="$("$SCRIPT_DIR/bin/gpowers-detect-platforms" || true)"
+if [ -n "$opt_platforms" ]; then
+  IFS=',' read -r -a requested <<< "$opt_platforms"
+  final_platforms=()
+  for p in "${requested[@]}"; do
+    final_platforms+=("$p")
+  done
+else
+  final_platforms=()
+  while IFS= read -r p; do
+    [ -n "$p" ] && final_platforms+=("$p")
+  done <<< "$detected_platforms"
+fi
+
+# Print plan
+plan_line() {
+  if [ "$opt_dry_run" -eq 1 ]; then
+    printf '[plan] %s\n' "$1"
+  else
+    printf '[install] %s\n' "$1"
+  fi
+}
+
+plan_line "install location: $opt_location"
+plan_line "modules: ${final_modules[*]}"
+plan_line "platforms: ${final_platforms[*]:-<none detected>}"
+[ "$opt_link" -eq 1 ] && plan_line "mode: symlink (dev)"
+
+if [ "$opt_no_tools" -eq 0 ]; then
+  plan_line "link tools to platforms"
+fi
+for m in "${final_modules[@]}"; do
+  plan_line "stage module: $m"
+done
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  plan_line "register platform: $p"
+done
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  plan_line "generate platform manifest: $p"
+done
+if [ "$opt_with_business" -eq 0 ]; then
+  plan_line "business module: skipped (not requested)"
+fi
+
+# Disclaimer gate for business module
+if [ "$opt_with_business" -eq 1 ]; then
+  if [ "$opt_non_interactive" -eq 0 ]; then
+    cat <<'BANNER'
+============================================================
+BANNER
+    cat "$SCRIPT_DIR/business/DISCLAIMER.md"
+    cat <<'BANNER'
+============================================================
+BANNER
+    read -r -p "Activate the business/ module? [y/N] " ans
+    case "$ans" in
+      y|Y|yes|YES) plan_line "business module: activated" ;;
+      *) plan_line "Skipping business activation."
+         opt_with_business=0
+         final_modules=(core)
+         [ "$opt_no_roles" -eq 0 ] && final_modules+=(roles)
+         [ "$opt_no_tools" -eq 0 ] && final_modules+=(tools)
+         ;;
+    esac
+  else
+    plan_line "DISCLAIMER (non-interactive auto-accept):"
+    cat "$SCRIPT_DIR/business/DISCLAIMER.md"
+  fi
+fi
+
+if [ "$opt_dry_run" -eq 1 ]; then
+  exit 0
+fi
+
+# shellcheck source=lib/manifest.sh
+. "$SCRIPT_DIR/lib/manifest.sh"
+
+# 1. Create install location
+mkdir -p "$opt_location"
+
+# 2. Stage source repo (copy or symlink)
+if [ "$opt_link" -eq 1 ]; then
+  # Symlink each top-level dir from source to install location
+  entries=(core roles tools platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE)
+  [ "$opt_with_business" -eq 1 ] && entries+=(business)
+  for entry in "${entries[@]}"; do
+    src="$SCRIPT_DIR/$entry"
+    dst="$opt_location/$entry"
+    if [ -e "$src" ]; then
+      [ -e "$dst" ] || ln -s "$src" "$dst"
+    fi
+  done
+else
+  # Copy
+  entries=(core roles tools platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE)
+  [ "$opt_with_business" -eq 1 ] && entries+=(business)
+  for entry in "${entries[@]}"; do
+    src="$SCRIPT_DIR/$entry"
+    if [ -e "$src" ]; then
+      cp -R "$src" "$opt_location/" 2>/dev/null || true
+    fi
+  done
+fi
+
+# 3. Create runtime directories
+for d in config state cache data analytics tmp logs; do
+  mkdir -p "$opt_location/$d"
+done
+
+# 4. Update manifest.json
+gpowers_manifest_set_installed \
+  "$opt_location/manifest.json" \
+  "$opt_location" \
+  "${final_modules[@]}"
+
+# 5. Generate platform manifests
+export GPOWERS_HOME="$opt_location"
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  if [ "$p" = "kimi" ]; then
+    "$opt_location/bin/_gpowers-gen-kimi.sh" 2>/dev/null || true
+  else
+    "$opt_location/bin/_gpowers-gen-platform.sh" "$p" 2>/dev/null || true
+  fi
+done
+
+# 6. Register each detected platform
+for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
+  platform_key="${p//-/_}"
+  plugin_dir_var="GPOWERS_PLATFORM_PLUGIN_DIR_${platform_key}"
+  plugin_dir="${!plugin_dir_var:-}"
+  if [ -z "$plugin_dir" ]; then
+    printf '[install] skip unknown platform: %s\n' "$p" >&2
+    continue
+  fi
+  if [ "$platform_key" = "kimi" ]; then
+    # Kimi uses prefix-mode (gpowers-* skill names); symlink each adapter
+    # from platforms/kimi/adapters/ into ~/.kimi/skills/.
+    mkdir -p "$plugin_dir"
+    adapters_dir="$opt_location/platforms/kimi/adapters"
+    if [ -d "$adapters_dir" ]; then
+      for adapter in "$adapters_dir"/*/; do
+        [ -d "$adapter" ] || continue
+        name=$(basename "$adapter")
+        target="$plugin_dir/$name"
+        if [ -L "$target" ]; then
+          rm "$target"
+        elif [ -e "$target" ]; then
+          printf '[install] warn: %s exists and is not a symlink; skipping\n' "$target" >&2
+          continue
+        fi
+        if ln -s "$adapter" "$target" 2>/dev/null; then
+          printf '[install] linked %s -> %s\n' "$target" "$adapter"
+        else
+          printf '[install] warn: could not link %s (may need junction on Windows)\n' "$target" >&2
+        fi
+      done
+    fi
+    printf '[install] kimi skills registered in: %s\n' "$plugin_dir"
+  else
+    parent="$(dirname "$plugin_dir")"
+    mkdir -p "$parent"
+    if [ -L "$plugin_dir" ]; then
+      rm "$plugin_dir"
+    elif [ -e "$plugin_dir" ]; then
+      printf '[install] warn: %s exists and is not a symlink; skipping\n' "$plugin_dir" >&2
+      continue
+    fi
+    ln -s "$opt_location/platforms/$p" "$plugin_dir"
+    printf '[install] linked %s -> %s\n' "$plugin_dir" "$opt_location"
+  fi
+done
+
+printf '[install] done. location: %s\n' "$opt_location"

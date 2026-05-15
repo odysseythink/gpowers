@@ -1,0 +1,5 @@
+<!-- gpowers:begin -->
+<!-- Managed by gpowers install. Do not edit between begin/end markers. -->
+You have gpowers installed. See `$GPOWERS_HOME/core/skills/using-gpowers/SKILL.md` for the four-module model.
+On Gemini, activate skills via `activate_skill <name>`. Slash commands are listed in `~/.config/gemini/extensions/gpowers/commands/`.
+<!-- gpowers:end -->

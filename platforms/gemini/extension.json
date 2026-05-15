@@ -1,0 +1,13 @@
+{
+  "$schema": "https://gpowers.dev/schemas/plugin.json",
+  "name": "gpowers",
+  "version": "1.0.0",
+  "namespace_mode": "extension",
+  "description": "gpowers — unified methodology + roles + tools + business automation",
+  "modules": [
+    "core",
+    "roles",
+    "tools",
+    "business"
+  ]
+}

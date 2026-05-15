@@ -1,0 +1,57 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Run shellcheck on bin/ and lib/
+        run: |
+          shopt -s globstar nullglob
+          shellcheck -S warning bin/* lib/*.sh tools/bin/* core/hooks/session-start || true
+          # Strict pass on the wrappers / entry points
+          shellcheck -S error bin/gpowers bin/gpowers-path bin/gpowers-init \
+                              bin/gpowers-detect-platforms bin/gpowers-upgrade \
+                              bin/gpowers-migrate bin/gpowers-platforms \
+                              install uninstall
+
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install bats-core + jq
+        run: sudo apt-get update && sudo apt-get install -y bats jq python3 rsync
+      - name: Run unit tests
+        run: ./tests/run.sh unit
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y bats jq python3 rsync git
+      - name: Run integration tests
+        run: ./tests/run.sh integration
+
+  smoke-claude-code:
+    runs-on: ubuntu-latest
+    continue-on-error: true   # CLI may not be available on every runner
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install bats + jq
+        run: sudo apt-get update && sudo apt-get install -y bats jq
+      - name: Try installing Claude Code CLI
+        run: |
+          if command -v npm >/dev/null; then
+            npm i -g @anthropic-ai/claude-code 2>/dev/null || true
+          fi
+      - name: Smoke (will skip if not installed)
+        run: ./tests/run.sh smoke claude-code

@@ -1,0 +1,30 @@
+{
+  "module": "core",
+  "upstream": {
+    "repo": "github.com/obra/superpowers",
+    "ref": "v5.1.0",
+    "sha": "f2cbfbefebbfef77321e4c9abc9e949826bea9d7"
+  },
+  "imported_at": "2026-05-15T05:44:31Z",
+  "imported_skills": [
+    "brainstorming",
+    "writing-plans",
+    "executing-plans",
+    "subagent-driven-development",
+    "test-driven-development",
+    "systematic-debugging",
+    "verification-before-completion",
+    "requesting-code-review",
+    "receiving-code-review",
+    "finishing-a-development-branch",
+    "dispatching-parallel-agents",
+    "using-git-worktrees",
+    "writing-skills"
+  ],
+  "skipped_skills": [
+    "using-superpowers"
+  ],
+  "local_skills": [
+    "using-gpowers"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "version": "0.0.1",
+  "schema_version": 1,
+  "installed_modules": [],
+  "installed_at": null,
+  "install_location": null,
+  "modules": {
+    "core": {
+      "installed": true,
+      "skill_count": 14,
+      "upstream": "superpowers@v5.1.0"
+    },
+    "tools": {
+      "installed": true,
+      "skill_count_non_browser": 17,
+      "upstream": "gstack@main",
+      "skill_count_browser": 11,
+      "skill_count_total": 28
+    },
+    "roles": {
+      "installed": true,
+      "skill_count_non_browser": 19,
+      "skill_count_browser": 1,
+      "skill_count_total": 20,
+      "upstream": "gstack@main"
+    },
+    "business": {
+      "available": true,
+      "opt_in": true,
+      "skill_count": 20,
+      "upstream": "gstack@main"
+    }
+  },
+  "drivers": {
+    "browser": {
+      "interface_version": 1,
+      "available": [
+        "claude-in-chrome",
+        "playwright-cli"
+      ]
+    }
+  },
+  "platforms": {
+    "supported": [
+      "claude-code",
+      "codex",
+      "gemini",
+      "cursor",
+      "opencode",
+      "copilot",
+      "kimi"
+    ],
+    "generator_version": "1.0"
+  },
+  "upgrade": {
+    "implemented": true,
+    "subcommands": [
+      "all",
+      "core",
+      "roles",
+      "tools",
+      "business",
+      "--check",
+      "--resume",
+      "--dry-run"
+    ]
+  },
+  "migrate": {
+    "implemented": true,
+    "slash_aliases": {
+      "review": "pr-review"
+    },
+    "deprecation_until": "2026-11-14"
+  },
+  "tests": {
+    "runner": "tests/run.sh",
+    "layers": [
+      "unit",
+      "integration",
+      "platform-smoke"
+    ]
+  },
+  "ci": {
+    "platforms": [
+      "github-actions"
+    ],
+    "workflows": [
+      "ci.yml",
+      "release.yml"
+    ]
+  },
+  "docs": {
+    "entries": [
+      "README.md",
+      "INSTALL.md",
+      "ARCHITECTURE.md",
+      "SKILLS.md",
+      "COMMANDS.md",
+      "PLATFORMS.md",
+      "UPGRADING.md",
+      "CONTRIBUTING.md",
+      "DRIVERS.md",
+      "RUNTIME_LAYOUT.md"
+    ],
+    "root_readme": true
+  }
+}

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# stub: gpowers-update-check
+echo "stub gpowers-update-check" "$@"

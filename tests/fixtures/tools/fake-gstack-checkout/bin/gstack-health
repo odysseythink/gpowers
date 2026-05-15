@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# stub: gstack-health
+echo "stub gstack-health" "$@"

@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Usage:
+#   gpowers-platforms list
+#   gpowers-platforms gen [<platform>]
+#   gpowers-platforms verify [<platform>]
+set -euo pipefail
+
+: "${GPOWERS_HOME:?GPOWERS_HOME required}"
+SHAPES="$GPOWERS_HOME/platforms/_platform-shapes.json"
+
+all_platforms() { jq -r '.platforms | keys[]' < "$SHAPES"; }
+
+cmd_list() {
+  printf '%-12s %-22s %s\n' PLATFORM MANIFEST INSTALL-LINK
+  while read -r p; do
+    mf=$(jq -r ".platforms[\"$p\"].manifest_filename" < "$SHAPES")
+    lt=$(jq -r ".platforms[\"$p\"].install_link_target" < "$SHAPES")
+    printf '%-12s %-22s %s\n' "$p" "$mf" "$lt"
+  done < <(all_platforms)
+}
+
+cmd_gen() {
+  local target="${1:-all}"
+  if [ "$target" = "all" ]; then
+    while read -r p; do
+      if [ "$p" = "kimi" ]; then
+        "$GPOWERS_HOME/bin/_gpowers-gen-kimi.sh"
+      else
+        "$GPOWERS_HOME/bin/_gpowers-gen-platform.sh" "$p"
+      fi
+    done < <(all_platforms)
+  elif [ "$target" = "kimi" ]; then
+    "$GPOWERS_HOME/bin/_gpowers-gen-kimi.sh"
+  else
+    "$GPOWERS_HOME/bin/_gpowers-gen-platform.sh" "$target"
+  fi
+}
+
+cmd_verify() {
+  local target="${1:-all}"
+  local rc=0
+  verify_one() {
+    local p="$1"
+    local mf
+    mf=$(jq -r ".platforms[\"$p\"].manifest_filename" < "$SHAPES")
+    local f="$GPOWERS_HOME/platforms/$p/$mf"
+    [ -f "$f" ] || { echo "MISSING: $f" >&2; rc=1; return; }
+    jq empty < "$f" 2>/dev/null || { echo "INVALID JSON: $f" >&2; rc=1; return; }
+    echo "OK: $p"
+  }
+  if [ "$target" = "all" ]; then
+    while read -r p; do verify_one "$p"; done < <(all_platforms)
+  else
+    verify_one "$target"
+  fi
+  return $rc
+}
+
+case "${1:-}" in
+  list)   shift; cmd_list "$@" ;;
+  gen)    shift; cmd_gen "$@" ;;
+  verify) shift; cmd_verify "$@" ;;
+  *) echo "Usage: gpowers-platforms {list|gen|verify} [<platform>]" >&2; exit 2 ;;
+esac

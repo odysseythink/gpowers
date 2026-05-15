@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# stub: gpowers-ship-helper
+echo "stub gpowers-ship-helper" "$@"

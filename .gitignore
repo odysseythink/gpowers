@@ -1,0 +1,6 @@
+tests/.tmp/
+*.local.*
+.DS_Store
+.worktrees/
+.stfolder/
+state/

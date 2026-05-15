@@ -1,0 +1,37 @@
+{
+  "module": "roles",
+  "upstream": {
+    "repo": "github.com/garrytan/gstack",
+    "ref": "main",
+    "sha": "25cf5edf210fee2cd296ffb2dfb2eff370ebcf35"
+  },
+  "imported_at": "2026-05-15T05:40:18Z",
+  "submodules": {
+    "non_browser": [
+      "autoplan",
+      "codex",
+      "cso",
+      "design-consultation",
+      "design-html",
+      "design-shotgun",
+      "devex-review",
+      "document-release",
+      "investigate",
+      "learn",
+      "office-hours",
+      "pair-agent",
+      "plan-ceo-review",
+      "plan-design-review",
+      "plan-devex-review",
+      "plan-eng-review",
+      "plan-tune",
+      "retro"
+    ],
+    "browser_dependent": [
+      "design-review"
+    ],
+    "local_renamed": {
+      "review": "pr-review"
+    }
+  }
+}

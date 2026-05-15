@@ -1,0 +1,3 @@
+<!-- gpowers:begin -->
+You have gpowers installed. The four-module model is in `$GPOWERS_HOME/core/skills/using-gpowers/SKILL.md`. On Cursor, slash commands are flat — invoke as `/gpowers-<name>` or use the file under `~/.cursor/plugins/gpowers/commands/`.
+<!-- gpowers:end -->

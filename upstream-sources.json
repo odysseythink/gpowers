@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "modules": {
+    "core": {
+      "repo": "github.com/obra/superpowers",
+      "url":  "https://github.com/obra/superpowers.git",
+      "ref":  "v5.1.0",
+      "subtree_prefix": "core",
+      "subdir_in_upstream": "skills",
+      "transform_script": "core/_upgrade-transform.sh"
+    },
+    "roles": {
+      "repo": "github.com/garrytan/gstack",
+      "url":  "https://github.com/garrytan/gstack.git",
+      "ref":  "main",
+      "subtree_prefix": "roles",
+      "subdir_in_upstream": "skills",
+      "transform_script": "roles/_upgrade-transform.sh"
+    },
+    "tools": {
+      "repo": "github.com/garrytan/gstack",
+      "url":  "https://github.com/garrytan/gstack.git",
+      "ref":  "main",
+      "subtree_prefix": "tools",
+      "subdir_in_upstream": "skills",
+      "transform_script": "tools/_upgrade-transform.sh"
+    },
+    "business": {
+      "repo": "github.com/garrytan/gstack",
+      "url":  "https://github.com/garrytan/gstack.git",
+      "ref":  "main",
+      "subtree_prefix": "business",
+      "subdir_in_upstream": "skills",
+      "transform_script": "business/_upgrade-transform.sh"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.anthropic.com/claude-code/hooks.schema.json",
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "description": "Inject using-gpowers entry skill on each session",
+      "command": "${GPOWERS_HOME}/core/hooks/session-start claude-code",
+      "windows": {
+        "command": "%GPOWERS_HOME%\\core\\hooks\\run-hook.cmd session-start claude-code"
+      },
+      "timeout_seconds": 5
+    }
+  ]
+}

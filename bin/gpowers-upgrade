@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# gpowers-upgrade — composes _gpowers-upgrade-{module,check,resume}
+#
+# Usage:
+#   gpowers-upgrade                      Upgrade all modules
+#   gpowers-upgrade <module>             Upgrade only that module
+#   gpowers-upgrade --check [<module>]   Show pending versions only
+#   gpowers-upgrade --resume             Resume after conflict resolution
+#   gpowers-upgrade --dry-run            Print the plan, do nothing
+set -euo pipefail
+: "${GPOWERS_HOME:?GPOWERS_HOME required}"
+
+MODULES=()
+DRY=false
+CHECK=false
+RESUME=false
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --dry-run) DRY=true; shift;;
+    --check)   CHECK=true; shift;;
+    --resume)  RESUME=true; shift;;
+    -h|--help) sed -n '4,12p' "$0"; exit 0;;
+    --*)       echo "Unknown flag: $1" >&2; exit 2;;
+    core|roles|tools|business) MODULES+=("$1"); shift;;
+    *)         echo "Unknown module: $1" >&2; exit 2;;
+  esac
+done
+
+[ "${#MODULES[@]}" -gt 0 ] || MODULES=(core roles tools business)
+
+if $RESUME; then
+  exec "$GPOWERS_HOME/bin/_gpowers-upgrade-resume.sh"
+fi
+
+if $CHECK; then
+  for m in "${MODULES[@]}"; do
+    "$GPOWERS_HOME/bin/_gpowers-upgrade-check.sh" "$m"
+  done
+  exit 0
+fi
+
+if $DRY; then
+  for m in "${MODULES[@]}"; do
+    url=$(jq -r --arg m "$m" '.modules[$m].url' < "$GPOWERS_HOME/upstream-sources.json")
+    ref=$(jq -r --arg m "$m" '.modules[$m].ref' < "$GPOWERS_HOME/upstream-sources.json")
+    echo "[dry-run] would upgrade $m from $url@$ref"
+  done
+  exit 0
+fi
+
+for m in "${MODULES[@]}"; do
+  "$GPOWERS_HOME/bin/_gpowers-upgrade-module.sh" "$m"
+done

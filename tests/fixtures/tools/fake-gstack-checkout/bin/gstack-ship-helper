@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# stub: gstack-ship-helper
+echo "stub gstack-ship-helper" "$@"

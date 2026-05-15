@@ -1,0 +1,346 @@
+{
+  "skills": [
+    {
+      "name": "brainstorming",
+      "module": "core",
+      "description": "\"You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.\"",
+      "path": "core/skills/brainstorming/SKILL.md"
+    },
+    {
+      "name": "dispatching-parallel-agents",
+      "module": "core",
+      "description": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies",
+      "path": "core/skills/dispatching-parallel-agents/SKILL.md"
+    },
+    {
+      "name": "executing-plans",
+      "module": "core",
+      "description": "Use when you have a written implementation plan to execute in a separate session with review checkpoints",
+      "path": "core/skills/executing-plans/SKILL.md"
+    },
+    {
+      "name": "finishing-a-development-branch",
+      "module": "core",
+      "description": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup",
+      "path": "core/skills/finishing-a-development-branch/SKILL.md"
+    },
+    {
+      "name": "receiving-code-review",
+      "module": "core",
+      "description": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation",
+      "path": "core/skills/receiving-code-review/SKILL.md"
+    },
+    {
+      "name": "requesting-code-review",
+      "module": "core",
+      "description": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements",
+      "path": "core/skills/requesting-code-review/SKILL.md"
+    },
+    {
+      "name": "subagent-driven-development",
+      "module": "core",
+      "description": "Use when executing implementation plans with independent tasks in the current session",
+      "path": "core/skills/subagent-driven-development/SKILL.md"
+    },
+    {
+      "name": "systematic-debugging",
+      "module": "core",
+      "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
+      "path": "core/skills/systematic-debugging/SKILL.md"
+    },
+    {
+      "name": "test-driven-development",
+      "module": "core",
+      "description": "Use when implementing any feature or bugfix, before writing implementation code",
+      "path": "core/skills/test-driven-development/SKILL.md"
+    },
+    {
+      "name": "using-git-worktrees",
+      "module": "core",
+      "description": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback",
+      "path": "core/skills/using-git-worktrees/SKILL.md"
+    },
+    {
+      "name": "using-gpowers",
+      "module": "core",
+      "description": "Entry skill — establishes the four-module model (core/roles/tools/business) and dual-track triggering. Invoked automatically at session start on supported platforms.",
+      "path": "core/skills/using-gpowers/SKILL.md"
+    },
+    {
+      "name": "verification-before-completion",
+      "module": "core",
+      "description": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always",
+      "path": "core/skills/verification-before-completion/SKILL.md"
+    },
+    {
+      "name": "writing-plans",
+      "module": "core",
+      "description": "Use when you have a spec or requirements for a multi-step task, before touching code",
+      "path": "core/skills/writing-plans/SKILL.md"
+    },
+    {
+      "name": "writing-skills",
+      "module": "core",
+      "description": "Use when creating new skills, editing existing skills, or verifying skills work before deployment",
+      "path": "core/skills/writing-skills/SKILL.md"
+    },
+    {
+      "name": "autoplan",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/autoplan/SKILL.md"
+    },
+    {
+      "name": "codex",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/codex/SKILL.md"
+    },
+    {
+      "name": "cso",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/cso/SKILL.md"
+    },
+    {
+      "name": "design-consultation",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/design-consultation/SKILL.md"
+    },
+    {
+      "name": "design-html",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/design-html/SKILL.md"
+    },
+    {
+      "name": "design-review",
+      "module": "roles",
+      "description": "post-implementation visual review (gstack)",
+      "path": "roles/skills/design-review/SKILL.md"
+    },
+    {
+      "name": "design-shotgun",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/design-shotgun/SKILL.md"
+    },
+    {
+      "name": "devex-review",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/devex-review/SKILL.md"
+    },
+    {
+      "name": "document-release",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/document-release/SKILL.md"
+    },
+    {
+      "name": "investigate",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/investigate/SKILL.md"
+    },
+    {
+      "name": "learn",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/learn/SKILL.md"
+    },
+    {
+      "name": "office-hours",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/office-hours/SKILL.md"
+    },
+    {
+      "name": "pair-agent",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/pair-agent/SKILL.md"
+    },
+    {
+      "name": "plan-ceo-review",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/plan-ceo-review/SKILL.md"
+    },
+    {
+      "name": "plan-design-review",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/plan-design-review/SKILL.md"
+    },
+    {
+      "name": "plan-devex-review",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/plan-devex-review/SKILL.md"
+    },
+    {
+      "name": "plan-eng-review",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/plan-eng-review/SKILL.md"
+    },
+    {
+      "name": "plan-tune",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/plan-tune/SKILL.md"
+    },
+    {
+      "name": "pr-review",
+      "module": "roles",
+      "description": "pre-merge PR review (gstack original)",
+      "path": "roles/skills/pr-review/SKILL.md"
+    },
+    {
+      "name": "retro",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/retro/SKILL.md"
+    },
+    {
+      "name": "benchmark-models",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/benchmark-models/SKILL.md"
+    },
+    {
+      "name": "benchmark",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/benchmark/SKILL.md"
+    },
+    {
+      "name": "browse",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/browse/SKILL.md"
+    },
+    {
+      "name": "canary",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/canary/SKILL.md"
+    },
+    {
+      "name": "careful",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/careful/SKILL.md"
+    },
+    {
+      "name": "context-restore",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/context-restore/SKILL.md"
+    },
+    {
+      "name": "context-save",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/context-save/SKILL.md"
+    },
+    {
+      "name": "freeze",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/freeze/SKILL.md"
+    },
+    {
+      "name": "gpowers-upgrade",
+      "module": "tools",
+      "description": "Pull upstream changes for any gpowers module (core / roles / tools / business) — git subtree mechanics, transform re-application, test re-run, platform manifest refresh.",
+      "path": "tools/skills/gpowers-upgrade/SKILL.md"
+    },
+    {
+      "name": "guard",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/guard/SKILL.md"
+    },
+    {
+      "name": "health",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/health/SKILL.md"
+    },
+    {
+      "name": "land-and-deploy",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/land-and-deploy/SKILL.md"
+    },
+    {
+      "name": "landing-report",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/landing-report/SKILL.md"
+    },
+    {
+      "name": "make-pdf",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/make-pdf/SKILL.md"
+    },
+    {
+      "name": "open-gstack-browser",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/open-gstack-browser/SKILL.md"
+    },
+    {
+      "name": "qa-only",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/qa-only/SKILL.md"
+    },
+    {
+      "name": "qa",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/qa/SKILL.md"
+    },
+    {
+      "name": "setup-browser-cookies",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/setup-browser-cookies/SKILL.md"
+    },
+    {
+      "name": "setup-deploy",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/setup-deploy/SKILL.md"
+    },
+    {
+      "name": "setup-gbrain",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/setup-gbrain/SKILL.md"
+    },
+    {
+      "name": "ship",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/ship/SKILL.md"
+    },
+    {
+      "name": "sync-gbrain",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/sync-gbrain/SKILL.md"
+    },
+    {
+      "name": "unfreeze",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/unfreeze/SKILL.md"
+    }
+  ]
+}

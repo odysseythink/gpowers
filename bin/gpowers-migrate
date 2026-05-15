@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Usage:
+#   gpowers migrate                  Scan + show plan, ask to apply
+#   gpowers migrate --scan-only       Just scan
+#   gpowers migrate --plan-only       Scan + emit JSON plan
+#   gpowers migrate --apply --yes     Run apply non-interactively
+#   gpowers migrate --dry-run         Same as --apply --dry-run
+set -euo pipefail
+: "${HOME:?HOME required}"
+: "${GPOWERS_HOME:?GPOWERS_HOME required}"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+
+MODE=interactive
+DRY=false
+YES=false
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --scan-only) MODE=scan; shift;;
+    --plan-only) MODE=plan; shift;;
+    --apply)     MODE=apply; shift;;
+    --dry-run)   MODE=apply; DRY=true; shift;;
+    --yes)       YES=true; shift;;
+    -h|--help)   sed -n '4,10p' "$0"; exit 0;;
+    *) echo "Unknown flag: $1" >&2; exit 2;;
+  esac
+done
+
+scan_json=$("$HERE/_gpowers-migrate-scan.sh")
+if [ "$MODE" = "scan" ]; then echo "$scan_json"; exit 0; fi
+
+# Only proceed if something to migrate
+gp=$(echo "$scan_json" | jq -r .gstack.present)
+sp=$(echo "$scan_json" | jq -r .superpowers.present)
+if [ "$gp" = "false" ] && [ "$sp" = "false" ]; then
+  echo "Nothing to migrate: no gstack or superpowers install detected." >&2
+  exit 0
+fi
+
+plan_json=$("$HERE/_gpowers-migrate-plan.sh")
+if [ "$MODE" = "plan" ]; then echo "$plan_json"; exit 0; fi
+
+# Print human summary
+total=$(echo "$plan_json" | jq -r .total)
+conflicts=$(echo "$plan_json" | jq -r '.conflicts | length')
+echo "$total moves planned, $conflicts conflicts."
+if [ "$conflicts" -gt 0 ]; then
+  echo "Conflicts (dst already exists):"
+  echo "$plan_json" | jq -r '.conflicts[] | "  - \(.dst)"'
+fi
+
+flags=()
+$DRY && flags+=(--dry-run)
+$YES && flags+=(--yes)
+echo "$plan_json" | "$HERE/_gpowers-migrate-apply.sh" "${flags[@]}"

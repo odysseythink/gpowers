@@ -1,0 +1,9 @@
+<!doctype html>
+<html><head><title>Benchmark fixture</title></head>
+<body>
+  <h1>Benchmark</h1>
+  <script>
+    const start = performance.now();
+    setTimeout(() => { window.__ttfb = performance.now() - start; }, 50);
+  </script>
+</body></html>

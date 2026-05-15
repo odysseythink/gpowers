@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Usage: gpowers-browser <verb> < args-json
+# Reads $GPOWERS_BROWSER_DRIVER and exec's the matching driver script.
+set -euo pipefail
+
+VERB="${1:-}"
+[ -n "$VERB" ] || { echo "gpowers-browser: verb required" >&2; exit 2; }
+shift
+
+VALID="open click type read screenshot wait eval cookies close"
+case " $VALID " in
+  *" $VERB "*) ;;
+  *) echo "gpowers-browser: unknown verb '$VERB'. Valid: $VALID" >&2; exit 2;;
+esac
+
+# Source select-driver if not already
+if [ -z "${GPOWERS_BROWSER_DRIVER:-}" ]; then
+  source "${GPOWERS_HOME:?GPOWERS_HOME required}/tools/drivers/browser/select-driver.sh"
+fi
+
+if [ "$GPOWERS_BROWSER_DRIVER" = "missing" ]; then
+  echo "gpowers-browser: no browser driver available. Install: bun add -g @playwright/test" >&2
+  exit 3
+fi
+
+SCRIPT="$GPOWERS_HOME/tools/drivers/browser/$GPOWERS_BROWSER_DRIVER/$VERB.sh"
+[ -x "$SCRIPT" ] || { echo "gpowers-browser: driver $GPOWERS_BROWSER_DRIVER missing verb $VERB" >&2; exit 4; }
+
+exec "$SCRIPT" "$@"
