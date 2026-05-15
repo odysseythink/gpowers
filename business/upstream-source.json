@@ -1,0 +1,17 @@
+{
+  "module": "business",
+  "upstream": {
+    "repo": "github.com/garrytan/gstack",
+    "ref": "main",
+    "sha": "0000000000000000000000000000000000000000"
+  },
+  "imported_at": "2026-05-14T00:00:00Z",
+  "opt_in": true,
+  "imported_skills": [
+    "money","money-discover","money-product","money-strategy",
+    "money-content","money-ads","money-social","money-seo","money-outreach",
+    "money-ops","money-finance",
+    "sell-the-outcome","pain-archaeology","contrarian-timing","acquire-retain","mvp-first",
+    "idea-generator","idea-evaluator","compounding-filter","jtbd-mapping"
+  ]
+}

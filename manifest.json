@@ -23,6 +23,12 @@
       "skill_count_browser": 1,
       "skill_count_total": 20,
       "upstream": "gstack@main"
+    },
+    "business": {
+      "available": true,
+      "opt_in": true,
+      "skill_count": 20,
+      "upstream": "gstack@main"
     }
   },
   "drivers": {
