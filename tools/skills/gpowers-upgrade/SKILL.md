@@ -36,7 +36,7 @@ For each pulled module the runner:
 2. Runs `git subtree pull --squash` from the upstream listed in
    `~/.gpowers/upstream-sources.json`.
 3. Captures the new SHA and runs the module's `_upgrade-transform.sh` —
-   re-applies `namespace:` and `upstream:` frontmatter, `~/.gstack/` path
+   re-applies `namespace:` and `upstream:` frontmatter, `~/.gpowers/` path
    rewrites, `superpowers:` → `gpowers:` reference rewrites, and (for browser
    skills) the abstract-verb rewriter.
 4. Regenerates all 7 platform manifests via `gpowers-platforms gen all`.

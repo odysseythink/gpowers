@@ -25,6 +25,7 @@ awk -v tag="$TAG" '
     gsub(/\.claude\/skills\/gstack\/bin\//, "$(gpowers-path home)/bin/")
     gsub(/~\/\.claude\/skills\/gstack\//, "$(gpowers-path home)/")
     gsub(/\.claude\/skills\/gstack\//, "$(gpowers-path home)/")
+    # ~/.gstack/ variants: tilde-prefix specific dirs first, then catch-all
     gsub(/~\/\.gstack\/state/, "$(gpowers-path state)")
     gsub(/~\/\.gstack\/config/, "$(gpowers-path config)")
     gsub(/~\/\.gstack\/cache/, "$(gpowers-path cache)")
@@ -33,6 +34,12 @@ awk -v tag="$TAG" '
     gsub(/~\/\.gstack\/logs/, "$(gpowers-path logs)")
     gsub(/~\/\.gstack\/tmp/, "$(gpowers-path tmp)")
     gsub(/~\/\.gstack\//, "$(gpowers-path home)/")
+    # $HOME/.gstack/ and ${GSTACK_HOME:-...} variants
+    gsub(/\$HOME\/\.gstack\//, "$(gpowers-path home)/")
+    gsub(/\$\{GSTACK_HOME:-\$HOME\/\.gstack\}/, "$(gpowers-path home)")
+    gsub(/GSTACK_HOME/, "GPOWERS_HOME")
+    # project-local .gstack/ (relative path, no home prefix)
+    gsub(/\.gstack\//, ".gpowers/")
     gsub(/gstack-/, "gpowers-")
     print; next
   }

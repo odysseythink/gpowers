@@ -12,7 +12,14 @@ _gpowers_transform_skill() {
       in_fm = 0; fm_done = 1; print; next
     }
     in_fm { print; next }
-    fm_done { gsub(/superpowers:/, "gpowers:"); print; next }
+    fm_done {
+      gsub(/superpowers:/, "gpowers:")
+      # Rewrite superpowers output paths to gpowers equivalents
+      gsub(/docs\/superpowers\/specs\//, "docs/gpowers/specs/")
+      gsub(/docs\/superpowers\/plans\//, "docs/gpowers/plans/")
+      gsub(/~\/\.config\/superpowers\/worktrees\//, "$(gpowers-path state)/worktrees/")
+      print; next
+    }
     { print }
   ' "$src" > "$dst"
 }
