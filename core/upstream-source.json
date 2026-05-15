@@ -3,9 +3,9 @@
   "upstream": {
     "repo": "github.com/obra/superpowers",
     "ref": "v5.1.0",
-    "sha": "0000000000000000000000000000000000000000"
+    "sha": "f2cbfbefebbfef77321e4c9abc9e949826bea9d7"
   },
-  "imported_at": "2026-05-14T00:00:00Z",
+  "imported_at": "2026-05-15T05:44:31Z",
   "imported_skills": [
     "brainstorming",
     "writing-plans",
