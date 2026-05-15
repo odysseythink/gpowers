@@ -30,7 +30,7 @@ setup() {
                "$GPOWERS_HOME/business/skills" -name SKILL.md 2>/dev/null | wc -l)
   # Plus core skills minus using-gpowers, plus 1 router 'gpowers'
   core_count=$(find "$GPOWERS_HOME/core/skills" -name SKILL.md 2>/dev/null | wc -l)
-  expected=$(( total + core_count ))   # core_count includes using-gpowers; we skip it but add router
+  expected=$(( total + core_count + 1 ))   # +1 for gpowers-review deprecation alias
   adapters=$(find "$GPOWERS_HOME/platforms/kimi/adapters" -mindepth 1 -maxdepth 1 -type d | wc -l)
   [ "$adapters" -eq "$expected" ]
 }
