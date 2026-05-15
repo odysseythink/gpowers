@@ -10,6 +10,29 @@ cd ~/.gpowers
 
 The installer auto-detects which AI-coding platforms are present and registers gpowers with each. By default it installs **core/ + roles/ + tools/** and skips the opt-in **business/** module.
 
+## Windows
+
+On Windows, use the provided `install.bat` wrapper instead of running `./install` directly:
+
+```cmd
+git clone https://github.com/garrytan/gpowers %USERPROFILE%\.gpowers
+cd %USERPROFILE%\.gpowers
+install.bat --platforms=kimi
+```
+
+`install.bat` will:
+1. Auto-detect **Git Bash** (preferred) or **WSL** on your system
+2. Delegate to the Unix `install` script
+3. After install, fix Kimi skill links by replacing symlinks with **junctions** (directory hardlinks) or copies â€” Kimi on Windows cannot follow symlinks
+
+If neither Git Bash nor WSL is found, `install.bat` will prompt you to install Git for Windows from https://git-scm.com/download/win.
+
+**Requirements:**
+- Git for Windows (recommended) or WSL
+- For symlink support without admin rights, enable **Developer Mode** in Windows Settings
+
+**Note:** The Kimi platform uses junctions on Windows instead of symlinks. Other platforms (Claude Code, Cursor, etc.) still use symlinks and may require Developer Mode or an elevated terminal.
+
 ## Install flags
 
 | Flag | Effect |
@@ -56,7 +79,9 @@ Install link target: `~/.config/copilot-cli/plugins/gpowers`. No SessionStart â€
 
 ### Kimi
 
-Install link target: `~/.kimi/skills`. **Adapter generation**: the installer runs `gpowers-platforms gen kimi` to produce `gpowers-<name>/SKILL.md` flat-prefix adapters. Each adapter inlines the using-gpowers preamble. No symlinks (Kimi cannot follow them).
+Install link target: `~/.kimi/skills`. **Adapter generation**: the installer runs `gpowers-platforms gen kimi` to produce `gpowers-<name>/SKILL.md` flat-prefix adapters. Each adapter inlines the using-gpowers preamble.
+
+**Windows note:** Kimi on Windows cannot follow symlinks. The Windows installer (`install.bat`) automatically replaces symlinks with **junctions** (no admin rights needed) or deep copies as a fallback. If installing manually on Windows, use `install.bat` rather than `./install`.
 
 ## Verifying
 
