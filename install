@@ -28,6 +28,7 @@ Options:
   --location=PATH      install location (default: $GPOWERS_HOME)
   --link               symlink source repo into location (dev mode)
   --dry-run            print planned actions, do not execute
+  --non-interactive    skip prompts (auto-accept disclaimer)
   --help               show this message
 EOF
 }
@@ -41,6 +42,7 @@ opt_platforms=""
 opt_location="$GPOWERS_HOME"
 opt_link=0
 opt_dry_run=0
+opt_non_interactive=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -53,6 +55,7 @@ while [ $# -gt 0 ]; do
     --location=*) opt_location="${1#--location=}" ;;
     --link) opt_link=1 ;;
     --dry-run) opt_dry_run=1 ;;
+    --non-interactive) opt_non_interactive=1 ;;
     *) gpowers_die "unknown flag: $1" 2 ;;
   esac
   shift
@@ -106,6 +109,35 @@ done
 for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
   plan_line "register platform: $p"
 done
+if [ "$opt_with_business" -eq 0 ]; then
+  plan_line "business module: skipped (not requested)"
+fi
+
+# Disclaimer gate for business module
+if [ "$opt_with_business" -eq 1 ]; then
+  if [ "$opt_non_interactive" -eq 0 ]; then
+    cat <<'BANNER'
+============================================================
+BANNER
+    cat "$SCRIPT_DIR/business/DISCLAIMER.md"
+    cat <<'BANNER'
+============================================================
+BANNER
+    read -r -p "Activate the business/ module? [y/N] " ans
+    case "$ans" in
+      y|Y|yes|YES) plan_line "business module: activated" ;;
+      *) plan_line "Skipping business activation."
+         opt_with_business=0
+         final_modules=(core)
+         [ "$opt_no_roles" -eq 0 ] && final_modules+=(roles)
+         [ "$opt_no_tools" -eq 0 ] && final_modules+=(tools)
+         ;;
+    esac
+  else
+    plan_line "DISCLAIMER (non-interactive auto-accept):"
+    cat "$SCRIPT_DIR/business/DISCLAIMER.md"
+  fi
+fi
 
 if [ "$opt_dry_run" -eq 1 ]; then
   exit 0
@@ -120,7 +152,9 @@ mkdir -p "$opt_location"
 # 2. Stage source repo (copy or symlink)
 if [ "$opt_link" -eq 1 ]; then
   # Symlink each top-level dir from source to install location
-  for entry in core roles tools business platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE; do
+  entries=(core roles tools platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE)
+  [ "$opt_with_business" -eq 1 ] && entries+=(business)
+  for entry in "${entries[@]}"; do
     src="$SCRIPT_DIR/$entry"
     dst="$opt_location/$entry"
     if [ -e "$src" ]; then
@@ -129,7 +163,9 @@ if [ "$opt_link" -eq 1 ]; then
   done
 else
   # Copy
-  for entry in core roles tools business platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE; do
+  entries=(core roles tools platforms lib bin templates manifest.json upstream-sources.json install uninstall README.md LICENSE)
+  [ "$opt_with_business" -eq 1 ] && entries+=(business)
+  for entry in "${entries[@]}"; do
     src="$SCRIPT_DIR/$entry"
     if [ -e "$src" ]; then
       cp -R "$src" "$opt_location/" 2>/dev/null || true
