@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -944,8 +944,8 @@ Then read CLAUDE.md, TODOS.md, and any existing architecture docs.
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 SLUG=$($(gpowers-path home)/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-' || echo 'no-branch')
-DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
-[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null | head -1)
+DESIGN=$(ls -t $(gpowers-path project)/*-$BRANCH-design-*.md 2>/dev/null | head -1)
+[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path project)/*-design-*.md 2>/dev/null | head -1)
 [ -n "$DESIGN" ] && echo "Design doc found: $DESIGN" || echo "No design doc found"
 ```
 If a design doc exists (from `/office-hours`), read it. Use it as the source of truth for the problem statement, constraints, and chosen approach. If it has a `Supersedes:` field, note that this is a revised design.
@@ -953,7 +953,7 @@ If a design doc exists (from `/office-hours`), read it. Use it as the source of 
 **Handoff note check** (reuses $SLUG and $BRANCH from the design doc check above):
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
-HANDOFF=$(ls -t $(gpowers-path home)/projects/$SLUG/*-$BRANCH-ceo-handoff-*.md 2>/dev/null | head -1)
+HANDOFF=$(ls -t $(gpowers-path project)/*-$BRANCH-ceo-handoff-*.md 2>/dev/null | head -1)
 [ -n "$HANDOFF" ] && echo "HANDOFF_FOUND: $HANDOFF" || echo "NO_HANDOFF"
 ```
 If this block runs in a separate shell from the design doc check, recompute $SLUG and $BRANCH first using the same commands from that block.
@@ -1015,8 +1015,8 @@ After /office-hours completes, re-run the design doc check:
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 SLUG=$($(gpowers-path home)/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-' || echo 'no-branch')
-DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
-[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null | head -1)
+DESIGN=$(ls -t $(gpowers-path project)/*-$BRANCH-design-*.md 2>/dev/null | head -1)
+[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path project)/*-design-*.md 2>/dev/null | head -1)
 [ -n "$DESIGN" ] && echo "Design doc found: $DESIGN" || echo "No design doc found"
 ```
 
@@ -1232,17 +1232,17 @@ Both are outcome-framed. Only one makes the user feel the cathedral. Lead with t
 After the opt-in/cherry-pick ceremony, write the plan to disk so the vision and decisions survive beyond this conversation. Only run this step for EXPANSION and SELECTIVE EXPANSION modes.
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG/ceo-plans
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)/ceo-plans
 ```
 
 Before writing, check for existing CEO plans in the ceo-plans/ directory. If any are >30 days old or their branch has been merged/deleted, offer to archive them:
 
 ```bash
-mkdir -p $(gpowers-path home)/projects/$SLUG/ceo-plans/archive
-# For each stale plan: mv $(gpowers-path home)/projects/$SLUG/ceo-plans/{old-plan}.md $(gpowers-path home)/projects/$SLUG/ceo-plans/archive/
+mkdir -p $(gpowers-path project)/ceo-plans/archive
+# For each stale plan: mv $(gpowers-path project)/ceo-plans/{old-plan}.md $(gpowers-path project)/ceo-plans/archive/
 ```
 
-Write to `$(gpowers-path home)/projects/$SLUG/ceo-plans/{date}-{feature-slug}.md` using this format:
+Write to `$(gpowers-path project)/ceo-plans/{date}-{feature-slug}.md` using this format:
 
 ```markdown
 status: ACTIVE
@@ -1877,7 +1877,7 @@ backslashes serialize cleanly — never use hand-rolled `echo` / `printf`.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-TASKS_DIR="${HOME}/.gpowers/projects/${SLUG:-unknown}"
+TASKS_DIR="${HOME}/$(gpowers-path project)/projects/${SLUG:-unknown}"
 mkdir -p "$TASKS_DIR"
 TASKS_FILE="$TASKS_DIR/tasks-ceo-review-$(date +%Y%m%d-%H%M%S).jsonl"
 COMMIT=$(git rev-parse HEAD 2>/dev/null || echo unknown)
@@ -1961,7 +1961,7 @@ the review is complete and the context is no longer needed.
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-rm -f $(gpowers-path home)/projects/$SLUG/*-$BRANCH-ceo-handoff-*.md 2>/dev/null || true
+rm -f $(gpowers-path project)/*-$BRANCH-ceo-handoff-*.md 2>/dev/null || true
 ```
 
 ## Review Log

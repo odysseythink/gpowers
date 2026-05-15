@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -1005,10 +1005,10 @@ DETAILS: Lint (3 warnings)
 ## Step 5: Persist to Health History
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
 ```
 
-Append one JSONL line to `$(gpowers-path home)/projects/$SLUG/health-history.jsonl`:
+Append one JSONL line to `$(gpowers-path project)/health-history.jsonl`:
 
 ```json
 {"ts":"2026-03-31T14:30:00Z","branch":"main","score":9.1,"typecheck":10,"lint":8,"test":10,"deadcode":7,"shell":10,"gbrain":10,"duration_s":23}
@@ -1028,12 +1028,12 @@ and start new tracking from the first post-D6 run.
 
 ## Step 6: Trend Analysis + Recommendations
 
-Read the last 10 entries from `$(gpowers-path home)/projects/$SLUG/health-history.jsonl` (if the
+Read the last 10 entries from `$(gpowers-path project)/health-history.jsonl` (if the
 file exists and has prior entries).
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
-tail -10 $(gpowers-path home)/projects/$SLUG/health-history.jsonl 2>/dev/null || echo "NO_HISTORY"
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
+tail -10 $(gpowers-path project)/health-history.jsonl 2>/dev/null || echo "NO_HISTORY"
 ```
 
 **If prior entries exist, show the trend:**

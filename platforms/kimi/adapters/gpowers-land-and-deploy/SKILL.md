@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -980,11 +980,11 @@ and whether the deploy configuration has changed since then:
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-if [ ! -f $(gpowers-path home)/projects/$SLUG/land-deploy-confirmed ]; then
+if [ ! -f $(gpowers-path project)/land-deploy-confirmed ]; then
   echo "FIRST_RUN"
 else
   # Check if deploy config has changed since confirmation
-  SAVED_HASH=$(cat $(gpowers-path home)/projects/$SLUG/land-deploy-confirmed 2>/dev/null)
+  SAVED_HASH=$(cat $(gpowers-path project)/land-deploy-confirmed 2>/dev/null)
   CURRENT_HASH=$(sed -n '/## Deploy Configuration/,/^## /p' CLAUDE.md 2>/dev/null | shasum -a 256 | cut -d' ' -f1)
   # Also hash workflow files that affect deploy behavior
   WORKFLOW_HASH=$(find .github/workflows -maxdepth 1 \( -name '*deploy*' -o -name '*cd*' \) 2>/dev/null | xargs cat 2>/dev/null | shasum -a 256 | cut -d' ' -f1)
@@ -1178,10 +1178,10 @@ Present the full dry-run results to the user via AskUserQuestion:
 
 Save the deploy config fingerprint so we can detect future changes:
 ```bash
-mkdir -p $(gpowers-path home)/projects/$SLUG
+mkdir -p $(gpowers-path project)
 CURRENT_HASH=$(sed -n '/## Deploy Configuration/,/^## /p' CLAUDE.md 2>/dev/null | shasum -a 256 | cut -d' ' -f1)
 WORKFLOW_HASH=$(find .github/workflows -maxdepth 1 \( -name '*deploy*' -o -name '*cd*' \) 2>/dev/null | xargs cat 2>/dev/null | shasum -a 256 | cut -d' ' -f1)
-echo "${CURRENT_HASH}-${WORKFLOW_HASH}" > $(gpowers-path home)/projects/$SLUG/land-deploy-confirmed
+echo "${CURRENT_HASH}-${WORKFLOW_HASH}" > $(gpowers-path project)/land-deploy-confirmed
 ```
 Continue to Step 2.
 
@@ -1755,7 +1755,7 @@ $B text
 Verify the page has content (not blank, not a generic error page).
 
 ```bash
-$B snapshot -i -a -o ".gpowers/deploy-reports/post-deploy.png"
+$B snapshot -i -a -o "$(gpowers-path project)/canary/post-deploy.png"
 ```
 
 Take an annotated screenshot as evidence.
@@ -1802,7 +1802,7 @@ After a successful revert: Tell the user "Revert pushed to {base}. The deploy sh
 Create the deploy report directory:
 
 ```bash
-mkdir -p .gpowers/deploy-reports
+mkdir -p $(gpowers-path project)/canary
 ```
 
 Produce and display the ASCII summary:
@@ -1842,13 +1842,13 @@ Verification: <HEALTHY / DEGRADED / SKIPPED / REVERTED>
 VERDICT: <DEPLOYED AND VERIFIED / DEPLOYED (UNVERIFIED) / STAGING VERIFIED / REVERTED>
 ```
 
-Save report to `.gpowers/deploy-reports/{date}-pr{number}-deploy.md`.
+Save report to `$(gpowers-path project)/canary/{date}-pr{number}-deploy.md`.
 
 Log to the review dashboard:
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-mkdir -p $(gpowers-path home)/projects/$SLUG
+mkdir -p $(gpowers-path project)
 ```
 
 Write a JSONL entry with timing data:

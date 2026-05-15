@@ -15,8 +15,10 @@ _gpowers_transform_skill() {
     fm_done {
       gsub(/superpowers:/, "gpowers:")
       # Rewrite superpowers output paths to gpowers equivalents
-      gsub(/docs\/superpowers\/specs\//, "docs/gpowers/specs/")
-      gsub(/docs\/superpowers\/plans\//, "docs/gpowers/plans/")
+      gsub(/docs\/superpowers\/specs\//, "$(gpowers-path project)/designs/")
+      gsub(/docs\/superpowers\/plans\//, "$(gpowers-path project)/plans/")
+      gsub(/docs\/gpowers\/specs\//, "$(gpowers-path project)/designs/")
+      gsub(/docs\/gpowers\/plans\//, "$(gpowers-path project)/plans/")
       gsub(/~\/\.config\/superpowers\/worktrees\//, "$(gpowers-path state)/worktrees/")
       print; next
     }

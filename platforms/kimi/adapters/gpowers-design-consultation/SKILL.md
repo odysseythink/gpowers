@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -854,7 +854,7 @@ Look for office-hours output:
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-ls $(gpowers-path home)/projects/$SLUG/*office-hours* 2>/dev/null | head -5
+ls $(gpowers-path project)/*office-hours* 2>/dev/null | head -5
 ls .context/*office-hours* .context/attachments/*office-hours* 2>/dev/null | head -5
 ```
 
@@ -943,7 +943,7 @@ Commands:
 - `$D iterate --session /path/session.json --feedback "..." --output /path.png` — iterate
 
 **CRITICAL PATH RULE:** All design artifacts (mockups, comparison boards, approved.json)
-MUST be saved to `$(gpowers-path home)/projects/$SLUG/designs/`, NEVER to `.context/`,
+MUST be saved to `$(gpowers-path project)/designs/`, NEVER to `.context/`,
 `docs/designs/`, `/tmp/`, or any project-local directory. Design artifacts are USER
 data, not project files. They persist across branches, conversations, and workspaces.
 
@@ -1018,7 +1018,7 @@ everything is memorable for nothing.
 Read the persistent taste profile if it exists:
 
 ```bash
-_TASTE_PROFILE=$(gpowers-path home)/projects/$SLUG/taste-profile.json
+_TASTE_PROFILE=$(gpowers-path project)/taste-profile.json
 if [ -f "$_TASTE_PROFILE" ]; then
   # Schema v1: { dimensions: { fonts, colors, layouts, aesthetics }, sessions: [] }
   # Each dimension has approved[] and rejected[] entries with
@@ -1296,7 +1296,7 @@ Generate AI-rendered mockups showing the proposed design system applied to reali
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_DESIGN_DIR="$(gpowers-path home)/projects/$SLUG/designs/design-system-$(date +%Y%m%d)"
+_DESIGN_DIR="$(gpowers-path project)/designs/design-system-$(date +%Y%m%d)"
 mkdir -p "$_DESIGN_DIR"
 echo "DESIGN_DIR: $_DESIGN_DIR"
 ```

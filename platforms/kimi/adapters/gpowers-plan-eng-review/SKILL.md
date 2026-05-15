@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -874,8 +874,8 @@ When evaluating architecture, think "boring by default." When reviewing tests, t
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 SLUG=$($(gpowers-path home)/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-' || echo 'no-branch')
-DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
-[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null | head -1)
+DESIGN=$(ls -t $(gpowers-path project)/*-$BRANCH-design-*.md 2>/dev/null | head -1)
+[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path project)/*-design-*.md 2>/dev/null | head -1)
 [ -n "$DESIGN" ] && echo "Design doc found: $DESIGN" || echo "No design doc found"
 ```
 If a design doc exists, read it. Use it as the source of truth for the problem statement, constraints, and chosen approach. If it has a `Supersedes:` field, note that this is a revised design — check the prior version for context on what changed and why.
@@ -929,8 +929,8 @@ After /office-hours completes, re-run the design doc check:
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 SLUG=$($(gpowers-path home)/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-' || echo 'no-branch')
-DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
-[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null | head -1)
+DESIGN=$(ls -t $(gpowers-path project)/*-$BRANCH-design-*.md 2>/dev/null | head -1)
+[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path project)/*-design-*.md 2>/dev/null | head -1)
 [ -n "$DESIGN" ] && echo "Design doc found: $DESIGN" || echo "No design doc found"
 ```
 
@@ -1217,7 +1217,7 @@ The plan should be complete enough that when implementation begins, every test i
 After producing the coverage diagram, write a test plan artifact to the project directory so `/qa` and `/qa-only` can consume it as primary test input:
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
 USER=$(whoami)
 DATETIME=$(date +%Y%m%d-%H%M%S)
 ```
@@ -1512,7 +1512,7 @@ backslashes serialize cleanly — never use hand-rolled `echo` / `printf`.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-TASKS_DIR="${HOME}/.gpowers/projects/${SLUG:-unknown}"
+TASKS_DIR="${HOME}/$(gpowers-path project)/projects/${SLUG:-unknown}"
 mkdir -p "$TASKS_DIR"
 TASKS_FILE="$TASKS_DIR/tasks-eng-review-$(date +%Y%m%d-%H%M%S).jsonl"
 COMMIT=$(git rev-parse HEAD 2>/dev/null || echo unknown)

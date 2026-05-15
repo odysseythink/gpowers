@@ -38,8 +38,18 @@ awk -v tag="$TAG" '
     gsub(/\$HOME\/\.gstack\//, "$(gpowers-path home)/")
     gsub(/\$\{GSTACK_HOME:-\$HOME\/\.gstack\}/, "$(gpowers-path home)")
     gsub(/GSTACK_HOME/, "GPOWERS_HOME")
-    # project-local .gstack/ (relative path, no home prefix)
-    gsub(/\.gstack\//, ".gpowers/")
+    # project-local .gstack/ and .gpowers/ → $(gpowers-path project)/
+    # Named subdirs first so catch-all doesn't obscure them
+    gsub(/\.gstack\/qa-reports/, "$(gpowers-path project)/evals")
+    gsub(/\.gstack\/canary-reports/, "$(gpowers-path project)/canary")
+    gsub(/\.gstack\/benchmark-reports/, "$(gpowers-path project)/benchmark")
+    gsub(/\.gstack\/security-reports/, "$(gpowers-path project)/security")
+    gsub(/\.gstack\/deploy-reports/, "$(gpowers-path project)/canary")
+    gsub(/\.gstack\/browse\.json/, "$(gpowers-path project)/browse.json")
+    gsub(/\.gstack\/no-test-bootstrap/, "$(gpowers-path project)/no-test-bootstrap")
+    gsub(/\$\(git rev-parse --show-toplevel\)\/\.gstack\//, "$(gpowers-path project)/")
+    gsub(/\$\(git rev-parse --show-toplevel 2>\/dev\/null\)\/\.gstack\//, "$(gpowers-path project)/")
+    gsub(/\.gstack\//, "$(gpowers-path project)/")
     gsub(/gstack-/, "gpowers-")
     print; next
   }

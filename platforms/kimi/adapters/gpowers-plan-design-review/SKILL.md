@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -1091,7 +1091,7 @@ Commands:
 - `$D iterate --session /path/session.json --feedback "..." --output /path.png` — iterate
 
 **CRITICAL PATH RULE:** All design artifacts (mockups, comparison boards, approved.json)
-MUST be saved to `$(gpowers-path home)/projects/$SLUG/designs/`, NEVER to `.context/`,
+MUST be saved to `$(gpowers-path project)/designs/`, NEVER to `.context/`,
 `docs/designs/`, `/tmp/`, or any project-local directory. Design artifacts are USER
 data, not project files. They persist across branches, conversations, and workspaces.
 
@@ -1132,13 +1132,13 @@ The ONLY time you skip mockups is when:
 If the user explicitly says "skip mockups" or "text only", respect that. Otherwise, generate.
 
 **PLAN MODE EXCEPTION — ALWAYS RUN:** These commands write design artifacts to
-`$(gpowers-path home)/projects/$SLUG/designs/` (user config directory, not project files).
+`$(gpowers-path project)/designs/` (user config directory, not project files).
 Mockups are design artifacts that inform the plan, not code changes. The gstack
 designer outputs PNGs and HTML comparison boards for human review during the
 planning phase. Generating mockups during planning is the whole point.
 
 Allowed commands under this exception:
-- `mkdir -p $(gpowers-path home)/projects/$SLUG/designs/...`
+- `mkdir -p $(gpowers-path project)/designs/...`
 - `$D generate`, `$D variants`, `$D compare`, `$D iterate`, `$D evolve`, `$D check`
 - `open` (fallback for viewing boards when `$B` is not available)
 
@@ -1146,7 +1146,7 @@ First, set up the output directory. Name it after the screen/feature being desig
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_DESIGN_DIR="$(gpowers-path home)/projects/$SLUG/designs/<screen-name>-$(date +%Y%m%d)"
+_DESIGN_DIR="$(gpowers-path project)/designs/<screen-name>-$(date +%Y%m%d)"
 mkdir -p "$_DESIGN_DIR"
 echo "DESIGN_DIR: $_DESIGN_DIR"
 ```
@@ -1678,7 +1678,7 @@ backslashes serialize cleanly — never use hand-rolled `echo` / `printf`.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-TASKS_DIR="${HOME}/.gpowers/projects/${SLUG:-unknown}"
+TASKS_DIR="${HOME}/$(gpowers-path project)/projects/${SLUG:-unknown}"
 mkdir -p "$TASKS_DIR"
 TASKS_FILE="$TASKS_DIR/tasks-design-review-$(date +%Y%m%d-%H%M%S).jsonl"
 COMMIT=$(git rev-parse HEAD 2>/dev/null || echo unknown)
@@ -1755,7 +1755,7 @@ If visual mockups were generated during this review, add to the plan file:
 
 | Screen/Section | Mockup Path | Direction | Notes |
 |----------------|-------------|-----------|-------|
-| [screen name]  | $(gpowers-path home)/projects/$SLUG/designs/[folder]/[filename].png | [brief description] | [constraints from review] |
+| [screen name]  | $(gpowers-path project)/designs/[folder]/[filename].png | [brief description] | [constraints from review] |
 ```
 
 Include the full path to each approved mockup (the variant the user chose), a one-line description of the direction, and any constraints. The implementer reads this to know exactly which visual to build from. These persist across conversations and workspaces. If no mockups were generated, omit this section.

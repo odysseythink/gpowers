@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -851,7 +851,7 @@ Commands:
 - `$D iterate --session /path/session.json --feedback "..." --output /path.png` — iterate
 
 **CRITICAL PATH RULE:** All design artifacts (mockups, comparison boards, approved.json)
-MUST be saved to `$(gpowers-path home)/projects/$SLUG/designs/`, NEVER to `.context/`,
+MUST be saved to `$(gpowers-path project)/designs/`, NEVER to `.context/`,
 `docs/designs/`, `/tmp/`, or any project-local directory. Design artifacts are USER
 data, not project files. They persist across branches, conversations, and workspaces.
 
@@ -987,25 +987,25 @@ Detect what design context exists for this project. Run all four checks:
 
 ```bash
 setopt +o nomatch 2>/dev/null || true
-_CEO=$(ls -t $(gpowers-path home)/projects/$SLUG/ceo-plans/*.md 2>/dev/null | head -1)
+_CEO=$(ls -t $(gpowers-path project)/ceo-plans/*.md 2>/dev/null | head -1)
 [ -n "$_CEO" ] && echo "CEO_PLAN: $_CEO" || echo "NO_CEO_PLAN"
 ```
 
 ```bash
 setopt +o nomatch 2>/dev/null || true
-_APPROVED=$(ls -t $(gpowers-path home)/projects/$SLUG/designs/*/approved.json 2>/dev/null | head -1)
+_APPROVED=$(ls -t $(gpowers-path project)/designs/*/approved.json 2>/dev/null | head -1)
 [ -n "$_APPROVED" ] && echo "APPROVED: $_APPROVED" || echo "NO_APPROVED"
 ```
 
 ```bash
 setopt +o nomatch 2>/dev/null || true
-_VARIANTS=$(ls -t $(gpowers-path home)/projects/$SLUG/designs/*/variant-*.png 2>/dev/null | head -1)
+_VARIANTS=$(ls -t $(gpowers-path project)/designs/*/variant-*.png 2>/dev/null | head -1)
 [ -n "$_VARIANTS" ] && echo "VARIANTS: $_VARIANTS" || echo "NO_VARIANTS"
 ```
 
 ```bash
 setopt +o nomatch 2>/dev/null || true
-_FINALIZED=$(ls -t $(gpowers-path home)/projects/$SLUG/designs/*/finalized.html 2>/dev/null | head -1)
+_FINALIZED=$(ls -t $(gpowers-path project)/designs/*/finalized.html 2>/dev/null | head -1)
 [ -n "$_FINALIZED" ] && echo "FINALIZED: $_FINALIZED" || echo "NO_FINALIZED"
 [ -f DESIGN.md ] && echo "DESIGN_MD: exists" || echo "NO_DESIGN_MD"
 ```
@@ -1176,10 +1176,10 @@ Run the detected install command. Then use standard imports in the component.
 ### HTML Generation
 
 Write a single file using the Write tool. Save to:
-`$(gpowers-path home)/projects/$SLUG/designs/<screen-name>-YYYYMMDD/finalized.html`
+`$(gpowers-path project)/designs/<screen-name>-YYYYMMDD/finalized.html`
 
 For framework output, save to:
-`$(gpowers-path home)/projects/$SLUG/designs/<screen-name>-YYYYMMDD/finalized.[tsx|svelte|vue]`
+`$(gpowers-path project)/designs/<screen-name>-YYYYMMDD/finalized.[tsx|svelte|vue]`
 
 **Always include in vanilla HTML:**
 - Pretext source (inlined or CDN, see above)

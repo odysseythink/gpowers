@@ -41,18 +41,18 @@ gbrain:
       render_as: "## Prior office-hours sessions in this repo"
     - id: builder-profile
       kind: filesystem
-      glob: "~/.gpowers/builder-profile.jsonl"
+      glob: "~/$(gpowers-path project)/builder-profile.jsonl"
       tail: 1
       render_as: "## Your builder profile snapshot"
     - id: design-doc-history
       kind: filesystem
-      glob: "~/.gpowers/projects/{repo_slug}/*-design-*.md"
+      glob: "~/$(gpowers-path project)/projects/{repo_slug}/*-design-*.md"
       sort: mtime_desc
       limit: 3
       render_as: "## Recent design docs for this project"
     - id: prior-eureka
       kind: filesystem
-      glob: "~/.gpowers/analytics/eureka.jsonl"
+      glob: "~/$(gpowers-path project)/analytics/eureka.jsonl"
       tail: 5
       render_as: "## Recent eureka moments"
 namespace: roles
@@ -108,7 +108,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -556,7 +556,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -861,7 +861,7 @@ eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
 4. **List existing design docs for this project:**
    ```bash
    setopt +o nomatch 2>/dev/null || true  # zsh compat
-   ls -t $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null
+   ls -t $(gpowers-path project)/*-design-*.md 2>/dev/null
    ```
    If design docs exist, list them: "Prior designs for this project: [titles + dates]"
 
@@ -1146,7 +1146,7 @@ After the user states the problem (first question in Phase 2A or 2B), search exi
 Extract 3-5 significant keywords from the user's problem statement and grep across design docs:
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
-grep -li "<keyword1>\|<keyword2>\|<keyword3>" $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null
+grep -li "<keyword1>\|<keyword2>\|<keyword3>" $(gpowers-path project)/*-design-*.md 2>/dev/null
 ```
 
 If matches found, read the matching design docs and surface them:
@@ -1379,7 +1379,7 @@ Generating visual mockups of the proposed design... (say "skip" if you don't nee
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_DESIGN_DIR="$(gpowers-path home)/projects/$SLUG/designs/mockup-$(date +%Y%m%d)"
+_DESIGN_DIR="$(gpowers-path project)/designs/mockup-$(date +%Y%m%d)"
 mkdir -p "$_DESIGN_DIR"
 echo "DESIGN_DIR: $_DESIGN_DIR"
 ```
@@ -1574,7 +1574,7 @@ after resource selection in Phase 6 Beat 3.5.
 Write the design document to the project directory.
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
 USER=$(whoami)
 DATETIME=$(date +%Y%m%d-%H%M%S)
 ```
@@ -1582,7 +1582,7 @@ DATETIME=$(date +%Y%m%d-%H%M%S)
 **Design lineage:** Before writing, check for existing design docs on this branch:
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
-PRIOR=$(ls -t $(gpowers-path home)/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
+PRIOR=$(ls -t $(gpowers-path project)/*-$BRANCH-design-*.md 2>/dev/null | head -1)
 ```
 If `$PRIOR` exists, the new doc gets a `Supersedes:` field referencing it. This creates a revision chain — you can trace how a design evolved across office hours sessions.
 

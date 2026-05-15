@@ -108,11 +108,11 @@ gpowers upgrade                 # all four
 
 For each pulled module the runner:
 
-1. Verifies `~/.gpowers/` working tree is clean (git subtree requirement).
+1. Verifies `~/$(gpowers-path project)/` working tree is clean (git subtree requirement).
 2. Runs `git subtree pull --squash` from the upstream listed in
-   `~/.gpowers/upstream-sources.json`.
+   `~/$(gpowers-path project)/upstream-sources.json`.
 3. Captures the new SHA and runs the module's `_upgrade-transform.sh` —
-   re-applies `namespace:` and `upstream:` frontmatter, `~/.gpowers/` path
+   re-applies `namespace:` and `upstream:` frontmatter, `~/$(gpowers-path project)/` path
    rewrites, `superpowers:` → `gpowers:` reference rewrites, and (for browser
    skills) the abstract-verb rewriter.
 4. Regenerates all 7 platform manifests via `gpowers-platforms gen all`.
@@ -124,7 +124,7 @@ For each pulled module the runner:
 ## Conflicts
 
 `git subtree pull` may produce a merge conflict if you've made local edits
-inside `~/.gpowers/<module>/`. The runner stops, prints `git status`, and
+inside `~/$(gpowers-path project)/<module>/`. The runner stops, prints `git status`, and
 exits non-zero. Guide the user through:
 
 ```bash

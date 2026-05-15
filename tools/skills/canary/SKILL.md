@@ -71,7 +71,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -519,7 +519,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -843,9 +843,9 @@ When the user types `/canary`, run this skill.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null || echo "SLUG=unknown")"
-mkdir -p .gpowers/canary-reports
-mkdir -p .gpowers/canary-reports/baselines
-mkdir -p .gpowers/canary-reports/screenshots
+mkdir -p $(gpowers-path project)/canary
+mkdir -p $(gpowers-path project)/canary/baselines
+mkdir -p $(gpowers-path project)/canary/screenshots
 ```
 
 Parse the user's arguments. Default duration is 10 minutes. Default pages: auto-discover from the app's navigation.
@@ -858,7 +858,7 @@ For each page (either from `--pages` or the homepage):
 
 ```bash
 $B goto <page-url>
-$B snapshot -i -a -o ".gpowers/canary-reports/baselines/<page-name>.png"
+$B snapshot -i -a -o "$(gpowers-path project)/canary/baselines/<page-name>.png"
 $B console --errors
 $B perf
 $B text
@@ -866,7 +866,7 @@ $B text
 
 Collect for each page: screenshot path, console error count, page load time from `perf`, and a text content snapshot.
 
-Save the baseline manifest to `.gpowers/canary-reports/baseline.json`:
+Save the baseline manifest to `$(gpowers-path project)/canary/baseline.json`:
 
 ```json
 {
@@ -912,7 +912,7 @@ For each page to monitor:
 
 ```bash
 $B goto <page-url>
-$B snapshot -i -a -o ".gpowers/canary-reports/screenshots/pre-<page-name>.png"
+$B snapshot -i -a -o "$(gpowers-path project)/canary/screenshots/pre-<page-name>.png"
 $B console --errors
 $B perf
 ```
@@ -925,7 +925,7 @@ Monitor for the specified duration. Every 60 seconds, check each page:
 
 ```bash
 $B goto <page-url>
-$B snapshot -i -a -o ".gpowers/canary-reports/screenshots/<page-name>-<check-number>.png"
+$B snapshot -i -a -o "$(gpowers-path project)/canary/screenshots/<page-name>-<check-number>.png"
 $B console --errors
 $B perf
 ```
@@ -982,18 +982,18 @@ Per-Page Results:
   /settings       HEALTHY     0         380ms
 
 Alerts Fired:  [N] (X critical, Y high, Z medium)
-Screenshots:   .gpowers/canary-reports/screenshots/
+Screenshots:   $(gpowers-path project)/canary/screenshots/
 
 VERDICT: [DEPLOY IS HEALTHY / DEPLOY HAS ISSUES — details above]
 ```
 
-Save report to `.gpowers/canary-reports/{date}-canary.md` and `.gpowers/canary-reports/{date}-canary.json`.
+Save report to `$(gpowers-path project)/canary/{date}-canary.md` and `$(gpowers-path project)/canary/{date}-canary.json`.
 
 Log the result for the review dashboard:
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-mkdir -p $(gpowers-path home)/projects/$SLUG
+mkdir -p $(gpowers-path project)
 ```
 
 Write a JSONL entry: `{"skill":"canary","timestamp":"<ISO>","status":"<HEALTHY/DEGRADED/BROKEN>","url":"<url>","duration_min":<N>,"alerts":<N>}`

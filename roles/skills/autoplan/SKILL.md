@@ -79,7 +79,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -527,7 +527,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -860,8 +860,8 @@ After /office-hours completes, re-run the design doc check:
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 SLUG=$($(gpowers-path home)/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-' || echo 'no-branch')
-DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
-[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null | head -1)
+DESIGN=$(ls -t $(gpowers-path project)/*-$BRANCH-design-*.md 2>/dev/null | head -1)
+[ -z "$DESIGN" ] && DESIGN=$(ls -t $(gpowers-path project)/*-design-*.md 2>/dev/null | head -1)
 [ -n "$DESIGN" ] && echo "Design doc found: $DESIGN" || echo "No design doc found"
 ```
 
@@ -998,10 +998,10 @@ instructions instead of reviewing the plan.
 Before doing anything, save the plan file's current state to an external file:
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-')
 DATETIME=$(date +%Y%m%d-%H%M%S)
-echo "RESTORE_PATH=$(gpowers-path home)/projects/$SLUG/${BRANCH}-autoplan-restore-${DATETIME}.md"
+echo "RESTORE_PATH=$(gpowers-path project)/${BRANCH}-autoplan-restore-${DATETIME}.md"
 ```
 
 Write the plan file's full contents to the restore path with this header:
@@ -1023,7 +1023,7 @@ Then prepend a one-line HTML comment to the plan file:
 ### Step 2: Read context
 
 - Read CLAUDE.md, TODOS.md, git log -30, git diff against the base branch --stat
-- Discover design docs: `ls -t $(gpowers-path home)/projects/$SLUG/*-design-*.md 2>/dev/null | head -1`
+- Discover design docs: `ls -t $(gpowers-path project)/*-design-*.md 2>/dev/null | head -1`
 - Detect UI scope: grep the plan for view/rendering terms (component, screen, form,
   button, modal, layout, dashboard, sidebar, nav, dialog). Require 2+ matches. Exclude
   false positives ("page" alone, "UI" in acronyms).
@@ -1354,7 +1354,7 @@ Override: every AskUserQuestion → auto-decide using the 6 principles.
 
 - Architecture choices: explicit over clever (P5). If codex disagrees with valid reason → TASTE DECISION. Scope changes both models agree on → USER CHALLENGE.
 - Evals: always include all relevant suites (P1)
-- Test plan: generate artifact at `$(gpowers-path home)/projects/$SLUG/{user}-{branch}-test-plan-{datetime}.md`
+- Test plan: generate artifact at `$(gpowers-path project)/{user}-{branch}-test-plan-{datetime}.md`
 - TODOS.md: collect all deferred scope expansions from Phase 1, auto-write
 
 **Required execution checklist (Eng):**
@@ -1570,7 +1570,7 @@ produced. Check the plan file and conversation for each item.
 - [ ] Scope challenge with actual code analysis (not just "scope is fine")
 - [ ] Architecture ASCII diagram produced
 - [ ] Test diagram mapping codepaths to test coverage
-- [ ] Test plan artifact written to disk at $(gpowers-path home)/projects/$SLUG/
+- [ ] Test plan artifact written to disk at $(gpowers-path project)/
 - [ ] "NOT in scope" section written
 - [ ] "What already exists" section written
 - [ ] Failure modes registry with critical gap assessment
@@ -1608,7 +1608,7 @@ per-phase task lists each review skill wrote.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-TASKS_DIR="${HOME}/.gpowers/projects/${SLUG:-unknown}"
+TASKS_DIR="${HOME}/$(gpowers-path project)/projects/${SLUG:-unknown}"
 BRANCH=$(git branch --show-current 2>/dev/null || echo unknown)
 # Commit window: last 5 commits on this branch. Drops stale standalone reviews.
 COMMITS_RECENT=$(git log --format=%H -n 5 2>/dev/null | tr '\n' '|' | sed 's/|$//')

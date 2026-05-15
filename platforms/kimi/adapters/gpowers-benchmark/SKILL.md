@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -598,8 +598,8 @@ When the user types `/benchmark`, run this skill.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null || echo "SLUG=unknown")"
-mkdir -p .gpowers/benchmark-reports
-mkdir -p .gpowers/benchmark-reports/baselines
+mkdir -p $(gpowers-path project)/benchmark
+mkdir -p $(gpowers-path project)/benchmark/baselines
 ```
 
 ### Phase 2: Page Discovery
@@ -680,7 +680,7 @@ Save metrics to baseline file:
 }
 ```
 
-Write to `.gpowers/benchmark-reports/baselines/baseline.json`.
+Write to `$(gpowers-path project)/benchmark/baselines/baseline.json`.
 
 ### Phase 5: Comparison
 
@@ -777,7 +777,7 @@ TREND: Performance degrading. LCP doubled in 8 days.
 
 ### Phase 9: Save Report
 
-Write to `.gpowers/benchmark-reports/{date}-benchmark.md` and `.gpowers/benchmark-reports/{date}-benchmark.json`.
+Write to `$(gpowers-path project)/benchmark/{date}-benchmark.md` and `$(gpowers-path project)/benchmark/{date}-benchmark.json`.
 
 ## Important Rules
 

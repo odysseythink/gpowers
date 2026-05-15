@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -872,12 +872,12 @@ positives and Chromium profile lock conflicts.
 
 ```bash
 # Kill any existing browse server
-if [ -f "$(git rev-parse --show-toplevel 2>/dev/null)/.gpowers/browse.json" ]; then
-  _OLD_PID=$(cat "$(git rev-parse --show-toplevel)/.gpowers/browse.json" 2>/dev/null | grep -o '"pid":[0-9]*' | grep -o '[0-9]*')
+if [ -f "$(gpowers-path project)/browse.json" ]; then
+  _OLD_PID=$(cat "$(gpowers-path project)/browse.json" 2>/dev/null | grep -o '"pid":[0-9]*' | grep -o '[0-9]*')
   [ -n "$_OLD_PID" ] && kill "$_OLD_PID" 2>/dev/null || true
   sleep 1
   [ -n "$_OLD_PID" ] && kill -9 "$_OLD_PID" 2>/dev/null || true
-  rm -f "$(git rev-parse --show-toplevel)/.gpowers/browse.json"
+  rm -f "$(gpowers-path project)/browse.json"
 fi
 # Clean Chromium profile locks (can persist after crashes)
 _PROFILE_DIR="$(gpowers-path home)/chromium-profile"
@@ -918,7 +918,7 @@ $B status
 Confirm the output shows `Mode: headed`. Read the port from the state file:
 
 ```bash
-cat "$(git rev-parse --show-toplevel 2>/dev/null)/.gpowers/browse.json" 2>/dev/null | grep -o '"port":[0-9]*' | grep -o '[0-9]*'
+cat "$(gpowers-path project)/browse.json" 2>/dev/null | grep -o '"port":[0-9]*' | grep -o '[0-9]*'
 ```
 
 The port should be **34567**. If it's different, note it — the user may need it

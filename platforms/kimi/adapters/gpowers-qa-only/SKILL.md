@@ -130,7 +130,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -578,7 +578,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -834,8 +834,8 @@ You are a QA engineer. Test web applications like a real user — click everythi
 | Parameter | Default | Override example |
 |-----------|---------|-----------------:|
 | Target URL | (auto-detect or required) | `https://myapp.com`, `http://localhost:3000` |
-| Mode | full | `--quick`, `--regression .gpowers/qa-reports/baseline.json` |
-| Output dir | `.gpowers/qa-reports/` | `Output to /tmp/qa` |
+| Mode | full | `--quick`, `--regression $(gpowers-path project)/evals/baseline.json` |
+| Output dir | `$(gpowers-path project)/evals/` | `Output to /tmp/qa` |
 | Scope | Full app (or diff-scoped) | `Focus on the billing page` |
 | Auth | None | `Sign in to user@example.com`, `Import cookies from cookies.json` |
 
@@ -882,7 +882,7 @@ If `NEEDS_SETUP`:
 **Create output directories:**
 
 ```bash
-REPORT_DIR=".gpowers/qa-reports"
+REPORT_DIR="$(gpowers-path project)/evals"
 mkdir -p "$REPORT_DIR/screenshots"
 ```
 
@@ -933,7 +933,7 @@ Before falling back to git diff heuristics, check for richer test plan sources:
    ```bash
    setopt +o nomatch 2>/dev/null || true  # zsh compat
    eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-   ls -t $(gpowers-path home)/projects/$SLUG/*-test-plan-*.md 2>/dev/null | head -1
+   ls -t $(gpowers-path project)/*-test-plan-*.md 2>/dev/null | head -1
    ```
 2. **Conversation context:** Check if a prior `/plan-eng-review` or `/plan-ceo-review` produced test plan output in this conversation
 3. **Use whichever source is richer.** Fall back to git diff analysis only if neither is available.
@@ -1218,18 +1218,18 @@ Minimum 0 per category.
 
 Write the report to both local and project-scoped locations:
 
-**Local:** `.gpowers/qa-reports/qa-report-{domain}-{YYYY-MM-DD}.md`
+**Local:** `$(gpowers-path project)/evals/qa-report-{domain}-{YYYY-MM-DD}.md`
 
 **Project-scoped:** Write test outcome artifact for cross-session context:
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
 ```
 Write to `$(gpowers-path home)/projects/{slug}/{user}-{branch}-test-outcome-{datetime}.md`
 
 ### Output Structure
 
 ```
-.gpowers/qa-reports/
+$(gpowers-path project)/evals/
 ├── qa-report-{domain}-{YYYY-MM-DD}.md    # Structured report
 ├── screenshots/
 │   ├── initial.png                        # Landing page annotated screenshot

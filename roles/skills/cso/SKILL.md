@@ -76,7 +76,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -524,7 +524,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -1304,7 +1304,7 @@ For each finding:
 5. **Audit exposure window** — when committed? When removed? Was repo public?
 6. **Check for abuse** — review provider's audit logs
 
-**Trend Tracking:** If prior reports exist in `.gpowers/security-reports/`:
+**Trend Tracking:** If prior reports exist in `$(gpowers-path project)/security/`:
 ```
 SECURITY POSTURE TREND
 ══════════════════════
@@ -1332,10 +1332,10 @@ Match findings across reports using the `fingerprint` field (sha256 of category 
 ### Phase 14: Save Report
 
 ```bash
-mkdir -p .gpowers/security-reports
+mkdir -p $(gpowers-path project)/security
 ```
 
-Write findings to `.gpowers/security-reports/{date}-{HHMMSS}.json` using this schema:
+Write findings to `$(gpowers-path project)/security/{date}-{HHMMSS}.json` using this schema:
 
 ```json
 {
@@ -1388,7 +1388,7 @@ Write findings to `.gpowers/security-reports/{date}-{HHMMSS}.json` using this sc
 }
 ```
 
-If `.gpowers/` is not in `.gitignore`, note it in findings — security reports should stay local.
+If `$(gpowers-path project)/` is not in `.gitignore`, note it in findings — security reports should stay local.
 
 ## Capture Learnings
 

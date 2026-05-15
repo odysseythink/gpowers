@@ -23,18 +23,18 @@ gbrain:
   context_queries:
     - id: prior-retros
       kind: filesystem
-      glob: "~/.gpowers/projects/{repo_slug}/retros/*.md"
+      glob: "~/$(gpowers-path project)/projects/{repo_slug}/retros/*.md"
       sort: mtime_desc
       limit: 5
       render_as: "## Prior retros for this project"
     - id: recent-timeline
       kind: filesystem
-      glob: "~/.gpowers/projects/{repo_slug}/timeline.jsonl"
+      glob: "~/$(gpowers-path project)/projects/{repo_slug}/timeline.jsonl"
       tail: 30
       render_as: "## Recent timeline events"
     - id: recent-learnings
       kind: filesystem
-      glob: "~/.gpowers/projects/{repo_slug}/learnings.jsonl"
+      glob: "~/$(gpowers-path project)/projects/{repo_slug}/learnings.jsonl"
       tail: 10
       render_as: "## Recent learnings"
 namespace: roles
@@ -90,7 +90,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -538,7 +538,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -1330,7 +1330,7 @@ Check review JSONL logs for plan completion data from /ship runs this period:
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-cat $(gpowers-path home)/projects/$SLUG/*-reviews.jsonl 2>/dev/null | grep '"skill":"ship"' | grep '"plan_items_total"' || echo "NO_PLAN_DATA"
+cat $(gpowers-path project)/*-reviews.jsonl 2>/dev/null | grep '"skill":"ship"' | grep '"plan_items_total"' || echo "NO_PLAN_DATA"
 ```
 
 If plan completion data exists within the retro time window:

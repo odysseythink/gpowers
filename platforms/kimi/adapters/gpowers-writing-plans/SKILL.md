@@ -93,7 +93,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Context:** If working in an isolated worktree, it should have been created via the `gpowers:using-git-worktrees` skill at execution time.
 
-**Save plans to:** `docs/gpowers/plans/YYYY-MM-DD-<feature-name>.md`
+**Save plans to:** `$(gpowers-path project)/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
 
 ## Scope Check
@@ -212,7 +212,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 After saving the plan, offer execution choice:
 
-**"Plan complete and saved to `docs/gpowers/plans/<filename>.md`. Two execution options:**
+**"Plan complete and saved to `$(gpowers-path project)/plans/<filename>.md`. Two execution options:**
 
 **1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
 

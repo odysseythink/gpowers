@@ -76,7 +76,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -524,7 +524,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -989,7 +989,7 @@ setopt +o nomatch 2>/dev/null || true  # zsh compat
 ls jest.config.* vitest.config.* playwright.config.* .rspec pytest.ini pyproject.toml phpunit.xml 2>/dev/null
 ls -d test/ tests/ spec/ __tests__/ cypress/ e2e/ 2>/dev/null
 # Check opt-out marker
-[ -f .gpowers/no-test-bootstrap ] && echo "BOOTSTRAP_DECLINED"
+[ -f $(gpowers-path project)/no-test-bootstrap ] && echo "BOOTSTRAP_DECLINED"
 ```
 
 **If test framework detected** (config files or test directories found):
@@ -1002,7 +1002,7 @@ Store conventions as prose context for use in Phase 8e.5 or Step 7. **Skip the r
 **If NO runtime detected** (no config files found): Use AskUserQuestion:
 "I couldn't detect your project's language. What runtime are you using?"
 Options: A) Node.js/TypeScript B) Ruby/Rails C) Python D) Go E) Rust F) PHP G) Elixir H) This project doesn't need tests.
-If user picks H → write `.gpowers/no-test-bootstrap` and continue without tests.
+If user picks H → write `$(gpowers-path project)/no-test-bootstrap` and continue without tests.
 
 **If runtime detected but no test framework — bootstrap:**
 
@@ -1034,7 +1034,7 @@ B) [Alternative] — [rationale]. Includes: [packages]
 C) Skip — don't set up testing right now
 RECOMMENDATION: Choose A because [reason based on project context]"
 
-If user picks C → write `.gpowers/no-test-bootstrap`. Tell user: "If you change your mind later, delete `.gpowers/no-test-bootstrap` and re-run." Continue without tests.
+If user picks C → write `$(gpowers-path project)/no-test-bootstrap`. Tell user: "If you change your mind later, delete `$(gpowers-path project)/no-test-bootstrap` and re-run." Continue without tests.
 
 If multiple runtimes detected (monorepo) → ask which runtime to set up first, with option to do both sequentially.
 
@@ -1532,7 +1532,7 @@ Using the coverage percentage from the diagram in substep 4 (the `COVERAGE: X/Y 
 After producing the coverage diagram, write a test plan artifact so `/qa` and `/qa-only` can consume it:
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
 USER=$(whoami)
 DATETIME=$(date +%Y%m%d-%H%M%S)
 ```
@@ -1594,7 +1594,7 @@ REPO=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)")
 _PLAN_SLUG=$(git remote get-url origin 2>/dev/null | sed 's|.*[:/]\([^/]*/[^/]*\)\.git$|\1|;s|.*[:/]\([^/]*/[^/]*\)$|\1|' | tr '/' '-' | tr -cd 'a-zA-Z0-9._-') || true
 _PLAN_SLUG="${_PLAN_SLUG:-$(basename "$PWD" | tr -cd 'a-zA-Z0-9._-')}"
 # Search common plan file locations (project designs first, then personal/local)
-for PLAN_DIR in "$(gpowers-path home)/projects/$_PLAN_SLUG" "$HOME/.claude/plans" "$HOME/.codex/plans" ".gpowers/plans"; do
+for PLAN_DIR in "$(gpowers-path home)/projects/$_PLAN_SLUG" "$HOME/.claude/plans" "$HOME/.codex/plans" "$(gpowers-path project)/plans"; do
   [ -d "$PLAN_DIR" ] || continue
   PLAN=$(ls -t "$PLAN_DIR"/*.md 2>/dev/null | xargs grep -l "$BRANCH" 2>/dev/null | head -1)
   [ -z "$PLAN" ] && PLAN=$(ls -t "$PLAN_DIR"/*.md 2>/dev/null | xargs grep -l "$REPO" 2>/dev/null | head -1)
@@ -2745,7 +2745,7 @@ If `WIP_COUNT` > 0, collect the WIP context first so it survives the squash:
 # This file becomes input to the CHANGELOG entry and may inform PR body context.
 mkdir -p "$(git rev-parse --show-toplevel)/.gpowers"
 git log <base>..HEAD --grep="^WIP:" --format="%H%n%B%n---END---" > \
-  "$(git rev-parse --show-toplevel)/.gpowers/wip-context-before-squash.md" 2>/dev/null || true
+  "$(gpowers-path project)/wip-context-before-squash.md" 2>/dev/null || true
 ```
 
 **Non-destructive squash strategy:**
@@ -3021,13 +3021,13 @@ Print the branch name, remote URL, and instruct the user to create the PR/MR man
 Log coverage and plan completion data so `/retro` can track trends:
 
 ```bash
-eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path home)/projects/$SLUG
+eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" && mkdir -p $(gpowers-path project)
 ```
 
-Append to `$(gpowers-path home)/projects/$SLUG/$BRANCH-reviews.jsonl`:
+Append to `$(gpowers-path project)/$BRANCH-reviews.jsonl`:
 
 ```bash
-echo '{"skill":"ship","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","coverage_pct":COVERAGE_PCT,"plan_items_total":PLAN_TOTAL,"plan_items_done":PLAN_DONE,"verification_result":"VERIFY_RESULT","version":"VERSION","branch":"BRANCH"}' >> $(gpowers-path home)/projects/$SLUG/$BRANCH-reviews.jsonl
+echo '{"skill":"ship","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","coverage_pct":COVERAGE_PCT,"plan_items_total":PLAN_TOTAL,"plan_items_done":PLAN_DONE,"verification_result":"VERIFY_RESULT","version":"VERSION","branch":"BRANCH"}' >> $(gpowers-path project)/$BRANCH-reviews.jsonl
 ```
 
 Substitute from earlier steps:

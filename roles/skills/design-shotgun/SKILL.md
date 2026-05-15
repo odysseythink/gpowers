@@ -25,7 +25,7 @@ gbrain:
   context_queries:
     - id: prior-approved-variants
       kind: filesystem
-      glob: "~/.gpowers/projects/{repo_slug}/designs/*/approved.json"
+      glob: "~/$(gpowers-path project)/projects/{repo_slug}/designs/*/approved.json"
       sort: mtime_desc
       limit: 5
       render_as: "## Prior approved design variants for this project"
@@ -36,7 +36,7 @@ gbrain:
       render_as: "## DESIGN.md (project design system)"
     - id: recent-design-docs
       kind: filesystem
-      glob: "~/.gpowers/projects/{repo_slug}/*-design-*.md"
+      glob: "~/$(gpowers-path project)/projects/{repo_slug}/*-design-*.md"
       sort: mtime_desc
       limit: 3
       render_as: "## Recent design docs"
@@ -93,7 +93,7 @@ for _PF in $(find $(gpowers-path analytics) -maxdepth 1 -name '.pending-*' 2>/de
   break
 done
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)" 2>/dev/null || true
-_LEARN_FILE="$(gpowers-path home)/projects/${SLUG:-unknown}/learnings.jsonl"
+_LEARN_FILE="$(gpowers-path project)/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
   echo "LEARNINGS: $_LEARN_COUNT entries loaded"
@@ -541,7 +541,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_PROJ="$(gpowers-path home)/projects/${SLUG:-unknown}"
+_PROJ="$(gpowers-path project)"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
   find "$_PROJ/ceo-plans" "$_PROJ/checkpoints" -type f -name "*.md" 2>/dev/null | xargs ls -t 2>/dev/null | head -3
@@ -813,7 +813,7 @@ Commands:
 - `$D iterate --session /path/session.json --feedback "..." --output /path.png` — iterate
 
 **CRITICAL PATH RULE:** All design artifacts (mockups, comparison boards, approved.json)
-MUST be saved to `$(gpowers-path home)/projects/$SLUG/designs/`, NEVER to `.context/`,
+MUST be saved to `$(gpowers-path project)/designs/`, NEVER to `.context/`,
 `docs/designs/`, `/tmp/`, or any project-local directory. Design artifacts are USER
 data, not project files. They persist across branches, conversations, and workspaces.
 
@@ -909,7 +909,7 @@ Check for prior design exploration sessions for this project:
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
 setopt +o nomatch 2>/dev/null || true
-_PREV=$(find $(gpowers-path home)/projects/$SLUG/designs/ -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -5)
+_PREV=$(find $(gpowers-path project)/designs/ -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -5)
 [ -n "$_PREV" ] && echo "PREVIOUS_SESSIONS_FOUND" || echo "NO_PREVIOUS_SESSIONS"
 echo "$_PREV"
 ```
@@ -961,7 +961,7 @@ ls src/ app/ pages/ components/ 2>/dev/null | head -30
 
 ```bash
 setopt +o nomatch 2>/dev/null || true
-ls $(gpowers-path home)/projects/$SLUG/*office-hours* 2>/dev/null | head -5
+ls $(gpowers-path project)/*office-hours* 2>/dev/null | head -5
 ```
 
 If DESIGN.md exists, tell the user: "I'll follow your design system in DESIGN.md by
@@ -993,12 +993,12 @@ Two rounds max of context gathering, then proceed with what you have and note as
 Read both the persistent taste profile (cross-session) AND the per-session approved
 designs to bias generation toward the user's demonstrated taste.
 
-**Persistent taste profile (v1 schema at `$(gpowers-path home)/projects/$SLUG/taste-profile.json`):**
+**Persistent taste profile (v1 schema at `$(gpowers-path project)/taste-profile.json`):**
 
 Read the persistent taste profile if it exists:
 
 ```bash
-_TASTE_PROFILE=$(gpowers-path home)/projects/$SLUG/taste-profile.json
+_TASTE_PROFILE=$(gpowers-path project)/taste-profile.json
 if [ -f "$_TASTE_PROFILE" ]; then
   # Schema v1: { dimensions: { fonts, colors, layouts, aesthetics }, sessions: [] }
   # Each dimension has approved[] and rejected[] entries with
@@ -1039,7 +1039,7 @@ will migrate it to schema v1 on the next write.
 
 ```bash
 setopt +o nomatch 2>/dev/null || true
-_TASTE=$(find $(gpowers-path home)/projects/$SLUG/designs/ -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -10)
+_TASTE=$(find $(gpowers-path project)/designs/ -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -10)
 ```
 
 If prior sessions exist, read each `approved.json` and extract patterns from the
@@ -1060,7 +1060,7 @@ Set up the output directory:
 
 ```bash
 eval "$($(gpowers-path home)/bin/gpowers-slug 2>/dev/null)"
-_DESIGN_DIR="$(gpowers-path home)/projects/$SLUG/designs/<screen-name>-$(date +%Y%m%d)"
+_DESIGN_DIR="$(gpowers-path project)/designs/<screen-name>-$(date +%Y%m%d)"
 mkdir -p "$_DESIGN_DIR"
 echo "DESIGN_DIR: $_DESIGN_DIR"
 ```
@@ -1321,7 +1321,7 @@ If standalone, offer next steps via AskUserQuestion:
 ## Important Rules
 
 1. **Never save to `.context/`, `docs/designs/`, or `/tmp/`.** All design artifacts go
-   to `$(gpowers-path home)/projects/$SLUG/designs/`. This is enforced. See DESIGN_SETUP above.
+   to `$(gpowers-path project)/designs/`. This is enforced. See DESIGN_SETUP above.
 2. **Show variants inline before opening the board.** The user should see designs
    immediately in their terminal. The browser board is for detailed feedback.
 3. **Confirm feedback before saving.** Always summarize what you understood and verify.
