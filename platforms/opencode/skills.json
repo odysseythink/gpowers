@@ -3,61 +3,61 @@
     {
       "name": "brainstorming",
       "module": "core",
-      "description": "stub fixture for brainstorming",
+      "description": "\"You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.\"",
       "path": "core/skills/brainstorming/SKILL.md"
     },
     {
       "name": "dispatching-parallel-agents",
       "module": "core",
-      "description": "stub fixture for dispatching-parallel-agents",
+      "description": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies",
       "path": "core/skills/dispatching-parallel-agents/SKILL.md"
     },
     {
       "name": "executing-plans",
       "module": "core",
-      "description": "stub fixture for executing-plans",
+      "description": "Use when you have a written implementation plan to execute in a separate session with review checkpoints",
       "path": "core/skills/executing-plans/SKILL.md"
     },
     {
       "name": "finishing-a-development-branch",
       "module": "core",
-      "description": "stub fixture for finishing-a-development-branch",
+      "description": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup",
       "path": "core/skills/finishing-a-development-branch/SKILL.md"
     },
     {
       "name": "receiving-code-review",
       "module": "core",
-      "description": "stub fixture for receiving-code-review",
+      "description": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation",
       "path": "core/skills/receiving-code-review/SKILL.md"
     },
     {
       "name": "requesting-code-review",
       "module": "core",
-      "description": "stub fixture for requesting-code-review",
+      "description": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements",
       "path": "core/skills/requesting-code-review/SKILL.md"
     },
     {
       "name": "subagent-driven-development",
       "module": "core",
-      "description": "stub fixture for subagent-driven-development",
+      "description": "Use when executing implementation plans with independent tasks in the current session",
       "path": "core/skills/subagent-driven-development/SKILL.md"
     },
     {
       "name": "systematic-debugging",
       "module": "core",
-      "description": "stub fixture for systematic-debugging",
+      "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
       "path": "core/skills/systematic-debugging/SKILL.md"
     },
     {
       "name": "test-driven-development",
       "module": "core",
-      "description": "stub fixture for test-driven-development",
+      "description": "Use when implementing any feature or bugfix, before writing implementation code",
       "path": "core/skills/test-driven-development/SKILL.md"
     },
     {
       "name": "using-git-worktrees",
       "module": "core",
-      "description": "stub fixture for using-git-worktrees",
+      "description": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback",
       "path": "core/skills/using-git-worktrees/SKILL.md"
     },
     {
@@ -69,49 +69,49 @@
     {
       "name": "verification-before-completion",
       "module": "core",
-      "description": "stub fixture for verification-before-completion",
+      "description": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always",
       "path": "core/skills/verification-before-completion/SKILL.md"
     },
     {
       "name": "writing-plans",
       "module": "core",
-      "description": "stub fixture for writing-plans",
+      "description": "Use when you have a spec or requirements for a multi-step task, before touching code",
       "path": "core/skills/writing-plans/SKILL.md"
     },
     {
       "name": "writing-skills",
       "module": "core",
-      "description": "stub fixture for writing-skills",
+      "description": "Use when creating new skills, editing existing skills, or verifying skills work before deployment",
       "path": "core/skills/writing-skills/SKILL.md"
     },
     {
       "name": "autoplan",
       "module": "roles",
-      "description": "stub fixture for gstack role autoplan",
+      "description": "|",
       "path": "roles/skills/autoplan/SKILL.md"
     },
     {
       "name": "codex",
       "module": "roles",
-      "description": "stub fixture for gstack role codex",
+      "description": "|",
       "path": "roles/skills/codex/SKILL.md"
     },
     {
       "name": "cso",
       "module": "roles",
-      "description": "stub fixture for gstack role cso",
+      "description": "|",
       "path": "roles/skills/cso/SKILL.md"
     },
     {
       "name": "design-consultation",
       "module": "roles",
-      "description": "stub fixture for gstack role design-consultation",
+      "description": "|",
       "path": "roles/skills/design-consultation/SKILL.md"
     },
     {
       "name": "design-html",
       "module": "roles",
-      "description": "stub fixture for gstack role design-html",
+      "description": "|",
       "path": "roles/skills/design-html/SKILL.md"
     },
     {
@@ -123,73 +123,73 @@
     {
       "name": "design-shotgun",
       "module": "roles",
-      "description": "stub fixture for gstack role design-shotgun",
+      "description": "|",
       "path": "roles/skills/design-shotgun/SKILL.md"
     },
     {
       "name": "devex-review",
       "module": "roles",
-      "description": "stub fixture for gstack role devex-review",
+      "description": "|",
       "path": "roles/skills/devex-review/SKILL.md"
     },
     {
       "name": "document-release",
       "module": "roles",
-      "description": "stub fixture for gstack role document-release",
+      "description": "|",
       "path": "roles/skills/document-release/SKILL.md"
     },
     {
       "name": "investigate",
       "module": "roles",
-      "description": "stub fixture for gstack role investigate",
+      "description": "|",
       "path": "roles/skills/investigate/SKILL.md"
     },
     {
       "name": "learn",
       "module": "roles",
-      "description": "stub fixture for gstack role learn",
+      "description": "|",
       "path": "roles/skills/learn/SKILL.md"
     },
     {
       "name": "office-hours",
       "module": "roles",
-      "description": "stub fixture for gstack role office-hours",
+      "description": "|",
       "path": "roles/skills/office-hours/SKILL.md"
     },
     {
       "name": "pair-agent",
       "module": "roles",
-      "description": "stub fixture for gstack role pair-agent",
+      "description": "|",
       "path": "roles/skills/pair-agent/SKILL.md"
     },
     {
       "name": "plan-ceo-review",
       "module": "roles",
-      "description": "stub fixture for gstack role plan-ceo-review",
+      "description": "|",
       "path": "roles/skills/plan-ceo-review/SKILL.md"
     },
     {
       "name": "plan-design-review",
       "module": "roles",
-      "description": "stub fixture for gstack role plan-design-review",
+      "description": "|",
       "path": "roles/skills/plan-design-review/SKILL.md"
     },
     {
       "name": "plan-devex-review",
       "module": "roles",
-      "description": "stub fixture for gstack role plan-devex-review",
+      "description": "|",
       "path": "roles/skills/plan-devex-review/SKILL.md"
     },
     {
       "name": "plan-eng-review",
       "module": "roles",
-      "description": "stub fixture for gstack role plan-eng-review",
+      "description": "|",
       "path": "roles/skills/plan-eng-review/SKILL.md"
     },
     {
       "name": "plan-tune",
       "module": "roles",
-      "description": "stub fixture for gstack role plan-tune",
+      "description": "|",
       "path": "roles/skills/plan-tune/SKILL.md"
     },
     {
@@ -201,79 +201,55 @@
     {
       "name": "retro",
       "module": "roles",
-      "description": "stub fixture for gstack role retro",
+      "description": "|",
       "path": "roles/skills/retro/SKILL.md"
-    },
-    {
-      "name": "aidesigner-frontend",
-      "module": "tools",
-      "description": "stub fixture for aidesigner-frontend",
-      "path": "tools/skills/aidesigner-frontend/SKILL.md"
-    },
-    {
-      "name": "aidesigner",
-      "module": "tools",
-      "description": "stub fixture for aidesigner",
-      "path": "tools/skills/aidesigner/SKILL.md"
     },
     {
       "name": "benchmark-models",
       "module": "tools",
-      "description": "stub fixture for gstack benchmark-models",
+      "description": "|",
       "path": "tools/skills/benchmark-models/SKILL.md"
     },
     {
       "name": "benchmark",
       "module": "tools",
-      "description": "stub fixture for benchmark",
+      "description": "|",
       "path": "tools/skills/benchmark/SKILL.md"
     },
     {
       "name": "browse",
       "module": "tools",
-      "description": "stub fixture for browse",
+      "description": "|",
       "path": "tools/skills/browse/SKILL.md"
     },
     {
       "name": "canary",
       "module": "tools",
-      "description": "stub fixture for canary",
+      "description": "|",
       "path": "tools/skills/canary/SKILL.md"
     },
     {
       "name": "careful",
       "module": "tools",
-      "description": "stub fixture for gstack careful",
+      "description": "|",
       "path": "tools/skills/careful/SKILL.md"
     },
     {
       "name": "context-restore",
       "module": "tools",
-      "description": "stub fixture for gstack context-restore",
+      "description": "|",
       "path": "tools/skills/context-restore/SKILL.md"
     },
     {
       "name": "context-save",
       "module": "tools",
-      "description": "stub fixture for gstack context-save",
+      "description": "|",
       "path": "tools/skills/context-save/SKILL.md"
-    },
-    {
-      "name": "fewer-permission-prompts",
-      "module": "tools",
-      "description": "stub fixture for gstack fewer-permission-prompts",
-      "path": "tools/skills/fewer-permission-prompts/SKILL.md"
-    },
-    {
-      "name": "fix-the-roof",
-      "module": "tools",
-      "description": "stub fixture for gstack fix-the-roof",
-      "path": "tools/skills/fix-the-roof/SKILL.md"
     },
     {
       "name": "freeze",
       "module": "tools",
-      "description": "stub fixture for gstack freeze",
+      "description": "|",
       "path": "tools/skills/freeze/SKILL.md"
     },
     {
@@ -285,212 +261,86 @@
     {
       "name": "guard",
       "module": "tools",
-      "description": "stub fixture for gstack guard",
+      "description": "|",
       "path": "tools/skills/guard/SKILL.md"
     },
     {
       "name": "health",
       "module": "tools",
-      "description": "stub fixture for gstack health",
+      "description": "|",
       "path": "tools/skills/health/SKILL.md"
     },
     {
       "name": "land-and-deploy",
       "module": "tools",
-      "description": "stub fixture for gstack land-and-deploy",
+      "description": "|",
       "path": "tools/skills/land-and-deploy/SKILL.md"
     },
     {
       "name": "landing-report",
       "module": "tools",
-      "description": "stub fixture for gstack landing-report",
+      "description": "|",
       "path": "tools/skills/landing-report/SKILL.md"
     },
     {
       "name": "make-pdf",
       "module": "tools",
-      "description": "stub fixture for gstack make-pdf",
+      "description": "|",
       "path": "tools/skills/make-pdf/SKILL.md"
     },
     {
       "name": "open-gstack-browser",
       "module": "tools",
-      "description": "stub fixture for open-gstack-browser",
+      "description": "|",
       "path": "tools/skills/open-gstack-browser/SKILL.md"
     },
     {
       "name": "qa-only",
       "module": "tools",
-      "description": "stub fixture for qa-only",
+      "description": "|",
       "path": "tools/skills/qa-only/SKILL.md"
     },
     {
       "name": "qa",
       "module": "tools",
-      "description": "stub fixture for qa",
+      "description": "|",
       "path": "tools/skills/qa/SKILL.md"
     },
     {
       "name": "setup-browser-cookies",
       "module": "tools",
-      "description": "stub fixture for setup-browser-cookies",
+      "description": "|",
       "path": "tools/skills/setup-browser-cookies/SKILL.md"
     },
     {
       "name": "setup-deploy",
       "module": "tools",
-      "description": "stub fixture for gstack setup-deploy",
+      "description": "|",
       "path": "tools/skills/setup-deploy/SKILL.md"
     },
     {
       "name": "setup-gbrain",
       "module": "tools",
-      "description": "stub fixture for setup-gbrain",
+      "description": "|",
       "path": "tools/skills/setup-gbrain/SKILL.md"
     },
     {
       "name": "ship",
       "module": "tools",
-      "description": "stub fixture for gstack ship",
+      "description": "|",
       "path": "tools/skills/ship/SKILL.md"
-    },
-    {
-      "name": "simplify",
-      "module": "tools",
-      "description": "stub fixture for gstack simplify",
-      "path": "tools/skills/simplify/SKILL.md"
     },
     {
       "name": "sync-gbrain",
       "module": "tools",
-      "description": "stub fixture for sync-gbrain",
+      "description": "|",
       "path": "tools/skills/sync-gbrain/SKILL.md"
     },
     {
       "name": "unfreeze",
       "module": "tools",
-      "description": "stub fixture for gstack unfreeze",
+      "description": "|",
       "path": "tools/skills/unfreeze/SKILL.md"
-    },
-    {
-      "name": "acquire-retain",
-      "module": "business",
-      "description": "stub fixture for gstack business skill acquire-retain",
-      "path": "business/skills/acquire-retain/SKILL.md"
-    },
-    {
-      "name": "compounding-filter",
-      "module": "business",
-      "description": "stub fixture for gstack business skill compounding-filter",
-      "path": "business/skills/compounding-filter/SKILL.md"
-    },
-    {
-      "name": "contrarian-timing",
-      "module": "business",
-      "description": "stub fixture for gstack business skill contrarian-timing",
-      "path": "business/skills/contrarian-timing/SKILL.md"
-    },
-    {
-      "name": "idea-evaluator",
-      "module": "business",
-      "description": "stub fixture for gstack business skill idea-evaluator",
-      "path": "business/skills/idea-evaluator/SKILL.md"
-    },
-    {
-      "name": "idea-generator",
-      "module": "business",
-      "description": "stub fixture for gstack business skill idea-generator",
-      "path": "business/skills/idea-generator/SKILL.md"
-    },
-    {
-      "name": "jtbd-mapping",
-      "module": "business",
-      "description": "stub fixture for gstack business skill jtbd-mapping",
-      "path": "business/skills/jtbd-mapping/SKILL.md"
-    },
-    {
-      "name": "money-ads",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-ads",
-      "path": "business/skills/money-ads/SKILL.md"
-    },
-    {
-      "name": "money-content",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-content",
-      "path": "business/skills/money-content/SKILL.md"
-    },
-    {
-      "name": "money-discover",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-discover",
-      "path": "business/skills/money-discover/SKILL.md"
-    },
-    {
-      "name": "money-finance",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-finance",
-      "path": "business/skills/money-finance/SKILL.md"
-    },
-    {
-      "name": "money-ops",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-ops",
-      "path": "business/skills/money-ops/SKILL.md"
-    },
-    {
-      "name": "money-outreach",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-outreach",
-      "path": "business/skills/money-outreach/SKILL.md"
-    },
-    {
-      "name": "money-product",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-product",
-      "path": "business/skills/money-product/SKILL.md"
-    },
-    {
-      "name": "money-seo",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-seo",
-      "path": "business/skills/money-seo/SKILL.md"
-    },
-    {
-      "name": "money-social",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-social",
-      "path": "business/skills/money-social/SKILL.md"
-    },
-    {
-      "name": "money-strategy",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money-strategy",
-      "path": "business/skills/money-strategy/SKILL.md"
-    },
-    {
-      "name": "money",
-      "module": "business",
-      "description": "stub fixture for gstack business skill money",
-      "path": "business/skills/money/SKILL.md"
-    },
-    {
-      "name": "mvp-first",
-      "module": "business",
-      "description": "stub fixture for gstack business skill mvp-first",
-      "path": "business/skills/mvp-first/SKILL.md"
-    },
-    {
-      "name": "pain-archaeology",
-      "module": "business",
-      "description": "stub fixture for gstack business skill pain-archaeology",
-      "path": "business/skills/pain-archaeology/SKILL.md"
-    },
-    {
-      "name": "sell-the-outcome",
-      "module": "business",
-      "description": "stub fixture for gstack business skill sell-the-outcome",
-      "path": "business/skills/sell-the-outcome/SKILL.md"
     }
   ]
 }

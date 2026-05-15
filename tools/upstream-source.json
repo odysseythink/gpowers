@@ -20,10 +20,7 @@
       "freeze",
       "guard",
       "unfreeze",
-      "make-pdf",
-      "fix-the-roof",
-      "simplify",
-      "fewer-permission-prompts"
+      "make-pdf"
     ],
     "browser_dependent": [
       "browse",
@@ -34,9 +31,7 @@
       "setup-browser-cookies",
       "setup-gbrain",
       "sync-gbrain",
-      "open-gstack-browser",
-      "aidesigner",
-      "aidesigner-frontend"
+      "open-gstack-browser"
     ],
     "local_renamed": {
       "gstack-upgrade": "gpowers-upgrade"
