@@ -88,5 +88,20 @@
       "ci.yml",
       "release.yml"
     ]
+  },
+  "docs": {
+    "entries": [
+      "README.md",
+      "INSTALL.md",
+      "ARCHITECTURE.md",
+      "SKILLS.md",
+      "COMMANDS.md",
+      "PLATFORMS.md",
+      "UPGRADING.md",
+      "CONTRIBUTING.md",
+      "DRIVERS.md",
+      "RUNTIME_LAYOUT.md"
+    ],
+    "root_readme": true
   }
 }
