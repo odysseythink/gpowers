@@ -34,7 +34,7 @@ func TestGeneratePlatformManifest(t *testing.T) {
 	shapes := `{"platforms":{"claude-code":{"manifest_filename":"plugin.json","command_dir":"commands","command_filename_pattern":"{slash}.md","supports_hooks":true,"namespace_mode":"plugin-scoped","install_link_target":"~/.claude/plugins/gpowers"}}}`
 	os.WriteFile(filepath.Join(tmp, "platforms", "_platform-shapes.json"), []byte(shapes), 0644)
 
-	err := generatePlatformManifest("claude-code", tmp)
+	err := generatePlatformManifest("claude-code", tmp, []string{"core", "roles", "tools"})
 	if err != nil {
 		t.Fatalf("generatePlatformManifest failed: %v", err)
 	}

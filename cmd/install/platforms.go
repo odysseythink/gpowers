@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"sort"
 	"strings"
 )
 
@@ -27,6 +28,7 @@ func detectPlatforms() []string {
 			detected = append(detected, platform)
 		}
 	}
+	sort.Strings(detected)
 	return detected
 }
 
@@ -54,7 +56,7 @@ func loadPlatformShapes(gpowersHome string) (map[string]PlatformShape, error) {
 	return wrapper.Platforms, nil
 }
 
-func generatePlatformManifest(platform, gpowersHome string) error {
+func generatePlatformManifest(platform, gpowersHome string, modules []string) error {
 	shapes, err := loadPlatformShapes(gpowersHome)
 	if err != nil {
 		return err
@@ -75,7 +77,7 @@ func generatePlatformManifest(platform, gpowersHome string) error {
 		"version":        "1.0.0",
 		"namespace_mode": shape.NamespaceMode,
 		"description":    "gpowers — unified methodology + roles + tools + business automation",
-		"modules":        allModules,
+		"modules":        modules,
 	}
 	data, err := json.MarshalIndent(manifest, "", "  ")
 	if err != nil {

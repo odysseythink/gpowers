@@ -12,23 +12,17 @@ The installer auto-detects which AI-coding platforms are present and registers g
 
 ## Windows
 
-On Windows, use the provided `install.bat` wrapper instead of running `./install` directly:
+On Windows, run the provided `install.exe`:
 
 ```cmd
 git clone https://github.com/garrytan/gpowers %USERPROFILE%\.gpowers
 cd %USERPROFILE%\.gpowers
-install.bat --platforms=kimi
+install.exe --platforms=kimi
 ```
 
-`install.bat` will:
-1. Auto-detect **Git Bash** (preferred) or **WSL** on your system
-2. Delegate to the Unix `install` script
-3. After install, fix Kimi skill links by replacing symlinks with **junctions** (directory hardlinks) or copies â€” Kimi on Windows cannot follow symlinks
-
-If neither Git Bash nor WSL is found, `install.bat` will prompt you to install Git for Windows from https://git-scm.com/download/win.
+`install.exe` is a self-contained Go program. It does not require Git Bash or WSL.
 
 **Requirements:**
-- Git for Windows (recommended) or WSL
 - For symlink support without admin rights, enable **Developer Mode** in Windows Settings
 
 **Note:** The Kimi platform uses junctions on Windows instead of symlinks. Other platforms (Claude Code, Cursor, etc.) still use symlinks and may require Developer Mode or an elevated terminal.
@@ -45,7 +39,6 @@ If neither Git Bash nor WSL is found, `install.bat` will prompt you to install G
 | `--link` | Symlink modules from this checkout (developer mode) instead of copying. |
 | `--dry-run` | Print the plan; make no changes. |
 | `--non-interactive` | Auto-accept defaults (used in CI). |
-| `--uninstall` | Remove gpowers (see [UPGRADING.md](UPGRADING.md) for nuances). |
 
 ## Per-platform notes
 
@@ -81,7 +74,7 @@ Install link target: `~/.config/copilot-cli/plugins/gpowers`. No SessionStart â€
 
 Install link target: `~/.kimi/skills`. **Adapter generation**: the installer runs `gpowers-platforms gen kimi` to produce `gpowers-<name>/SKILL.md` flat-prefix adapters. Each adapter inlines the using-gpowers preamble.
 
-**Windows note:** Kimi on Windows cannot follow symlinks. The Windows installer (`install.bat`) automatically replaces symlinks with **junctions** (no admin rights needed) or deep copies as a fallback. If installing manually on Windows, use `install.bat` rather than `./install`.
+**Windows note:** Kimi on Windows cannot follow symlinks. The installer automatically replaces symlinks with **junctions** (no admin rights needed) or deep copies as a fallback.
 
 ## Verifying
 

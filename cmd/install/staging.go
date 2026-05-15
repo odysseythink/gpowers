@@ -35,7 +35,22 @@ func stageFiles(sourceDir, targetDir string, modules []string, linkMode bool) er
 		info, err := os.Stat(src)
 		// Optional files may be missing; skip silently
 		if errors.Is(err, os.ErrNotExist) {
-			continue
+			// For install binary, try platform-specific fallbacks
+			if entry == "install" {
+				fallbacks := []string{"install_linux", "install_darwin", "install_darwin_arm64"}
+				for _, fb := range fallbacks {
+					src = filepath.Join(sourceDir, fb)
+					info, err = os.Stat(src)
+					if err == nil {
+						break
+					}
+				}
+				if err != nil {
+					continue
+				}
+			} else {
+				continue
+			}
 		}
 		if err != nil {
 			return err

@@ -71,7 +71,7 @@ func run() error {
 				return fmt.Errorf("generate kimi adapters: %w", err)
 			}
 		} else {
-			if err := generatePlatformManifest(p, opts.Location); err != nil {
+			if err := generatePlatformManifest(p, opts.Location, modules); err != nil {
 				fmt.Fprintf(os.Stderr, "[install] warn: generate platform manifest for %s: %v\n", p, err)
 			}
 		}
