@@ -3,13 +3,13 @@
 setup() {
   REPO="$BATS_TEST_DIRNAME/../../.."
   TMP="$BATS_TEST_TMPDIR/up"
-  # Build a working gpowers-style repo
-  mkdir -p "$TMP" && cp -R "$REPO/" "$TMP/gp" >/dev/null
+  mkdir -p "$TMP/gp"
+  tar -C "$REPO" -cf - . 2>/dev/null | tar -C "$TMP/gp" -xf -
   cd "$TMP/gp"
-  # Make it a git repo if not already
-  [ -d .git ] || git init -q
-  git -c user.email=t@t -c user.name=t add -A
-  git -c user.email=t@t -c user.name=t commit -q -m initial 2>/dev/null || true
+  rm -rf .git
+  git init -q
+  git add -A
+  git -c user.email=t@t -c user.name=t commit -q -m initial
 
   export GPOWERS_HOME="$TMP/gp"
   export PATH="$GPOWERS_HOME/bin:$PATH"
@@ -20,6 +20,23 @@ setup() {
   jq --arg u "file://$BARE" '.modules.tools.url = $u | .modules.tools.ref = "main"' \
      "$GPOWERS_HOME/upstream-sources.json" > "$GPOWERS_HOME/upstream-sources.json.tmp"
   mv "$GPOWERS_HOME/upstream-sources.json.tmp" "$GPOWERS_HOME/upstream-sources.json"
+
+  # Preserve local-only files, then subtree add upstream content
+  mv tools tools.bak
+  rm -rf tools
+  git add -A
+  git -c user.email=t@t -c user.name=t commit -q -m "remove tools for subtree" || true
+
+  # Simulate initial install via subtree add
+  git subtree add --prefix=tools "file://$BARE" main --squash -q \
+    -m "install(tools): add subtree from fixture"
+
+  # Layer local files back on top of subtree
+  cp tools.bak/_upgrade-transform.sh tools/
+  cp tools.bak/upstream-source.json tools/
+  rm -rf tools.bak
+  git add -A
+  git -c user.email=t@t -c user.name=t commit -q -m "add local tools files" || true
 }
 
 @test "upgrade-module tools succeeds against fake remote" {
