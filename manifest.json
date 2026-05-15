@@ -51,5 +51,18 @@
       "kimi"
     ],
     "generator_version": "1.0"
+  },
+  "upgrade": {
+    "implemented": true,
+    "subcommands": [
+      "all",
+      "core",
+      "roles",
+      "tools",
+      "business",
+      "--check",
+      "--resume",
+      "--dry-run"
+    ]
   }
 }
