@@ -5,7 +5,7 @@
 #   ${GPOWERS_HOME}           = gpowers home (default ~/.gpowers)
 #   ${HOME}
 #   ${slug}                   = matched project slug (project-glob only)
-#   ${project_repo}           = resolved repo path or fallback
+#   <project_repo>            = resolved repo path or fallback
 #   ${remainder}              = leftover path after pattern strip
 
 GPOWERS_MIGRATION_RULES=(
@@ -39,17 +39,17 @@ GPOWERS_MIGRATION_RULES=(
   "dir|${HOME}/.gstack/data/global-domain-skills|${GPOWERS_HOME}/data/global-domain-skills|domain skills"
 
   # ---------- gstack project-scoped data (slug-based) ----------
-  "project-glob|${HOME}/.gstack/projects/<slug>/ceo-plans|${project_repo}/.gpowers/plans/ceo|per-project ceo plans"
-  "project-glob|${HOME}/.gstack/projects/<slug>/eng-plans|${project_repo}/.gpowers/plans/eng|per-project eng plans"
-  "project-glob|${HOME}/.gstack/projects/<slug>/design-plans|${project_repo}/.gpowers/plans/design|per-project design plans"
-  "project-glob|${HOME}/.gstack/projects/<slug>/devex-plans|${project_repo}/.gpowers/plans/devex|per-project devex plans"
-  "project-glob|${HOME}/.gstack/projects/<slug>/autoplans|${project_repo}/.gpowers/plans/autoplan|per-project autoplans"
-  "project-glob|${HOME}/.gstack/projects/<slug>/designs|${project_repo}/.gpowers/designs|per-project designs"
-  "project-glob|${HOME}/.gstack/projects/<slug>/evals|${project_repo}/.gpowers/evals|per-project evals"
-  "project-glob|${HOME}/.gstack/projects/<slug>/canary|${project_repo}/.gpowers/canary|per-project canary"
-  "project-glob|${HOME}/.gstack/projects/<slug>/health|${project_repo}/.gpowers/health|per-project health"
-  "project-glob|${HOME}/.gstack/projects/<slug>/benchmark|${project_repo}/.gpowers/benchmark|per-project benchmark"
-  "project-glob|${HOME}/.gstack/projects/<slug>/learnings|${project_repo}/.gpowers/learnings|per-project learnings"
+  "project-glob|${HOME}/.gstack/projects/<slug>/ceo-plans|<project_repo>/.gpowers/plans/ceo|per-project ceo plans"
+  "project-glob|${HOME}/.gstack/projects/<slug>/eng-plans|<project_repo>/.gpowers/plans/eng|per-project eng plans"
+  "project-glob|${HOME}/.gstack/projects/<slug>/design-plans|<project_repo>/.gpowers/plans/design|per-project design plans"
+  "project-glob|${HOME}/.gstack/projects/<slug>/devex-plans|<project_repo>/.gpowers/plans/devex|per-project devex plans"
+  "project-glob|${HOME}/.gstack/projects/<slug>/autoplans|<project_repo>/.gpowers/plans/autoplan|per-project autoplans"
+  "project-glob|${HOME}/.gstack/projects/<slug>/designs|<project_repo>/.gpowers/designs|per-project designs"
+  "project-glob|${HOME}/.gstack/projects/<slug>/evals|<project_repo>/.gpowers/evals|per-project evals"
+  "project-glob|${HOME}/.gstack/projects/<slug>/canary|<project_repo>/.gpowers/canary|per-project canary"
+  "project-glob|${HOME}/.gstack/projects/<slug>/health|<project_repo>/.gpowers/health|per-project health"
+  "project-glob|${HOME}/.gstack/projects/<slug>/benchmark|<project_repo>/.gpowers/benchmark|per-project benchmark"
+  "project-glob|${HOME}/.gstack/projects/<slug>/learnings|<project_repo>/.gpowers/learnings|per-project learnings"
 
   # ---------- superpowers worktrees ----------
   "worktree-glob|${HOME}/.config/superpowers/worktrees/<project>/<branch>|${GPOWERS_HOME}/state/worktrees/<project>/<branch>|worktree state"
