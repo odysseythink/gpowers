@@ -42,12 +42,37 @@ for module in core roles tools business; do
 
     src_frontmatter=$(awk 'BEGIN{fm=0} /^---$/{fm++; if(fm<=2)print; next} fm<2{print}' "$file")
     src_body=$(awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$file")
-    orig_desc=$(awk -F': ' '/^description:/ {sub(/^description: /, ""); print; exit}' "$file")
+    # Extract description value robustly: strip outer quotes and handle multiline YAML
+    orig_desc=$(awk '
+      /^description:/ {
+        val = substr($0, index($0, ":") + 1)
+        sub(/^[ \t]*/, "", val)
+        # Quoted string: strip outer matching quotes
+        if (val ~ /^["'\''"]/) {
+          q = substr(val, 1, 1)
+          if (substr(val, length(val), 1) == q) {
+            val = substr(val, 2, length(val) - 2)
+          }
+          print val
+          exit
+        }
+        # Multiline marker (| or >): read first content line
+        if (val ~ /^[|>]/) {
+          getline
+          sub(/^[ \t]*/, "", $0)
+          print $0
+          exit
+        }
+        # Plain unquoted string
+        print val
+        exit
+      }
+    ' "$file")
 
     cat > "$adapter_dir/SKILL.md" <<ADAPTER
 ---
 name: $adapter_name
-description: $orig_desc (gpowers adapter for Kimi)
+description: "$orig_desc (gpowers adapter for Kimi)"
 gpowers-source: $module/skills/$orig/SKILL.md
 gpowers-module: $module
 ---

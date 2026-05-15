@@ -207,11 +207,26 @@ for p in ${final_platforms[@]+"${final_platforms[@]}"}; do
     continue
   fi
   if [ "$platform_key" = "kimi" ]; then
-    # Kimi uses prefix-mode (gpowers-* skill names); for foundation plan we
-    # only ensure the parent directory exists. Per-skill adapter generation
-    # is implemented in plan-08-platform-registration.
+    # Kimi uses prefix-mode (gpowers-* skill names); symlink each adapter
+    # from platforms/kimi/adapters/ into ~/.kimi/skills/.
     mkdir -p "$plugin_dir"
-    printf '[install] kimi parent dir ready: %s\n' "$plugin_dir"
+    adapters_dir="$opt_location/platforms/kimi/adapters"
+    if [ -d "$adapters_dir" ]; then
+      for adapter in "$adapters_dir"/*/; do
+        [ -d "$adapter" ] || continue
+        name=$(basename "$adapter")
+        target="$plugin_dir/$name"
+        if [ -L "$target" ]; then
+          rm "$target"
+        elif [ -e "$target" ]; then
+          printf '[install] warn: %s exists and is not a symlink; skipping\n' "$target" >&2
+          continue
+        fi
+        ln -s "$adapter" "$target"
+        printf '[install] linked %s -> %s\n' "$target" "$adapter"
+      done
+    fi
+    printf '[install] kimi skills registered in: %s\n' "$plugin_dir"
   else
     parent="$(dirname "$plugin_dir")"
     mkdir -p "$parent"
