@@ -101,7 +101,11 @@ func TestReadSkillBody(t *testing.T) {
 		t.Fatalf("WriteFile failed: %v", err)
 	}
 
-	body, err := readSkillBody(path)
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("ReadFile failed: %v", err)
+	}
+	body, err := readSkillBody(string(data))
 	if err != nil {
 		t.Fatalf("readSkillBody failed: %v", err)
 	}
@@ -110,23 +114,8 @@ func TestReadSkillBody(t *testing.T) {
 	}
 }
 
-func TestReadSkillBodyMissingFile(t *testing.T) {
-	tmp := t.TempDir()
-	path := filepath.Join(tmp, "missing.md")
-	_, err := readSkillBody(path)
-	if err == nil {
-		t.Fatal("expected error for missing file, got nil")
-	}
-}
-
 func TestReadSkillBodyNoFrontmatter(t *testing.T) {
-	tmp := t.TempDir()
-	path := filepath.Join(tmp, "skill.md")
-	if err := os.WriteFile(path, []byte("no frontmatter here\n"), 0644); err != nil {
-		t.Fatalf("WriteFile failed: %v", err)
-	}
-
-	_, err := readSkillBody(path)
+	_, err := readSkillBody("no frontmatter here\n")
 	if err == nil {
 		t.Fatal("expected error for missing frontmatter, got nil")
 	}

@@ -78,15 +78,10 @@ func listSlashes(gpowersHome string) ([]SlashInfo, error) {
 	return slashes, nil
 }
 
-func readSkillBody(path string) (string, error) {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return "", err
-	}
-	content := string(data)
+func readSkillBody(content string) (string, error) {
 	parts := strings.SplitN(content, "---", 3)
 	if len(parts) < 3 {
-		return "", fmt.Errorf("no frontmatter in %s", path)
+		return "", fmt.Errorf("no frontmatter")
 	}
 	return strings.TrimSpace(parts[2]), nil
 }
