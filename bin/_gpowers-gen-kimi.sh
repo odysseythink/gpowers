@@ -36,6 +36,7 @@ for module in core roles tools business; do
     [ -f "$file" ] || continue
 
     adapter_name="gpowers-$orig"
+    case "$orig" in gpowers-*) adapter_name="$orig" ;; esac
     adapter_dir="$ADAPTERS_DIR/$adapter_name"
     mkdir -p "$adapter_dir"
 

@@ -1,5 +1,5 @@
 ---
-name: gpowers-gpowers-upgrade
+name: gpowers-upgrade
 description: Self-upgrade gpowers — pulls new versions of core/roles/tools/business from upstream and re-runs install hooks. Stub; full body landed by Plan #9. (gpowers adapter for Kimi)
 gpowers-source: tools/skills/gpowers-upgrade/SKILL.md
 gpowers-module: tools
