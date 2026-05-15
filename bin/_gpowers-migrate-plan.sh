@@ -62,7 +62,13 @@ for rule in "${GPOWERS_MIGRATION_RULES[@]}"; do
 done
 
 # Compute conflicts: dst already exists
-conflicts=$(echo "$mappings" | jq '[.[] | select(.dst as $d | (env.HOME // "") + "/" + $d | test("^/")) ] | length')
+conflicts='[]'
+while read -r dst; do
+  if [ -e "$dst" ]; then
+    conflicts=$(echo "$conflicts" | jq --arg d "$dst" '. += [{dst:$d, reason:"target already exists"}]')
+  fi
+done < <(echo "$mappings" | jq -r '.[].dst')
 
-echo "$mappings" | jq --argjson cnt "$conflicts" \
-  '{mappings: ., total: length, will_create_dirs: (map(.dst) | map(split("/")[:-1] | join("/")) | unique | length)}'
+echo "$mappings" | jq \
+  --argjson conflicts "$conflicts" \
+  '{mappings: ., conflicts: $conflicts, total: length, will_create_dirs: (map(.dst) | map(split("/")[:-1] | join("/")) | unique | length)}'
