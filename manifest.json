@@ -64,5 +64,12 @@
       "--resume",
       "--dry-run"
     ]
+  },
+  "migrate": {
+    "implemented": true,
+    "slash_aliases": {
+      "review": "pr-review"
+    },
+    "deprecation_until": "2026-11-14"
   }
 }
