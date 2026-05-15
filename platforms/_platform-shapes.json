@@ -1,0 +1,64 @@
+{
+  "platforms": {
+    "claude-code": {
+      "manifest_filename": "plugin.json",
+      "command_dir": "commands",
+      "command_filename_pattern": "{slash}.md",
+      "supports_hooks": true,
+      "namespace_mode": "plugin-scoped",
+      "install_link_target": "~/.claude/plugins/gpowers"
+    },
+    "codex": {
+      "manifest_filename": "plugin.json",
+      "command_dir": "commands",
+      "command_filename_pattern": "{slash}.md",
+      "supports_hooks": true,
+      "namespace_mode": "plugin-scoped",
+      "install_link_target": "~/.codex/plugins/gpowers"
+    },
+    "gemini": {
+      "manifest_filename": "extension.json",
+      "command_dir": "commands",
+      "command_filename_pattern": "{slash}.md",
+      "supports_hooks": "via-injection",
+      "namespace_mode": "extension",
+      "injection_target": "~/.gemini/GEMINI.md",
+      "injection_fragment": "GEMINI.md.fragment",
+      "install_link_target": "~/.config/gemini/extensions/gpowers"
+    },
+    "cursor": {
+      "manifest_filename": "plugin.json",
+      "command_dir": "commands",
+      "command_filename_pattern": "{slash}.md",
+      "supports_hooks": "via-injection",
+      "namespace_mode": "cursor-rules",
+      "injection_target": "<repo>/.cursorrules",
+      "injection_fragment": "cursor-rules.md.fragment",
+      "install_link_target": "~/.cursor/plugins/gpowers"
+    },
+    "opencode": {
+      "manifest_filename": "plugin.json",
+      "command_dir": "commands",
+      "command_filename_pattern": "{slash}.md",
+      "supports_hooks": true,
+      "namespace_mode": "plugin-scoped",
+      "install_link_target": "~/.config/opencode/plugins/gpowers"
+    },
+    "copilot": {
+      "manifest_filename": "plugin.json",
+      "command_dir": "commands",
+      "command_filename_pattern": "{slash}.md",
+      "supports_hooks": false,
+      "namespace_mode": "plugin-scoped",
+      "install_link_target": "~/.config/copilot-cli/plugins/gpowers"
+    },
+    "kimi": {
+      "manifest_filename": "kimi-skills.json",
+      "command_dir": "adapters",
+      "command_filename_pattern": "gpowers-{slash}",
+      "supports_hooks": false,
+      "namespace_mode": "flat-prefix",
+      "install_link_target": "~/.kimi/skills"
+    }
+  }
+}
