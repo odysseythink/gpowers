@@ -1,0 +1,15 @@
+# Binaries
+browse
+browse.exe
+terminal-agent
+terminal-agent.exe
+*.test
+*.test.exe
+
+# Build artifacts
+*.o
+*.a
+
+# IDE
+.idea/
+.vscode/
