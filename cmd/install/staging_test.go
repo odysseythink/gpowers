@@ -101,3 +101,91 @@ func TestStageFilesSelfFileProtection(t *testing.T) {
 		t.Errorf("%s content = %q, want 'binary'", binaryName, string(data))
 	}
 }
+
+func TestStageBrowseBinary(t *testing.T) {
+	tmp := t.TempDir()
+	src := filepath.Join(tmp, "src")
+	dst := filepath.Join(tmp, "dst")
+	browseName := "browse"
+	if runtime.GOOS == "windows" {
+		browseName = "browse.exe"
+	}
+
+	if err := os.MkdirAll(src, 0755); err != nil {
+		t.Fatalf("MkdirAll failed: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(src, browseName), []byte("browse-binary"), 0644); err != nil {
+		t.Fatalf("WriteFile %s failed: %v", browseName, err)
+	}
+
+	err := stageBrowseBinary(src, dst, false)
+	if err != nil {
+		t.Fatalf("stageBrowseBinary failed: %v", err)
+	}
+
+	data, err := os.ReadFile(filepath.Join(dst, "bin", browseName))
+	if err != nil {
+		t.Fatalf("ReadFile %s failed: %v", browseName, err)
+	}
+	if string(data) != "browse-binary" {
+		t.Errorf("%s content = %q, want 'browse-binary'", browseName, string(data))
+	}
+
+	// Verify executable bit is set
+	info, err := os.Stat(filepath.Join(dst, "bin", browseName))
+	if err != nil {
+		t.Fatalf("Stat %s failed: %v", browseName, err)
+	}
+	if info.Mode()&0111 == 0 {
+		t.Errorf("%s is not executable", browseName)
+	}
+}
+
+func TestStageBrowseBinaryMissing(t *testing.T) {
+	tmp := t.TempDir()
+	src := filepath.Join(tmp, "src")
+	dst := filepath.Join(tmp, "dst")
+
+	if err := os.MkdirAll(src, 0755); err != nil {
+		t.Fatalf("MkdirAll failed: %v", err)
+	}
+
+	err := stageBrowseBinary(src, dst, false)
+	if err != nil {
+		t.Fatalf("stageBrowseBinary should not fail when browse is missing: %v", err)
+	}
+
+	if _, err := os.Stat(filepath.Join(dst, "bin")); err == nil {
+		t.Fatalf("bin directory should not be created when browse is missing")
+	}
+}
+
+func TestStageBrowseBinarySymlink(t *testing.T) {
+	tmp := t.TempDir()
+	src := filepath.Join(tmp, "src")
+	dst := filepath.Join(tmp, "dst")
+	browseName := "browse"
+	if runtime.GOOS == "windows" {
+		browseName = "browse.exe"
+	}
+
+	if err := os.MkdirAll(src, 0755); err != nil {
+		t.Fatalf("MkdirAll failed: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(src, browseName), []byte("browse-binary"), 0644); err != nil {
+		t.Fatalf("WriteFile %s failed: %v", browseName, err)
+	}
+
+	err := stageBrowseBinary(src, dst, true)
+	if err != nil {
+		t.Fatalf("stageBrowseBinary symlink failed: %v", err)
+	}
+
+	info, err := os.Lstat(filepath.Join(dst, "bin", browseName))
+	if err != nil {
+		t.Fatalf("Lstat %s failed: %v", browseName, err)
+	}
+	if info.Mode()&os.ModeSymlink == 0 {
+		t.Errorf("%s is not a symlink", browseName)
+	}
+}

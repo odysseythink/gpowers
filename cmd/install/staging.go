@@ -18,9 +18,9 @@ func stageFiles(sourceDir, targetDir string, modules []string, linkMode bool) er
 		entries = append(entries, "business")
 	}
 
-	binaryName := "install"
+	installName := "install"
 	if runtime.GOOS == "windows" {
-		binaryName = "install.exe"
+		installName = "install.exe"
 	}
 
 	for _, entry := range entries {
@@ -28,8 +28,8 @@ func stageFiles(sourceDir, targetDir string, modules []string, linkMode bool) er
 		dst := filepath.Join(targetDir, entry)
 
 		if entry == "install" {
-			src = filepath.Join(sourceDir, binaryName)
-			dst = filepath.Join(targetDir, binaryName)
+			src = filepath.Join(sourceDir, installName)
+			dst = filepath.Join(targetDir, installName)
 		}
 
 		info, err := os.Stat(src)
@@ -83,5 +83,54 @@ func stageFiles(sourceDir, targetDir string, modules []string, linkMode bool) er
 			}
 		}
 	}
+
+	// Stage the browse Go binary into bin/ if present alongside the installer
+	if err := stageBrowseBinary(sourceDir, targetDir, linkMode); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func stageBrowseBinary(sourceDir, targetDir string, linkMode bool) error {
+	browseName := "browse"
+	if runtime.GOOS == "windows" {
+		browseName = "browse.exe"
+	}
+
+	src := filepath.Join(sourceDir, browseName)
+	dst := filepath.Join(targetDir, "bin", browseName)
+
+	info, err := os.Stat(src)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			// browse binary is optional (may be missing in dev mode or source builds)
+			return nil
+		}
+		return err
+	}
+
+	if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
+		return fmt.Errorf("create bin dir: %w", err)
+	}
+
+	if _, err := os.Stat(dst); err == nil {
+		if err := os.RemoveAll(dst); err != nil {
+			return fmt.Errorf("remove existing %s: %w", dst, err)
+		}
+	}
+
+	if linkMode {
+		if err := os.Symlink(src, dst); err != nil {
+			return fmt.Errorf("symlink %s -> %s: %w", src, dst, err)
+		}
+		return nil
+	}
+
+	mode := info.Mode() | 0111 // ensure executable
+	if err := copyFile(src, dst, mode); err != nil {
+		return fmt.Errorf("copy %s -> %s: %w", src, dst, err)
+	}
+	fmt.Printf("[install] staged browse binary: %s\n", dst)
 	return nil
 }

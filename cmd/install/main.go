@@ -9,6 +9,12 @@ import (
 	"strings"
 )
 
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
+
 func main() {
 	if err := run(); err != nil {
 		fmt.Fprintf(os.Stderr, "[install] error: %v\n", err)
@@ -18,6 +24,11 @@ func main() {
 
 func run() error {
 	opts := ParseFlags()
+
+	if opts.ShowVersion {
+		fmt.Printf("gpowers-install %s (commit %s, built %s)\n", version, commit, date)
+		return nil
+	}
 
 	modules := opts.Modules()
 	requestedPlatforms := opts.PlatformList()

@@ -5,3 +5,6 @@ tests/.tmp/
 .stfolder/
 state/
 .gstack/
+
+# GoReleaser build artifacts
+dist/

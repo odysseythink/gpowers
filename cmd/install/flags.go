@@ -18,6 +18,7 @@ type Options struct {
 	DryRun         bool
 	NonInteractive bool
 	SourceDir      string
+	ShowVersion    bool
 }
 
 func ParseFlags() Options {
@@ -32,6 +33,7 @@ func ParseFlags() Options {
 	flag.BoolVar(&opts.DryRun, "dry-run", false, "print plan, do not execute")
 	flag.BoolVar(&opts.NonInteractive, "non-interactive", false, "skip prompts (CI mode)")
 	flag.StringVar(&opts.SourceDir, "source-dir", "", "override source directory")
+	flag.BoolVar(&opts.ShowVersion, "version", false, "print version and exit")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "usage: install [options]\n\nOptions:\n")
 		flag.PrintDefaults()

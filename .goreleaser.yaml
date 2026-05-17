@@ -1,0 +1,82 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - cd tools/skills/browse-go && go mod tidy
+
+builds:
+  - id: install
+    main: ./cmd/install
+    binary: install
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+  - id: browse
+    dir: tools/skills/browse-go
+    main: ./cmd/browse
+    binary: browse
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+archives:
+  - id: gpowers
+    formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    wrap_in_directory: true
+    builds_info:
+      mode: 0755
+    files:
+      - src: bin/*
+        dst: bin/
+      - src: core/**/*
+        dst: core/
+      - src: roles/**/*
+        dst: roles/
+      - src: tools/**/*
+        dst: tools/
+      - src: platforms/**/*
+        dst: platforms/
+      - src: lib/*
+        dst: lib/
+      - src: templates/*
+        dst: templates/
+      - src: manifest.json
+        dst: .
+      - src: upstream-sources.json
+        dst: .
+      - src: README.md
+        dst: .
+      - src: LICENSE
+        dst: .
+      - src: uninstall
+        dst: .
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+checksum:
+  name_template: "checksums.txt"
+
+release:
+  github:
+    owner: odysseythink
+    name: gpowers
