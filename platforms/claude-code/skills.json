@@ -195,7 +195,7 @@
     {
       "name": "pr-review",
       "module": "roles",
-      "description": "pre-merge PR review (gstack original)",
+      "description": "|",
       "path": "roles/skills/pr-review/SKILL.md"
     },
     {

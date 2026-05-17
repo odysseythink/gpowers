@@ -4,3 +4,4 @@ tests/.tmp/
 .worktrees/
 .stfolder/
 state/
+.gstack/

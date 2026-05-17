@@ -30,6 +30,10 @@ When you reference a gpowers skill in user-facing text, append the module tag in
 - "I'll run /qa (tools) against the staging URL."
 - "money-content (business) covers that workflow."
 
+## Language consistency
+
+When communicating with the user — asking questions, presenting options, explaining trade-offs, or reporting results — **output in the same language the user is writing in**. If the user writes in Chinese, reply in Chinese. If the user writes in English, reply in English. This reduces comprehension friction and ensures the user can fully understand proposals and make informed decisions.
+
 ## Skill priority
 
 When multiple skills could apply, follow this order:

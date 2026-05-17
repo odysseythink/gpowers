@@ -1,6 +1,6 @@
 ---
 name: gpowers-verification-before-completion
-description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always (gpowers adapter for Kimi)
+description: "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always (gpowers adapter for Kimi)"
 gpowers-source: core/skills/verification-before-completion/SKILL.md
 gpowers-module: core
 ---
@@ -32,6 +32,10 @@ When you reference a gpowers skill in user-facing text, append the module tag in
 - "Consider `/cso` (roles) for a security review."
 - "I'll run /qa (tools) against the staging URL."
 - "money-content (business) covers that workflow."
+
+## Language consistency
+
+When communicating with the user — asking questions, presenting options, explaining trade-offs, or reporting results — **output in the same language the user is writing in**. If the user writes in Chinese, reply in Chinese. If the user writes in English, reply in English. This reduces comprehension friction and ensures the user can fully understand proposals and make informed decisions.
 
 ## Skill priority
 

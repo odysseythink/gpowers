@@ -1,6 +1,6 @@
 ---
 name: gpowers-freeze
-description: | (gpowers adapter for Kimi)
+description: "Restrict file edits to a specific directory for the session. Blocks Edit and (gpowers adapter for Kimi)"
 gpowers-source: tools/skills/freeze/SKILL.md
 gpowers-module: tools
 ---
@@ -32,6 +32,10 @@ When you reference a gpowers skill in user-facing text, append the module tag in
 - "Consider `/cso` (roles) for a security review."
 - "I'll run /qa (tools) against the staging URL."
 - "money-content (business) covers that workflow."
+
+## Language consistency
+
+When communicating with the user — asking questions, presenting options, explaining trade-offs, or reporting results — **output in the same language the user is writing in**. If the user writes in Chinese, reply in Chinese. If the user writes in English, reply in English. This reduces comprehension friction and ensures the user can fully understand proposals and make informed decisions.
 
 ## Skill priority
 
