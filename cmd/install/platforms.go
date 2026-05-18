@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -67,23 +68,35 @@ func generatePlatformManifest(platform, gpowersHome string, modules []string) er
 	}
 
 	outDir := filepath.Join(gpowersHome, "platforms", platform)
-	if err := os.MkdirAll(filepath.Join(outDir, shape.CommandDir), 0755); err != nil {
+	cmdDir := filepath.Join(outDir, shape.CommandDir)
+	if err := os.MkdirAll(cmdDir, 0755); err != nil {
 		return fmt.Errorf("create command dir: %w", err)
+	}
+	// Clear stale command files staged from source repo so that only
+	// current skills are emitted.
+	if entries, err := os.ReadDir(cmdDir); err == nil {
+		for _, ent := range entries {
+			if err := os.RemoveAll(filepath.Join(cmdDir, ent.Name())); err != nil {
+				return fmt.Errorf("clear stale command file %s: %w", ent.Name(), err)
+			}
+		}
 	}
 
 	manifest := map[string]interface{}{
-		"$schema":        "https://gpowers.dev/schemas/plugin.json",
-		"name":           "gpowers",
-		"version":        "1.0.0",
-		"namespace_mode": shape.NamespaceMode,
-		"description":    "gpowers — unified methodology + roles + tools + business automation",
-		"modules":        modules,
+		"$schema":     "https://gpowers.dev/schemas/plugin.json",
+		"name":        "gpowers",
+		"version":     "1.0.0",
+		"description": "gpowers — unified methodology + roles + tools + business automation",
 	}
 	data, err := json.MarshalIndent(manifest, "", "  ")
 	if err != nil {
 		return fmt.Errorf("marshal manifest: %w", err)
 	}
-	if err := os.WriteFile(filepath.Join(outDir, shape.ManifestFilename), append(data, '\n'), 0644); err != nil {
+	manifestPath := filepath.Join(outDir, shape.ManifestFilename)
+	if err := os.MkdirAll(filepath.Dir(manifestPath), 0755); err != nil {
+		return fmt.Errorf("create manifest dir: %w", err)
+	}
+	if err := os.WriteFile(manifestPath, append(data, '\n'), 0644); err != nil {
 		return fmt.Errorf("write manifest: %w", err)
 	}
 
@@ -98,11 +111,14 @@ func generatePlatformManifest(platform, gpowersHome string, modules []string) er
 	for _, s := range slashes {
 		cmdName := strings.TrimPrefix(s.Slash, "/")
 		cmdFile := filepath.Join(outDir, shape.CommandDir, cmdName+".md")
+		desc := s.Description
+		if desc == "" {
+			desc = fmt.Sprintf("Invoke the %s skill", s.SkillDir)
+		}
+		// Flatten multi-line descriptions to a single line for frontmatter
+		desc = strings.ReplaceAll(desc, "\n", " ")
 		content := fmt.Sprintf(`---
-slash: %s
-module: %s
-skill: %s
-requires_driver: %s
+description: %q
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/%s/skills/%s/SKILL.md -->
@@ -110,7 +126,7 @@ requires_driver: %s
 This command invokes the gpowers skill **%s** (%s).
 
 Refer to the source SKILL.md (above) for the full workflow. The platform's skill mechanism will load it on demand.
-`, s.Slash, s.Module, s.SkillDir, s.RequiresDriver, s.Module, s.SkillDir, s.SkillDir, s.Module)
+`, desc, s.Module, s.SkillDir, s.SkillDir, s.Module)
 		if err := os.WriteFile(cmdFile, []byte(content), 0644); err != nil {
 			return fmt.Errorf("write command file %s: %w", cmdFile, err)
 		}
@@ -169,7 +185,7 @@ func generateSkillsJSONForPlatform(gpowersHome, outDir string) error {
 	return os.WriteFile(filepath.Join(outDir, "skills.json"), append(out, '\n'), 0644)
 }
 
-func registerPlatform(platform, gpowersHome string) error {
+func registerPlatform(platform, gpowersHome string, nonInteractive bool) error {
 	shapes, err := loadPlatformShapes(gpowersHome)
 	if err != nil {
 		return err
@@ -205,6 +221,88 @@ func registerPlatform(platform, gpowersHome string) error {
 		return fmt.Errorf("symlink %s -> %s: %w", source, target, err)
 	}
 	fmt.Printf("[install] linked %s -> %s\n", target, source)
+
+	if platform == "claude-code" {
+		if err := setupClaudeCodeAutoLoad(nonInteractive); err != nil {
+			fmt.Fprintf(os.Stderr, "[install] warn: Claude Code auto-load setup: %v\n", err)
+		}
+	}
+	return nil
+}
+
+func setupClaudeCodeAutoLoad(nonInteractive bool) error {
+	shell := os.Getenv("SHELL")
+	var rcFile string
+	switch {
+	case strings.Contains(shell, "zsh"):
+		rcFile = expandPath("~/.zshrc")
+	case strings.Contains(shell, "bash"):
+		rcFile = expandPath("~/.bashrc")
+	default:
+		fmt.Println("[install] NOTE: Claude Code does not auto-load plugins.")
+		fmt.Println("[install]       Add the following to your shell rc file:")
+		fmt.Println("[install]       alias claude='claude --plugin-dir ~/.claude/plugins/gpowers'")
+		return nil
+	}
+
+	markerBegin := "# >>> gpowers claude-code plugin autoload <<<"
+	markerEnd := "# <<< gpowers claude-code plugin autoload <<<"
+
+	// Check if already installed
+	if data, err := os.ReadFile(rcFile); err == nil {
+		if strings.Contains(string(data), markerBegin) {
+			fmt.Printf("[install] Claude Code auto-load already configured in %s\n", rcFile)
+			return nil
+		}
+	}
+
+	wrapper := fmt.Sprintf(`
+%s
+claude() {
+    local plugin_dirs=()
+    for manifest in "$HOME/.claude/plugins"/*/.claude-plugin/plugin.json; do
+        if [[ -f "$manifest" ]]; then
+            plugin_dirs+=(--plugin-dir "$(dirname "$(dirname "$manifest")")")
+        fi
+    done
+    command claude "${plugin_dirs[@]}" "$@"
+}
+%s
+`, markerBegin, markerEnd)
+
+	if !nonInteractive {
+		fmt.Printf("[install] Add Claude Code auto-load wrapper to %s? [Y/n] ", rcFile)
+		reader := bufio.NewReader(os.Stdin)
+		ans, err := reader.ReadString('\n')
+		if err != nil {
+			// stdin not available (e.g. piped), skip silently
+			fmt.Println("")
+			fmt.Println("[install] Skipped Claude Code auto-load setup (non-tty).")
+			fmt.Println("[install] To manually enable, start Claude Code with:")
+			fmt.Println("[install]   claude --plugin-dir ~/.claude/plugins/gpowers")
+			return nil
+		}
+		ans = strings.TrimSpace(strings.ToLower(ans))
+		if ans == "n" || ans == "no" {
+			fmt.Println("[install] Skipped Claude Code auto-load setup.")
+			fmt.Println("[install] To manually enable, start Claude Code with:")
+			fmt.Println("[install]   claude --plugin-dir ~/.claude/plugins/gpowers")
+			return nil
+		}
+	}
+
+	f, err := os.OpenFile(rcFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return fmt.Errorf("open %s: %w", rcFile, err)
+	}
+	defer f.Close()
+
+	if _, err := f.WriteString(wrapper); err != nil {
+		return fmt.Errorf("write %s: %w", rcFile, err)
+	}
+
+	fmt.Printf("[install] Claude Code auto-load configured in %s\n", rcFile)
+	fmt.Println("[install] Reload your shell or run: source " + rcFile)
 	return nil
 }
 

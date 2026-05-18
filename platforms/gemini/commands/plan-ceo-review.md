@@ -1,8 +1,5 @@
 ---
-slash: /plan-ceo-review
-module: roles
-skill: plan-ceo-review
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/plan-ceo-review/SKILL.md -->

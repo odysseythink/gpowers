@@ -1,8 +1,5 @@
 ---
-slash: /make-pdf
-module: tools
-skill: make-pdf
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/make-pdf/SKILL.md -->

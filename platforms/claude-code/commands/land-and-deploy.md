@@ -1,8 +1,5 @@
 ---
-slash: /land-and-deploy
-module: tools
-skill: land-and-deploy
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/land-and-deploy/SKILL.md -->

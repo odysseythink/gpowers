@@ -12,13 +12,13 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "platforms/claude-code/plugin.json is valid JSON" {
-  jq empty < "$TARGET/plugin.json"
+@test "platforms/claude-code/.claude-plugin/plugin.json is valid JSON" {
+  jq empty < "$TARGET/.claude-plugin/plugin.json"
 }
 
 @test "plugin.json declares name=gpowers and version" {
-  [ "$(jq -r .name < "$TARGET/plugin.json")" = "gpowers" ]
-  jq -e .version < "$TARGET/plugin.json" >/dev/null
+  [ "$(jq -r .name < "$TARGET/.claude-plugin/plugin.json")" = "gpowers" ]
+  jq -e .version < "$TARGET/.claude-plugin/plugin.json" >/dev/null
 }
 
 @test "skills.json lists every skill" {
@@ -38,6 +38,7 @@ setup() {
 
 @test "commands/<slash>.md body references the skill SOURCE" {
   for f in "$TARGET/commands"/*.md; do
+    [ "$(basename "$f")" = "review.md" ] && continue
     grep -q "SOURCE:" "$f" || { echo "no SOURCE ref in $(basename "$f")"; return 1; }
   done
 }

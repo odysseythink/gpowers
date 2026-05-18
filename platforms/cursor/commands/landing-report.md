@@ -1,8 +1,5 @@
 ---
-slash: /landing-report
-module: tools
-skill: landing-report
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/landing-report/SKILL.md -->

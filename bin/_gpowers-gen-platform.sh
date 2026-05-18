@@ -20,17 +20,18 @@ NS_MODE=$(shape namespace_mode)
 OUT="$GPOWERS_HOME/platforms/$PLATFORM"
 mkdir -p "$OUT/$COMMAND_DIR"
 
+# Ensure manifest parent directory exists (e.g. .claude-plugin/)
+manifest_dir=$(dirname "$OUT/$MANIFEST")
+[ "$manifest_dir" = "$OUT" ] || mkdir -p "$manifest_dir"
+
 # 1) plugin/extension manifest
 jq -n --arg name gpowers \
       --arg version "1.0.0" \
-      --arg ns "$NS_MODE" \
       '{
         "$schema": "https://gpowers.dev/schemas/plugin.json",
         name: $name,
         version: $version,
-        namespace_mode: $ns,
-        description: "gpowers — unified methodology + roles + tools + business automation",
-        modules: ["core","roles","tools","business"]
+        description: "gpowers — unified methodology + roles + tools + business automation"
       }' > "$OUT/$MANIFEST"
 
 # 2) skills.json: complete index across all four modules
@@ -55,15 +56,15 @@ done
 echo "$SKILLS_JSON" > "$OUT/skills.json"
 
 # 3) Command files (one .md per slash)
-"$GPOWERS_HOME/bin/_gpowers-list-slashes.sh" | while IFS=$'\t' read -r slash module skill_dir driver; do
+"$GPOWERS_HOME/bin/_gpowers-list-slashes.sh" | while IFS=$'\t' read -r slash module skill_dir driver desc; do
   cmd_name="${slash#/}"
   cmd_file="$OUT/$COMMAND_DIR/$cmd_name.md"
+  [ -n "$desc" ] || desc="Invoke the $skill_dir skill"
+  # Flatten to single line for frontmatter
+  desc=${desc//$'\n'/ }
   cat > "$cmd_file" <<MD
 ---
-slash: $slash
-module: $module
-skill: $skill_dir
-requires_driver: $driver
+description: "$desc"
 ---
 
 <!-- SOURCE: \$GPOWERS_HOME/$module/skills/$skill_dir/SKILL.md -->

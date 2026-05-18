@@ -1,8 +1,5 @@
 ---
-slash: /design-review
-module: roles
-skill: design-review
-requires_driver: browser
+description: "post-implementation visual review (gstack)"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/design-review/SKILL.md -->

@@ -1,8 +1,5 @@
 ---
-slash: /pair-agent
-module: roles
-skill: pair-agent
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/pair-agent/SKILL.md -->

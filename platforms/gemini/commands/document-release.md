@@ -1,8 +1,5 @@
 ---
-slash: /document-release
-module: roles
-skill: document-release
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/document-release/SKILL.md -->

@@ -1,8 +1,5 @@
 ---
-slash: /context-restore
-module: tools
-skill: context-restore
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/context-restore/SKILL.md -->

@@ -1,8 +1,5 @@
 ---
-slash: /plan-eng-review
-module: roles
-skill: plan-eng-review
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/plan-eng-review/SKILL.md -->

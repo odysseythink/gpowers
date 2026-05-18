@@ -1,8 +1,5 @@
 ---
-slash: /design-shotgun
-module: roles
-skill: design-shotgun
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/design-shotgun/SKILL.md -->

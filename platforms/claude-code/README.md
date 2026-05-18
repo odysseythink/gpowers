@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Manifest file | `plugin.json` |
+| Manifest file | `.claude-plugin/plugin.json` |
 | Install link target | `~/.claude/plugins/gpowers` |
 | Hooks | `true` |
 | Namespace mode | `plugin-scoped` |

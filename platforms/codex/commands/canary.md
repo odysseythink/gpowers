@@ -1,8 +1,5 @@
 ---
-slash: /canary
-module: tools
-skill: canary
-requires_driver: browser
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/canary/SKILL.md -->

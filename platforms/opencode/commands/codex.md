@@ -1,8 +1,5 @@
 ---
-slash: /codex
-module: roles
-skill: codex
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/codex/SKILL.md -->

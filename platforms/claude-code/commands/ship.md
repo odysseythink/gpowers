@@ -1,8 +1,5 @@
 ---
-slash: /ship
-module: tools
-skill: ship
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/ship/SKILL.md -->

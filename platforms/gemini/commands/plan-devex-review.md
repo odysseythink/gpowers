@@ -1,8 +1,5 @@
 ---
-slash: /plan-devex-review
-module: roles
-skill: plan-devex-review
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/plan-devex-review/SKILL.md -->

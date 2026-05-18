@@ -89,7 +89,7 @@ func run() error {
 	}
 
 	for _, p := range platforms {
-		if err := registerPlatform(p, opts.Location); err != nil {
+		if err := registerPlatform(p, opts.Location, opts.NonInteractive); err != nil {
 			fmt.Fprintf(os.Stderr, "[install] warn: register platform %s: %v\n", p, err)
 		}
 	}

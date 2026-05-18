@@ -1,8 +1,5 @@
 ---
-slash: /unfreeze
-module: tools
-skill: unfreeze
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/unfreeze/SKILL.md -->

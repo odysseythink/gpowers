@@ -1,8 +1,5 @@
 ---
-slash: /design-html
-module: roles
-skill: design-html
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/design-html/SKILL.md -->

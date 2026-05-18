@@ -1,7 +1,7 @@
 {
   "platforms": {
     "claude-code": {
-      "manifest_filename": "plugin.json",
+      "manifest_filename": ".claude-plugin/plugin.json",
       "command_dir": "commands",
       "command_filename_pattern": "{slash}.md",
       "supports_hooks": true,

@@ -1,8 +1,5 @@
 ---
-slash: /setup-deploy
-module: tools
-skill: setup-deploy
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/setup-deploy/SKILL.md -->

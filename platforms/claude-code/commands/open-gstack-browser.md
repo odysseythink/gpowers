@@ -1,8 +1,5 @@
 ---
-slash: /open-gstack-browser
-module: tools
-skill: open-gstack-browser
-requires_driver: browser
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/open-gstack-browser/SKILL.md -->

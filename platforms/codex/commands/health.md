@@ -1,8 +1,5 @@
 ---
-slash: /health
-module: tools
-skill: health
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/health/SKILL.md -->

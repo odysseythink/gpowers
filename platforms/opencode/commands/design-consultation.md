@@ -1,8 +1,5 @@
 ---
-slash: /design-consultation
-module: roles
-skill: design-consultation
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/design-consultation/SKILL.md -->

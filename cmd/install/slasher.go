@@ -12,6 +12,7 @@ type SlashInfo struct {
 	Module         string
 	SkillDir       string
 	RequiresDriver string
+	Description    string
 }
 
 func parseFrontmatter(content string) map[string]string {
@@ -20,22 +21,62 @@ func parseFrontmatter(content string) map[string]string {
 	if len(lines) == 0 || strings.TrimSpace(lines[0]) != "---" {
 		return result
 	}
-	for i := 1; i < len(lines); i++ {
+
+	i := 1
+	for i < len(lines) {
 		line := lines[i]
 		line = strings.TrimSuffix(line, "\r")
 		if strings.TrimSpace(line) == "---" {
 			break
 		}
+
 		idx := strings.Index(line, ":")
 		if idx < 0 {
+			i++
 			continue
 		}
+
 		key := strings.TrimSpace(line[:idx])
 		val := strings.TrimSpace(line[idx+1:])
+
+		// Handle YAML multi-line strings (| and >)
+		if val == "|" || val == ">" {
+			i++
+			var multiline []string
+			baseIndent := -1
+			for i < len(lines) {
+				nextLine := lines[i]
+				nextLine = strings.TrimSuffix(nextLine, "\r")
+				if strings.TrimSpace(nextLine) == "---" {
+					break
+				}
+				if nextLine == "" || strings.TrimSpace(nextLine) == "" {
+					if baseIndent >= 0 {
+						multiline = append(multiline, "")
+					}
+					i++
+					continue
+				}
+				trimmed := strings.TrimLeft(nextLine, " ")
+				indent := len(nextLine) - len(trimmed)
+				if baseIndent < 0 {
+					baseIndent = indent
+				}
+				if indent < baseIndent {
+					break
+				}
+				multiline = append(multiline, trimmed)
+				i++
+			}
+			result[key] = strings.Join(multiline, "\n")
+			continue
+		}
+
 		if len(val) >= 2 && ((val[0] == '"' && val[len(val)-1] == '"') || (val[0] == '\'' && val[len(val)-1] == '\'')) {
 			val = val[1 : len(val)-1]
 		}
 		result[key] = val
+		i++
 	}
 	return result
 }
@@ -61,7 +102,12 @@ func listSlashes(gpowersHome string) ([]SlashInfo, error) {
 			fm := parseFrontmatter(string(data))
 			slash := fm["slash"]
 			if slash == "" {
-				continue
+				// Default to skill directory name as slash, except for
+				// preamble-only skills that should not be exposed as commands.
+				if skillDir == "using-gpowers" {
+					continue
+				}
+				slash = "/" + skillDir
 			}
 			driver := fm["requires-driver"]
 			if driver == "" {
@@ -72,6 +118,7 @@ func listSlashes(gpowersHome string) ([]SlashInfo, error) {
 				Module:         mod,
 				SkillDir:       skillDir,
 				RequiresDriver: driver,
+				Description:    fm["description"],
 			})
 		}
 	}

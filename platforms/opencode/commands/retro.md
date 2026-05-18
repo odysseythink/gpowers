@@ -1,8 +1,5 @@
 ---
-slash: /retro
-module: roles
-skill: retro
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/retro/SKILL.md -->

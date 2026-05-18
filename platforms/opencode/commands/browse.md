@@ -1,8 +1,5 @@
 ---
-slash: /browse
-module: tools
-skill: browse
-requires_driver: browser
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/browse/SKILL.md -->

@@ -1,8 +1,5 @@
 ---
-slash: /guard
-module: tools
-skill: guard
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/guard/SKILL.md -->

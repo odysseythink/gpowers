@@ -74,9 +74,9 @@ func TestListSlashes(t *testing.T) {
 	}
 }
 
-func TestListSlashesEmpty(t *testing.T) {
+func TestListSlashesDefault(t *testing.T) {
 	tmp := t.TempDir()
-	// no skills with slash field
+	// skill without explicit slash field gets default slash from directory name
 	if err := os.MkdirAll(filepath.Join(tmp, "core", "skills", "no-slash"), 0755); err != nil {
 		t.Fatalf("MkdirAll failed: %v", err)
 	}
@@ -89,8 +89,30 @@ func TestListSlashesEmpty(t *testing.T) {
 	if err != nil {
 		t.Fatalf("listSlashes failed: %v", err)
 	}
+	if len(slashes) != 1 {
+		t.Fatalf("expected 1 slash, got %d", len(slashes))
+	}
+	if slashes[0].Slash != "/no-slash" {
+		t.Errorf("slash = %q, want /no-slash", slashes[0].Slash)
+	}
+}
+
+func TestListSlashesExcludesUsingGpowers(t *testing.T) {
+	tmp := t.TempDir()
+	if err := os.MkdirAll(filepath.Join(tmp, "core", "skills", "using-gpowers"), 0755); err != nil {
+		t.Fatalf("MkdirAll failed: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(tmp, "core", "skills", "using-gpowers", "SKILL.md"), []byte(
+		"---\nname: using-gpowers\n---\nbody"), 0644); err != nil {
+		t.Fatalf("WriteFile failed: %v", err)
+	}
+
+	slashes, err := listSlashes(tmp)
+	if err != nil {
+		t.Fatalf("listSlashes failed: %v", err)
+	}
 	if len(slashes) != 0 {
-		t.Fatalf("expected 0 slashes, got %d", len(slashes))
+		t.Fatalf("expected 0 slashes for using-gpowers, got %d", len(slashes))
 	}
 }
 

@@ -31,7 +31,7 @@ func TestGeneratePlatformManifest(t *testing.T) {
 	os.MkdirAll(filepath.Join(tmp, "platforms"), 0755)
 	os.MkdirAll(filepath.Join(tmp, "core", "hooks"), 0755)
 	os.WriteFile(filepath.Join(tmp, "core", "hooks", "hooks.json"), []byte("{}"), 0644)
-	shapes := `{"platforms":{"claude-code":{"manifest_filename":"plugin.json","command_dir":"commands","command_filename_pattern":"{slash}.md","supports_hooks":true,"namespace_mode":"plugin-scoped","install_link_target":"~/.claude/plugins/gpowers"}}}`
+	shapes := `{"platforms":{"claude-code":{"manifest_filename":".claude-plugin/plugin.json","command_dir":"commands","command_filename_pattern":"{slash}.md","supports_hooks":true,"namespace_mode":"plugin-scoped","install_link_target":"~/.claude/plugins/gpowers"}}}`
 	os.WriteFile(filepath.Join(tmp, "platforms", "_platform-shapes.json"), []byte(shapes), 0644)
 
 	err := generatePlatformManifest("claude-code", tmp, []string{"core", "roles", "tools"})
@@ -39,7 +39,7 @@ func TestGeneratePlatformManifest(t *testing.T) {
 		t.Fatalf("generatePlatformManifest failed: %v", err)
 	}
 
-	if _, err := os.Stat(filepath.Join(tmp, "platforms", "claude-code", "plugin.json")); err != nil {
+	if _, err := os.Stat(filepath.Join(tmp, "platforms", "claude-code", ".claude-plugin", "plugin.json")); err != nil {
 		t.Errorf("plugin.json not generated")
 	}
 	if _, err := os.Stat(filepath.Join(tmp, "platforms", "claude-code", "hooks.json")); err != nil {

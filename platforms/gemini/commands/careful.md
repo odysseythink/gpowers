@@ -1,8 +1,5 @@
 ---
-slash: /careful
-module: tools
-skill: careful
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/careful/SKILL.md -->

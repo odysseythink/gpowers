@@ -1,8 +1,5 @@
 ---
-slash: /learn
-module: roles
-skill: learn
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/learn/SKILL.md -->

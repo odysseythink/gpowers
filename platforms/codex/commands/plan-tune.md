@@ -1,8 +1,5 @@
 ---
-slash: /plan-tune
-module: roles
-skill: plan-tune
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/plan-tune/SKILL.md -->

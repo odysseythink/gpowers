@@ -1,8 +1,5 @@
 ---
-slash: /context-save
-module: tools
-skill: context-save
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/context-save/SKILL.md -->

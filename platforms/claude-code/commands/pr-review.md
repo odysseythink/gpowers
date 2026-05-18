@@ -1,8 +1,5 @@
 ---
-slash: /pr-review
-module: roles
-skill: pr-review
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/pr-review/SKILL.md -->

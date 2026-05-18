@@ -1,8 +1,5 @@
 ---
-slash: /sync-gbrain
-module: tools
-skill: sync-gbrain
-requires_driver: browser
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/sync-gbrain/SKILL.md -->

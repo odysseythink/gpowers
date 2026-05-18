@@ -1,8 +1,5 @@
 ---
-slash: /office-hours
-module: roles
-skill: office-hours
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/office-hours/SKILL.md -->

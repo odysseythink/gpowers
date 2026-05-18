@@ -1,8 +1,5 @@
 ---
-slash: /cso
-module: roles
-skill: cso
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/cso/SKILL.md -->

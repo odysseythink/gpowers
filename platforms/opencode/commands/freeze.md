@@ -1,8 +1,5 @@
 ---
-slash: /freeze
-module: tools
-skill: freeze
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/freeze/SKILL.md -->

@@ -1,8 +1,5 @@
 ---
-slash: /setup-gbrain
-module: tools
-skill: setup-gbrain
-requires_driver: browser
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/setup-gbrain/SKILL.md -->

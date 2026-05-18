@@ -1,8 +1,5 @@
 ---
-slash: /investigate
-module: roles
-skill: investigate
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/investigate/SKILL.md -->

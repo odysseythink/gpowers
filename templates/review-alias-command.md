@@ -1,11 +1,8 @@
 ---
-slash: /review
-module: roles
-skill: pr-review
-deprecated: true
-deprecation_until: "2026-11-14"
-forwards_to: /pr-review
+description: "Deprecated alias for /pr-review. Forwards to /pr-review."
 ---
+
+<!-- SOURCE: $GPOWERS_HOME/roles/skills/pr-review/SKILL.md -->
 
 <!-- gpowers deprecation alias -->
 

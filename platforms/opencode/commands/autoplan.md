@@ -1,8 +1,5 @@
 ---
-slash: /autoplan
-module: roles
-skill: autoplan
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/autoplan/SKILL.md -->

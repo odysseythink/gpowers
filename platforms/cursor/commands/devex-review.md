@@ -1,8 +1,5 @@
 ---
-slash: /devex-review
-module: roles
-skill: devex-review
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/roles/skills/devex-review/SKILL.md -->

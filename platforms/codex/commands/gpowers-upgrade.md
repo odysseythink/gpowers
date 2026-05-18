@@ -1,8 +1,5 @@
 ---
-slash: /gpowers-upgrade
-module: tools
-skill: gpowers-upgrade
-requires_driver: none
+description: "Pull upstream changes for any gpowers module (core / roles / tools / business) — git subtree mechanics, transform re-application, test re-run, platform manifest refresh."
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/gpowers-upgrade/SKILL.md -->
