@@ -11,7 +11,7 @@ check_one() {
   url=$(jq -r --arg m "$module" '.modules[$m].url' < "$SOURCES")
   ref=$(jq -r --arg m "$module" '.modules[$m].ref' < "$SOURCES")
   local_sha=$(jq -r '.upstream.sha' < "$GPOWERS_HOME/$module/upstream-source.json")
-  remote_sha=$(git ls-remote "$url" "$ref" 2>/dev/null | awk '{print $1}' | head -1)
+  remote_sha=$(git ls-remote "$url" "$ref" 2>/dev/null | awk '{print $1}' | head -1) || true
 
   if [ -z "$remote_sha" ]; then
     printf '%-10s %-42s %s\n' "$module" "(unreachable)" "$url"
@@ -26,5 +26,5 @@ check_one() {
 if [ $# -ge 1 ]; then
   check_one "$1"
 else
-  for m in core roles tools business; do check_one "$m"; done
+  for m in core roles tools; do check_one "$m"; done
 fi

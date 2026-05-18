@@ -8,8 +8,10 @@ setup() {
   cd "$TMP/gp"
   rm -rf .git
   git init -q
+  git config user.email "t@t"
+  git config user.name "t"
   git add -A
-  git -c user.email=t@t -c user.name=t commit -q -m initial
+  git commit -q -m initial
   export GPOWERS_HOME="$TMP/gp"
   export PATH="$GPOWERS_HOME/bin:$PATH"
 

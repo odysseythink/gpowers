@@ -5,7 +5,7 @@ setup() { F="$BATS_TEST_DIRNAME/../../../upstream-sources.json"; }
 @test "upstream-sources.json is valid JSON" { jq empty < "$F"; }
 
 @test "every module has a remote entry" {
-  for m in core roles tools business; do
+  for m in core roles tools; do
     jq -e ".modules.\"$m\".repo" < "$F" >/dev/null
     jq -e ".modules.\"$m\".ref"  < "$F" >/dev/null
   done
@@ -16,7 +16,7 @@ setup() { F="$BATS_TEST_DIRNAME/../../../upstream-sources.json"; }
 }
 
 @test "roles tools business upstream is gstack" {
-  for m in roles tools business; do
+  for m in roles tools; do
     [ "$(jq -r ".modules.\"$m\".repo" < "$F")" = "github.com/garrytan/gstack" ]
   done
 }

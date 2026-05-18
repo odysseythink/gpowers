@@ -22,12 +22,12 @@ while [ $# -gt 0 ]; do
     --resume)  RESUME=true; shift;;
     -h|--help) sed -n '4,12p' "$0"; exit 0;;
     --*)       echo "Unknown flag: $1" >&2; exit 2;;
-    core|roles|tools|business) MODULES+=("$1"); shift;;
+    core|roles|tools) MODULES+=("$1"); shift;;
     *)         echo "Unknown module: $1" >&2; exit 2;;
   esac
 done
 
-[ "${#MODULES[@]}" -gt 0 ] || MODULES=(core roles tools business)
+[ "${#MODULES[@]}" -gt 0 ] || MODULES=(core roles tools)
 
 if $RESUME; then
   exec "$GPOWERS_HOME/bin/_gpowers-upgrade-resume.sh"

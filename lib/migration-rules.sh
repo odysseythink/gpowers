@@ -1,3 +1,4 @@
+#!/bin/bash
 # Source me. Defines the migration map.
 # Each rule is: <type>|<src-pattern>|<dst-template>|<comment>
 # type: file | dir | project-glob | worktree-glob

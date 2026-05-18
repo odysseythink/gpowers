@@ -8,7 +8,7 @@ setup() {
 
 @test "no args = upgrade all (dry-run shows plan)" {
   out=$(gpowers-upgrade --dry-run)
-  for m in core roles tools business; do
+  for m in core roles tools; do
     echo "$out" | grep -q "$m" || { echo "missing $m"; return 1; }
   done
 }
@@ -16,13 +16,13 @@ setup() {
 @test "named module narrows scope" {
   out=$(gpowers-upgrade tools --dry-run)
   echo "$out" | grep -q "tools"
-  ! echo "$out" | grep -q "core\|roles\|business"
+  ! echo "$out" | grep -q "core\|roles"
 }
 
 @test "--check delegates without modifying" {
   out=$(gpowers-upgrade --check 2>&1 || true)
   # Output must look like a table; we accept whatever ls-remote returns
-  echo "$out" | grep -qE 'core|tools|roles|business'
+  echo "$out" | grep -qE 'core|roles|tools'
 }
 
 @test "unknown module exits 2" {

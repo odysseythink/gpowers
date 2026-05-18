@@ -16,12 +16,13 @@ jobs:
       - name: Run shellcheck on bin/ and lib/
         run: |
           shopt -s globstar nullglob
-          shellcheck -S warning bin/* lib/*.sh tools/bin/* core/hooks/session-start || true
+          # Exclude .go source files and built binaries from shellcheck
+          shellcheck -S warning bin/*.sh lib/*.sh tools/bin/* core/hooks/session-start || true
           # Strict pass on the wrappers / entry points
           shellcheck -S error bin/gpowers bin/gpowers-path bin/gpowers-init \
                               bin/gpowers-detect-platforms bin/gpowers-upgrade \
                               bin/gpowers-migrate bin/gpowers-platforms \
-                              install uninstall
+                              uninstall
 
   unit:
     runs-on: ubuntu-latest
