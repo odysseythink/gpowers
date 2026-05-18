@@ -26,7 +26,12 @@ setup() {
   rm -rf tools
   git add -A
   git -c user.email=t@t -c user.name=t commit -q -m "remove tools for subtree" || true
-  git subtree add --prefix=tools "file://$BARE" main --squash -q -m "add tools subtree"
+  if ! git subtree add --prefix=tools "file://$BARE" main --squash -m "add tools subtree" 2>&1; then
+    echo "git subtree add failed" >&2
+    git --version >&2
+    git log --oneline -3 >&2 || true
+    exit 1
+  fi
   cp tools.bak/_upgrade-transform.sh tools/
   cp tools.bak/upstream-source.json tools/
   rm -rf tools.bak

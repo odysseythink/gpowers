@@ -23,15 +23,20 @@ fi
 
 echo "[upgrade:$MODULE] pulling $URL@$REF into $PREFIX/"
 if ! git subtree pull --prefix="$PREFIX" "$URL" "$REF" --squash \
-     -m "upgrade($MODULE): pull $URL@$REF"; then
+     -m "upgrade($MODULE): pull $URL@$REF" 2>&1; then
   echo "[upgrade:$MODULE] subtree pull failed (likely conflict)" >&2
   git status >&2
+  git --version >&2
   echo "Run \`gpowers upgrade --resume\` after resolving conflicts." >&2
   exit 5
 fi
 
 # Capture new SHA from FETCH_HEAD
-NEW_SHA=$(git rev-parse FETCH_HEAD 2>/dev/null || git ls-remote "$URL" "$REF" | awk '{print $1}')
+NEW_SHA=$(git rev-parse FETCH_HEAD 2>/dev/null || git ls-remote "$URL" "$REF" 2>/dev/null | awk '{print $1}' | head -1)
+if [ -z "$NEW_SHA" ]; then
+  echo "[upgrade:$MODULE] unable to determine new SHA" >&2
+  exit 6
+fi
 
 # Re-apply transform
 echo "[upgrade:$MODULE] applying transform: $TRANSFORM"

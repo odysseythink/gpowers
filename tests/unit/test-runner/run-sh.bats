@@ -9,6 +9,11 @@ setup() { REPO="$BATS_TEST_DIRNAME/../../.."; }
 
 @test "run.sh integration completes without error" {
   run bash "$REPO/tests/run.sh" integration
+  if [ "$status" -ne 0 ]; then
+    echo "--- integration output ---"
+    echo "$output"
+    echo "--- end integration output ---"
+  fi
   [ "$status" -eq 0 ]
 }
 
