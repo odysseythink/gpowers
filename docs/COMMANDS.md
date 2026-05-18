@@ -56,24 +56,12 @@ Use during coding:
 - `/fewer-permission-prompts` — allow-list configuration (tools)
 - `/setup-deploy`, `/setup-browser-cookies`, `/setup-gbrain` — one-time setup (tools)
 - `/sync-gbrain` — periodic sync (tools, browser)
-- `/aidesigner`, `/aidesigner-frontend` — AIDesigner integration (tools, browser)
 - `/make-pdf` — document → PDF (tools)
 - `/benchmark-models` — AI model baselines (tools)
 - `/open-gstack-browser` — launch managed Chromium (tools, browser)
 - `/pair-agent` — cross-agent shared browser (roles, browser; degraded on non-CC)
 - `/plan-tune` — adjust sensitivity / developer profile (roles)
 - `/gpowers-upgrade` — self-upgrade (tools)
-
-## Business (opt-in)
-
-Installed only with `--with-business`. See [the disclaimer](../business/DISCLAIMER.md).
-
-- `/money` (router) — entry point for the 19 sub-skills
-- `/money-discover`, `/money-product`, `/money-strategy` — strategy
-- `/money-content`, `/money-ads`, `/money-social`, `/money-seo`, `/money-outreach` — channels
-- `/money-ops`, `/money-finance` — operations
-- `/sell-the-outcome`, `/pain-archaeology`, `/contrarian-timing`, `/acquire-retain`, `/mvp-first` — frameworks
-- `/idea-generator`, `/idea-evaluator`, `/compounding-filter`, `/jtbd-mapping` — ideation
 
 ## Generated reference
 
@@ -82,9 +70,6 @@ The complete list, including each command's source skill:
 <!-- gpowers:generated:begin kind=commands -->
 | Slash | Module | Skill | Notes |
 |---|---|---|---|
-| `/acquire-retain` | business | acquire-retain |  |
-| `/aidesigner` | tools | aidesigner | requires browser driver |
-| `/aidesigner-frontend` | tools | aidesigner-frontend | requires browser driver |
 | `/autoplan` | roles | autoplan |  |
 | `/benchmark` | tools | benchmark | requires browser driver |
 | `/benchmark-models` | tools | benchmark-models |  |
@@ -92,10 +77,8 @@ The complete list, including each command's source skill:
 | `/canary` | tools | canary | requires browser driver |
 | `/careful` | tools | careful |  |
 | `/codex` | roles | codex |  |
-| `/compounding-filter` | business | compounding-filter |  |
 | `/context-restore` | tools | context-restore |  |
 | `/context-save` | tools | context-save |  |
-| `/contrarian-timing` | business | contrarian-timing |  |
 | `/cso` | roles | cso |  |
 | `/design-consultation` | roles | design-consultation |  |
 | `/design-html` | roles | design-html |  |
@@ -109,29 +92,13 @@ The complete list, including each command's source skill:
 | `/gpowers-upgrade` | tools | gpowers-upgrade |  |
 | `/guard` | tools | guard |  |
 | `/health` | tools | health |  |
-| `/idea-evaluator` | business | idea-evaluator |  |
-| `/idea-generator` | business | idea-generator |  |
 | `/investigate` | roles | investigate |  |
-| `/jtbd-mapping` | business | jtbd-mapping |  |
 | `/land-and-deploy` | tools | land-and-deploy |  |
 | `/landing-report` | tools | landing-report |  |
 | `/learn` | roles | learn |  |
 | `/make-pdf` | tools | make-pdf |  |
-| `/money` | business | money |  |
-| `/money-ads` | business | money-ads |  |
-| `/money-content` | business | money-content |  |
-| `/money-discover` | business | money-discover |  |
-| `/money-finance` | business | money-finance |  |
-| `/money-ops` | business | money-ops |  |
-| `/money-outreach` | business | money-outreach |  |
-| `/money-product` | business | money-product |  |
-| `/money-seo` | business | money-seo |  |
-| `/money-social` | business | money-social |  |
-| `/money-strategy` | business | money-strategy |  |
-| `/mvp-first` | business | mvp-first |  |
 | `/office-hours` | roles | office-hours |  |
 | `/open-gstack-browser` | tools | open-gstack-browser | requires browser driver |
-| `/pain-archaeology` | business | pain-archaeology |  |
 | `/pair-agent` | roles | pair-agent |  |
 | `/plan-ceo-review` | roles | plan-ceo-review |  |
 | `/plan-design-review` | roles | plan-design-review |  |
@@ -142,7 +109,6 @@ The complete list, including each command's source skill:
 | `/qa` | tools | qa | requires browser driver |
 | `/qa-only` | tools | qa-only | requires browser driver |
 | `/retro` | roles | retro |  |
-| `/sell-the-outcome` | business | sell-the-outcome |  |
 | `/setup-browser-cookies` | tools | setup-browser-cookies | requires browser driver |
 | `/setup-deploy` | tools | setup-deploy |  |
 | `/setup-gbrain` | tools | setup-gbrain | requires browser driver |
