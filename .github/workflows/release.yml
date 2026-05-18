@@ -35,6 +35,12 @@ jobs:
         with:
           distribution: goreleaser
           version: '~> v2'
-          args: release --clean
+          args: release --clean --verbose
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Show GoReleaser logs on failure
+        if: failure()
+        run: |
+          echo "=== GoReleaser failure ==="
+          cat dist/*.json 2>/dev/null || true
+          ls -la dist/ 2>/dev/null || true
