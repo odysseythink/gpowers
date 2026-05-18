@@ -49,30 +49,6 @@ func TestStageFilesCopy(t *testing.T) {
 	}
 }
 
-func TestStageFilesWithBusiness(t *testing.T) {
-	tmp := t.TempDir()
-	src := filepath.Join(tmp, "src")
-	dst := filepath.Join(tmp, "dst")
-	if err := os.MkdirAll(filepath.Join(src, "core"), 0755); err != nil {
-		t.Fatalf("MkdirAll failed: %v", err)
-	}
-	if err := os.MkdirAll(filepath.Join(src, "business"), 0755); err != nil {
-		t.Fatalf("MkdirAll failed: %v", err)
-	}
-	if err := os.WriteFile(filepath.Join(src, "manifest.json"), []byte("{}"), 0644); err != nil {
-		t.Fatalf("WriteFile manifest.json failed: %v", err)
-	}
-
-	err := stageFiles(src, dst, []string{"core", "business"}, false)
-	if err != nil {
-		t.Fatalf("stageFiles failed: %v", err)
-	}
-
-	if _, err := os.Stat(filepath.Join(dst, "business")); err != nil {
-		t.Fatalf("business directory was not staged: %v", err)
-	}
-}
-
 func TestStageFilesSelfFileProtection(t *testing.T) {
 	tmp := t.TempDir()
 	src := filepath.Join(tmp, "src")

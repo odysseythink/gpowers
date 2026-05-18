@@ -27,7 +27,7 @@ func generateKimiAdapters(gpowersHome string) error {
 	routerPath := filepath.Join(adaptersDir, "gpowers", "SKILL.md")
 	routerContent := fmt.Sprintf(`---
 name: gpowers
-description: gpowers entry — four-module model (core / roles / tools / business)
+description: gpowers entry — three-module model (core / roles / tools)
 gpowers-source: core/skills/using-gpowers/SKILL.md
 ---
 

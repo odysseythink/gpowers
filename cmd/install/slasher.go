@@ -83,7 +83,7 @@ func parseFrontmatter(content string) map[string]string {
 
 func listSlashes(gpowersHome string) ([]SlashInfo, error) {
 	var slashes []SlashInfo
-	for _, mod := range []string{"core", "roles", "tools", "business"} {
+	for _, mod := range []string{"core", "roles", "tools"} {
 		dir := filepath.Join(gpowersHome, mod, "skills")
 		entries, err := os.ReadDir(dir)
 		if err != nil {

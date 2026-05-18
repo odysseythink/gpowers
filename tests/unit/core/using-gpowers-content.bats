@@ -8,8 +8,8 @@ setup() {
   [ -f "$SKILL" ]
 }
 
-@test "using-gpowers names all four modules" {
-  for mod in core roles tools business; do
+@test "using-gpowers names all three modules" {
+  for mod in core roles tools; do
     grep -qw "$mod" "$SKILL" || { echo "module missing: $mod"; return 1; }
   done
 }
@@ -20,7 +20,7 @@ setup() {
 }
 
 @test "using-gpowers teaches namespace tags" {
-  for tag in "(core)" "(roles)" "(tools)" "(business)"; do
+  for tag in "(core)" "(roles)" "(tools)"; do
     grep -qF "$tag" "$SKILL" || { echo "tag missing: $tag"; return 1; }
   done
 }

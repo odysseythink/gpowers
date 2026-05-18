@@ -10,11 +10,12 @@ case "$kind" in
   skills)
     printf '| Module | Skill | Description |\n'
     printf '|---|---|---|\n'
-    for module in core roles tools business; do
+    for module in core roles tools; do
       dir="$GPOWERS_HOME/$module/skills"
       [ -d "$dir" ] || continue
       for s in "$dir"/*/; do
         [ -d "$s" ] || continue
+        [ -f "$s/SKILL.md" ] || continue
         name=$(basename "$s")
         desc=$(awk -F': ' '/^description:/ {sub(/^description: /, ""); print; exit}' "$s/SKILL.md" \
                | tr '|' '/' | cut -c1-120)

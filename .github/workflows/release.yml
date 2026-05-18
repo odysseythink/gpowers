@@ -22,7 +22,7 @@ jobs:
       - name: Build binaries
         run: |
           go build -o install ./cmd/install
-          cd tools/skills/browse-go && go build -o ../../bin/_gpowers-rewrite-browser ./cmd/browse
+          cd tools/skills/browse-go && go build -o ../../../bin/_gpowers-rewrite-browser ./cmd/browse
 
       - name: Install deps
         run: sudo apt-get update && sudo apt-get install -y bats jq python3 rsync git shellcheck

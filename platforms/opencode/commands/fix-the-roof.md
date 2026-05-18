@@ -1,8 +1,5 @@
 ---
-slash: /fix-the-roof
-module: tools
-skill: fix-the-roof
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/fix-the-roof/SKILL.md -->

@@ -14,11 +14,10 @@ setup() {
   [ "$fields" -ge 4 ]
 }
 
-@test "output has rows for tools, roles, business skills" {
+@test "output has rows for tools and roles skills" {
   out=$("$HELPER")
   echo "$out" | awk -F'\t' '{print $2}' | grep -q "^tools$"
   echo "$out" | awk -F'\t' '{print $2}' | grep -q "^roles$"
-  echo "$out" | awk -F'\t' '{print $2}' | grep -q "^business$"
 }
 
 @test "design-review row has requires_driver = browser" {

@@ -39,7 +39,7 @@ awk -v tag="$TAG" '
     gsub(/\$\{GSTACK_HOME:-\$HOME\/\.gstack\}/, "$(gpowers-path home)")
     gsub(/GSTACK_HOME/, "GPOWERS_HOME")
     # project-local .gstack/ and .gpowers/ → $(gpowers-path project)/
-    # Named subdirs first so catch-all doesn't obscure them
+    # Named subdirs first so catch-all does not obscure them
     gsub(/\.gstack\/qa-reports/, "$(gpowers-path project)/evals")
     gsub(/\.gstack\/canary-reports/, "$(gpowers-path project)/canary")
     gsub(/\.gstack\/benchmark-reports/, "$(gpowers-path project)/benchmark")

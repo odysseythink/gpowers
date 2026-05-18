@@ -1,8 +1,5 @@
 ---
-slash: /fewer-permission-prompts
-module: tools
-skill: fewer-permission-prompts
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/fewer-permission-prompts/SKILL.md -->

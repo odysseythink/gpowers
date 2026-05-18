@@ -3,7 +3,7 @@
 set -euo pipefail
 : "${GPOWERS_HOME:?GPOWERS_HOME required}"
 
-for module in core roles tools business; do
+for module in core roles tools; do
   dir="$GPOWERS_HOME/$module/skills"
   [ -d "$dir" ] || continue
   for skill in "$dir"/*/; do

@@ -24,10 +24,10 @@ INSTALL="${BATS_TEST_DIRNAME}/../../install"
   [[ "$output" != *"business"* ]]
 }
 
-@test "install --dry-run --with-business includes business" {
+@test "install --dry-run --with-business is rejected or no-op" {
   run "$INSTALL" --dry-run --with-business
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"business"* ]]
+  # business module removed; flag no longer exists
+  [ "$status" -eq 2 ]
 }
 
 @test "install --dry-run --no-tools skips tools" {
@@ -105,19 +105,6 @@ INSTALL="${BATS_TEST_DIRNAME}/../../install"
   [ "$status" -eq 0 ]
   modules="$(jq -r '.installed_modules | join(",")' "$HOME/.gpowers/manifest.json")"
   [ "$modules" = "core" ]
-  rm -rf "$HOME"
-}
-
-@test "real install with --with-business records business in manifest" {
-  cd "${BATS_TEST_DIRNAME}/../.."
-  REPO="$(pwd)"
-  HOME="${BATS_TMPDIR}/fakehome-biz-$$"
-  mkdir -p "$HOME/.claude"
-  export HOME
-  run "$REPO/install" --with-business
-  [ "$status" -eq 0 ]
-  modules="$(jq -r '.installed_modules | join(",")' "$HOME/.gpowers/manifest.json")"
-  [[ "$modules" == *"business"* ]]
   rm -rf "$HOME"
 }
 

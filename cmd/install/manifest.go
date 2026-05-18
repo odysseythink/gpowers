@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var allModules = []string{"core", "roles", "tools", "business"}
+var allModules = []string{"core", "roles", "tools"}
 
 // updateManifest updates the manifest file at manifestPath with the given
 // install location and modules, setting installed_at to the current time.

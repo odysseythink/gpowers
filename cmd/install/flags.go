@@ -9,7 +9,6 @@ import (
 
 type Options struct {
 	CoreOnly       bool
-	WithBusiness   bool
 	NoTools        bool
 	NoRoles        bool
 	Platforms      string
@@ -24,7 +23,6 @@ type Options struct {
 func ParseFlags() Options {
 	var opts Options
 	flag.BoolVar(&opts.CoreOnly, "core-only", false, "install only core/")
-	flag.BoolVar(&opts.WithBusiness, "with-business", false, "include business/ module")
 	flag.BoolVar(&opts.NoTools, "no-tools", false, "skip tools/ module")
 	flag.BoolVar(&opts.NoRoles, "no-roles", false, "skip roles/ module")
 	flag.StringVar(&opts.Platforms, "platforms", "", "comma-separated platform list (default: auto-detect)")
@@ -52,9 +50,6 @@ func (o Options) Modules() []string {
 	}
 	if !o.NoTools {
 		mods = append(mods, "tools")
-	}
-	if o.WithBusiness {
-		mods = append(mods, "business")
 	}
 	return mods
 }

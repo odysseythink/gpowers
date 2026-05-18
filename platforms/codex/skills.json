@@ -63,7 +63,7 @@
     {
       "name": "using-gpowers",
       "module": "core",
-      "description": "Entry skill — establishes the four-module model (core/roles/tools/business) and dual-track triggering. Invoked automatically at session start on supported platforms.",
+      "description": "Entry skill — establishes the three-module model (core/roles/tools) and dual-track triggering. Invoked automatically at session start on supported platforms.",
       "path": "core/skills/using-gpowers/SKILL.md"
     },
     {
@@ -247,6 +247,18 @@
       "path": "tools/skills/context-save/SKILL.md"
     },
     {
+      "name": "fewer-permission-prompts",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/fewer-permission-prompts/SKILL.md"
+    },
+    {
+      "name": "fix-the-roof",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/fix-the-roof/SKILL.md"
+    },
+    {
       "name": "freeze",
       "module": "tools",
       "description": "|",
@@ -329,6 +341,12 @@
       "module": "tools",
       "description": "|",
       "path": "tools/skills/ship/SKILL.md"
+    },
+    {
+      "name": "simplify",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/simplify/SKILL.md"
     },
     {
       "name": "sync-gbrain",

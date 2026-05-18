@@ -15,7 +15,7 @@ func TestOptionsModules(t *testing.T) {
 		{"core-only", Options{CoreOnly: true}, []string{"core"}},
 		{"no-tools", Options{NoTools: true}, []string{"core", "roles"}},
 		{"no-roles", Options{NoRoles: true}, []string{"core", "tools"}},
-		{"with-business", Options{WithBusiness: true}, []string{"core", "roles", "tools", "business"}},
+
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {

@@ -14,10 +14,6 @@ func stageFiles(sourceDir, targetDir string, modules []string, linkMode bool) er
 		"manifest.json", "upstream-sources.json", "install", "uninstall",
 		"README.md", "LICENSE",
 	}
-	if contains(modules, "business") {
-		entries = append(entries, "business")
-	}
-
 	installName := "install"
 	if runtime.GOOS == "windows" {
 		installName = "install.exe"

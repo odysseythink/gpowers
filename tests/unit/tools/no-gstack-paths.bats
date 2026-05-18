@@ -6,6 +6,7 @@ setup() {
 
 @test "no literal '~/.gstack/' in tool skill bodies" {
   for dir in "$TOOLS"/*/; do
+    [ -f "$dir/SKILL.md" ] || continue
     name=$(basename "$dir")
     body=$(awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$dir/SKILL.md")
     if echo "$body" | grep -q "~/\.gstack/"; then
@@ -17,6 +18,7 @@ setup() {
 
 @test "no 'gstack-' CLI references in tool skill bodies" {
   for dir in "$TOOLS"/*/; do
+    [ -f "$dir/SKILL.md" ] || continue
     name=$(basename "$dir")
     body=$(awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$dir/SKILL.md")
     if echo "$body" | grep -qE '\bgstack-[a-z]'; then
@@ -30,6 +32,7 @@ setup() {
   # Any skill that previously had a path now uses gpowers-path
   found=0
   for dir in "$TOOLS"/*/; do
+    [ -f "$dir/SKILL.md" ] || continue
     body=$(awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$dir/SKILL.md")
     if echo "$body" | grep -q "gpowers-path"; then found=$((found+1)); fi
   done

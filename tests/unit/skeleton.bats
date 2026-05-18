@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 @test "repo has all top-level module placeholders" {
-  for dir in core roles tools business platforms; do
+  for dir in core roles tools platforms; do
     [ -e "${BATS_TEST_DIRNAME}/../../${dir}/.placeholder" ]
   done
 }

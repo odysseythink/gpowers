@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -49,13 +47,6 @@ func run() error {
 
 	if opts.DryRun {
 		return nil
-	}
-
-	if opts.WithBusiness && !opts.NonInteractive {
-		if err := promptBusiness(&opts, sourceDir); err != nil {
-			return err
-		}
-		modules = opts.Modules()
 	}
 
 	if err := os.MkdirAll(opts.Location, 0755); err != nil {
@@ -127,33 +118,7 @@ func printPlan(opts Options, platforms []string) {
 	if opts.Link {
 		fmt.Printf("[plan] mode: symlink (dev)\n")
 	}
-}
-
-func promptBusiness(opts *Options, sourceDir string) error {
-	// Business disclaimer is optional; skip prompt if file missing
-	disclaimerPath := filepath.Join(sourceDir, "business", "DISCLAIMER.md")
-	data, err := os.ReadFile(disclaimerPath)
-	if err != nil {
-		if errors.Is(err, os.ErrNotExist) {
-			return nil
-		}
-		return fmt.Errorf("read disclaimer: %w", err)
-	}
-	fmt.Println("============================================================")
-	fmt.Print(string(data))
-	fmt.Println("============================================================")
-	fmt.Print("Activate the business/ module? [y/N] ")
-	reader := bufio.NewReader(os.Stdin)
-	ans, err := reader.ReadString('\n')
-	if err != nil {
-		return fmt.Errorf("read prompt: %w", err)
-	}
-	ans = strings.TrimSpace(strings.ToLower(ans))
-	if ans != "y" && ans != "yes" {
-		fmt.Println("[plan] Skipping business activation.")
-		opts.WithBusiness = false
-	}
-	return nil
+	fmt.Printf("[plan] will generate platform manifests and register platforms\n")
 }
 
 func createRuntimeDirs(location string) error {

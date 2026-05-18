@@ -1,8 +1,5 @@
 ---
-slash: /simplify
-module: tools
-skill: simplify
-requires_driver: none
+description: "|"
 ---
 
 <!-- SOURCE: $GPOWERS_HOME/tools/skills/simplify/SKILL.md -->

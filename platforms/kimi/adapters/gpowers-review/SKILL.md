@@ -5,9 +5,10 @@ skill: pr-review
 deprecated: true
 deprecation_until: "2026-11-14"
 forwards_to: /pr-review
+gpowers-source: roles/skills/pr-review/SKILL.md
 ---
 
-<!-- gpowers deprecation alias -->
+<!-- gpowers deprecation alias — part of the four-module model -->
 
 **Note**: `/review` was renamed to `/pr-review` to avoid conceptual collision with the methodology skill `requesting-code-review` (core). The renamed command is at `/pr-review`. This alias forwards to `/pr-review` for a 6-month window ending **2026-11-14**.
 

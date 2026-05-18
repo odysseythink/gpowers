@@ -12,9 +12,9 @@ setup() {
   [ -n "$output" ]
 }
 
-@test "session-start output names the 4 modules" {
+@test "session-start output names the 3 modules" {
   out=$("$GPOWERS_HOME/core/hooks/session-start" claude-code)
-  for mod in core roles tools business; do
+  for mod in core roles tools; do
     echo "$out" | grep -qw "$mod" || { echo "missing module: $mod"; return 1; }
   done
 }

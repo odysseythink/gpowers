@@ -27,7 +27,7 @@ setup() {
 
 @test "kimi adapters count matches total non-core skill count" {
   total=$(find "$GPOWERS_HOME/roles/skills" "$GPOWERS_HOME/tools/skills" \
-               "$GPOWERS_HOME/business/skills" -name SKILL.md 2>/dev/null | wc -l)
+               -name SKILL.md 2>/dev/null | wc -l)
   # Plus core skills minus using-gpowers, plus 1 router 'gpowers'
   core_count=$(find "$GPOWERS_HOME/core/skills" -name SKILL.md 2>/dev/null | wc -l)
   expected=$(( total + core_count + 1 ))   # +1 for gpowers-review deprecation alias

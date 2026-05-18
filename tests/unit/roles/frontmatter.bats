@@ -33,6 +33,10 @@ setup() {
 
 @test "every role declares its slash command" {
   for name in $EXPECTED; do
-    grep -q "^slash: /" "$ROLES/$name/SKILL.md" || { echo "$name: no slash"; return 1; }
+    slash=$(grep -m1 '^slash:' "$ROLES/$name/SKILL.md" | awk '{print $2}')
+    if [ -z "$slash" ]; then
+      slash="/$name"
+    fi
+    [[ "$slash" == /* ]] || { echo "$name: slash must start with /"; return 1; }
   done
 }

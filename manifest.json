@@ -14,8 +14,8 @@
       "installed": true,
       "skill_count_non_browser": 17,
       "upstream": "gstack@main",
-      "skill_count_browser": 11,
-      "skill_count_total": 28
+      "skill_count_browser": 9,
+      "skill_count_total": 26
     },
     "roles": {
       "installed": true,
@@ -25,10 +25,10 @@
       "upstream": "gstack@main"
     },
     "business": {
-      "available": true,
-      "opt_in": true,
-      "skill_count": 20,
-      "upstream": "gstack@main"
+      "available": false,
+      "opt_in": false,
+      "skill_count": 0,
+      "upstream": null
     }
   },
   "drivers": {
@@ -59,7 +59,6 @@
       "core",
       "roles",
       "tools",
-      "business",
       "--check",
       "--resume",
       "--dry-run"

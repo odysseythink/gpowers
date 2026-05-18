@@ -86,7 +86,7 @@ func generatePlatformManifest(platform, gpowersHome string, modules []string) er
 		"$schema":     "https://gpowers.dev/schemas/plugin.json",
 		"name":        "gpowers",
 		"version":     "1.0.0",
-		"description": "gpowers — unified methodology + roles + tools + business automation",
+		"description": "gpowers — unified methodology + roles + tools automation",
 	}
 	data, err := json.MarshalIndent(manifest, "", "  ")
 	if err != nil {
