@@ -8,3 +8,14 @@ state/
 
 # GoReleaser build artifacts
 dist/
+
+# Platform-specific install binaries (built in CI)
+/install
+/install_darwin
+/install_darwin_arm64
+/install_linux
+/install.exe
+
+# browse-go rewriter binary (built in CI)
+bin/_gpowers-rewrite-browser
+bin/_gpowers-rewrite-browser.exe

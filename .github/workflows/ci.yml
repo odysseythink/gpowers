@@ -27,6 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.3'
+      - name: Build binaries
+        run: |
+          go build -o install ./cmd/install
+          cd tools/skills/browse-go && go build -o ../../bin/_gpowers-rewrite-browser ./cmd/browse
       - name: Install bats-core + jq
         run: sudo apt-get update && sudo apt-get install -y bats jq python3 rsync
       - name: Run unit tests
@@ -36,6 +43,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.3'
+      - name: Build binaries
+        run: |
+          go build -o install ./cmd/install
+          cd tools/skills/browse-go && go build -o ../../bin/_gpowers-rewrite-browser ./cmd/browse
       - name: Install deps
         run: sudo apt-get update && sudo apt-get install -y bats jq python3 rsync git
       - name: Run integration tests
@@ -46,6 +60,11 @@ jobs:
     continue-on-error: true   # CLI may not be available on every runner
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.3'
+      - name: Build install binary
+        run: go build -o install ./cmd/install
       - name: Install bats + jq
         run: sudo apt-get update && sudo apt-get install -y bats jq
       - name: Try installing Claude Code CLI
