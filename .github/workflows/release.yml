@@ -30,17 +30,23 @@ jobs:
       - name: Run full test suite (excluding smoke)
         run: ./tests/run.sh all || ./tests/run.sh unit
 
-      - name: Run GoReleaser
+      - name: Install GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: '~> v2'
-          args: release --clean --verbose
+          install-only: true
+      - name: Run GoReleaser
+        run: |
+          goreleaser release --clean --verbose 2>&1 | tee /tmp/goreleaser.log
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Show GoReleaser logs on failure
         if: failure()
         run: |
           echo "=== GoReleaser failure ==="
-          cat dist/*.json 2>/dev/null || true
+          cat /tmp/goreleaser.log 2>/dev/null || true
+          echo "=== dist/ contents ==="
           ls -la dist/ 2>/dev/null || true
+          echo "=== dist/*.json ==="
+          cat dist/*.json 2>/dev/null || true
