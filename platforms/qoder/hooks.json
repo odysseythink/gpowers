@@ -1,0 +1,14 @@
+{
+  "$schema": "https://gpowers.dev/schemas/hooks.json",
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "description": "Inject using-gpowers entry skill on each session",
+      "command": "${GPOWERS_HOME}/core/hooks/session-start qoder",
+      "windows": {
+        "command": "%GPOWERS_HOME%\\core\\hooks\\run-hook.cmd session-start qoder"
+      },
+      "timeout_seconds": 5
+    }
+  ]
+}

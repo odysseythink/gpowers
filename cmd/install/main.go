@@ -68,11 +68,16 @@ func run() error {
 	}
 
 	for _, p := range platforms {
-		if p == "kimi" {
+		switch p {
+		case "kimi":
 			if err := generateKimiAdapters(opts.Location); err != nil {
 				return fmt.Errorf("generate kimi adapters: %w", err)
 			}
-		} else {
+		case "qoder":
+			if err := generateQoderAdapters(opts.Location); err != nil {
+				return fmt.Errorf("generate qoder adapters: %w", err)
+			}
+		default:
 			if err := generatePlatformManifest(p, opts.Location, modules); err != nil {
 				fmt.Fprintf(os.Stderr, "[install] warn: generate platform manifest for %s: %v\n", p, err)
 			}

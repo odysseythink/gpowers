@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # gpowers session-start hook
 # Usage: session-start <platform>
-# Platforms: claude-code | codex | gemini | cursor | opencode | copilot
+# Platforms: claude-code | codex | gemini | cursor | opencode | copilot | qoder
 # Emits the using-gpowers skill content with platform-appropriate framing.
 set -euo pipefail
 
@@ -18,7 +18,7 @@ SKILL_FILE="$GPOWERS_HOME/core/skills/using-gpowers/SKILL.md"
 content=$(awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$SKILL_FILE")
 
 case "$PLATFORM" in
-  claude-code|codex|opencode|copilot)
+  claude-code|codex|opencode|copilot|qoder)
     printf '<EXTREMELY_IMPORTANT>\n%s\n</EXTREMELY_IMPORTANT>\n' "$content"
     ;;
   gemini)

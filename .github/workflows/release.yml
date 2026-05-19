@@ -21,8 +21,9 @@ jobs:
 
       - name: Build binaries
         run: |
-          go build -o install ./cmd/install
-          go build -o bin/_gpowers-rewrite-browser bin/gpowers-rewrite-browser.go
+          make build
+          cp build/install .
+          cp build/_gpowers-rewrite-browser bin/
 
       - name: Install deps
         run: sudo apt-get update && sudo apt-get install -y bats jq python3 rsync git shellcheck

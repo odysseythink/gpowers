@@ -20,6 +20,7 @@ var platformMarkers = map[string]string{
 	"opencode":    "~/.config/opencode",
 	"copilot":     "~/.config/copilot-cli",
 	"kimi":        "~/.kimi",
+	"qoder":       "~/.qoder",
 }
 
 func detectPlatforms() []string {
@@ -197,6 +198,9 @@ func registerPlatform(platform, gpowersHome string, nonInteractive bool) error {
 
 	if platform == "kimi" {
 		return registerKimi(gpowersHome)
+	}
+	if platform == "qoder" {
+		return registerQoder(gpowersHome)
 	}
 
 	target := expandPath(shape.InstallLinkTarget)

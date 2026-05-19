@@ -1,0 +1,6 @@
+{
+  "$schema": "https://gpowers.dev/schemas/plugin.json",
+  "name": "gpowers",
+  "version": "1.0.0",
+  "description": "gpowers — unified methodology + roles + tools automation"
+}
