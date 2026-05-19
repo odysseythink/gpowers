@@ -69,6 +69,9 @@ for module in core roles tools business; do
       }
     ' "$file")
 
+    # Escape inner double quotes for YAML string safety
+    orig_desc=${orig_desc//\"/\\\"}
+
     cat > "$adapter_dir/SKILL.md" <<ADAPTER
 ---
 name: $adapter_name

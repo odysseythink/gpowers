@@ -1,0 +1,367 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]:
+                  - text: Platform
+                  - img [ref=e21]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]:
+                  - text: Solutions
+                  - img [ref=e26]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]:
+                  - text: Resources
+                  - img [ref=e31]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]:
+                  - text: Open Source
+                  - img [ref=e36]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]:
+                  - text: Enterprise
+                  - img [ref=e41]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+                  - generic [ref=e45]: Pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - img [ref=e51]
+            - link "Sign in" [ref=e54] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fodysseythink%2Fgpowers%2Factions%2Fruns%2F26015662953
+            - link "Sign up" [ref=e55] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Factions%2Fworkflow_runs%2Fshow&source=header-repo&source_repo=odysseythink%2Fgpowers
+            - button "Appearance settings" [ref=e58] [cursor=pointer]:
+              - img
+  - main [ref=e62]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e67]:
+            - img [ref=e68]
+            - link "odysseythink" [ref=e71] [cursor=pointer]:
+              - /url: /odysseythink
+            - generic [ref=e72]: /
+            - strong [ref=e73]:
+              - link "gpowers" [ref=e74] [cursor=pointer]:
+                - /url: /odysseythink/gpowers
+            - generic [ref=e75]: Public
+          - generic [ref=e76]:
+            - list:
+              - listitem [ref=e77]:
+                - link "You must be signed in to change notification settings" [ref=e78] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fodysseythink%2Fgpowers
+                  - img [ref=e79]
+                  - text: Notifications
+              - listitem [ref=e81]:
+                - link "Fork 0" [ref=e82] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fodysseythink%2Fgpowers
+                  - img [ref=e83]
+                  - text: Fork
+                  - generic "0" [ref=e85]
+              - listitem [ref=e86]:
+                - link "You must be signed in to star a repository" [ref=e88] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fodysseythink%2Fgpowers
+                  - img [ref=e89]
+                  - text: Star
+                  - generic "1 user starred this repository" [ref=e91]: "1"
+        - navigation "Repository" [ref=e92]:
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "Code" [ref=e95] [cursor=pointer]:
+                - /url: /odysseythink/gpowers
+                - img [ref=e96]
+                - generic [ref=e98]: Code
+            - listitem [ref=e99]:
+              - link "Issues" [ref=e100] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/issues
+                - img [ref=e101]
+                - generic [ref=e104]: Issues
+            - listitem [ref=e105]:
+              - link "Pull requests" [ref=e106] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/pulls
+                - img [ref=e107]
+                - generic [ref=e109]: Pull requests
+            - listitem [ref=e110]:
+              - link "Actions" [ref=e111] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/actions
+                - img [ref=e112]
+                - generic [ref=e114]: Actions
+            - listitem [ref=e115]:
+              - link "Projects" [ref=e116] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/projects
+                - img [ref=e117]
+                - generic [ref=e119]: Projects
+            - listitem [ref=e120]:
+              - link "Security and quality" [ref=e121] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/security
+                - img [ref=e122]
+                - generic [ref=e124]: Security and quality
+            - listitem [ref=e125]:
+              - link "Insights" [ref=e126] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/pulse
+                - img [ref=e127]
+                - generic [ref=e129]: Insights
+      - generic [ref=e134]:
+        - generic [ref=e137]:
+          - link "ci" [ref=e140] [cursor=pointer]:
+            - /url: /odysseythink/gpowers/actions/workflows/ci.yml
+            - img [ref=e141]
+            - generic [ref=e143]: ci
+          - generic [ref=e144]:
+            - generic [ref=e145]:
+              - img "failed:" [ref=e149]
+              - 'heading "chore: bump version to v0.2.1 #18" [level=1] [ref=e151]':
+                - generic [ref=e152]: "chore: bump version to v0.2.1 #18"
+            - link "Sign in to view logs" [ref=e155] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fodysseythink%2Fgpowers%2Factions%2Fruns%2F26015662953
+        - generic [ref=e156]:
+          - navigation "Workflow run" [ref=e162]:
+            - list [ref=e163]:
+              - listitem [ref=e164]:
+                - link "Summary" [ref=e165] [cursor=pointer]:
+                  - /url: /odysseythink/gpowers/actions/runs/26015662953
+                  - generic:
+                    - img
+                  - generic [ref=e167]: Summary
+              - generic [ref=e168]:
+                - heading "All jobs" [level=4] [ref=e169]
+                - button "Filter by job status" [ref=e170] [cursor=pointer]:
+                  - img [ref=e171]
+              - listitem [ref=e173]
+              - listitem [ref=e174]:
+                - list [ref=e175]:
+                  - listitem [ref=e176]:
+                    - generic "Loading" [ref=e177]:
+                      - generic [ref=e181]:
+                        - img [ref=e182]
+                        - generic [ref=e185]: Loading
+              - listitem [ref=e186]
+              - listitem [ref=e187]:
+                - heading "Run details" [level=3] [ref=e189]
+                - list "Run details" [ref=e190]:
+                  - listitem [ref=e191]:
+                    - link "Usage" [ref=e192] [cursor=pointer]:
+                      - /url: /odysseythink/gpowers/actions/runs/26015662953/usage
+                      - generic:
+                        - img
+                      - generic [ref=e194]: Usage
+                  - listitem [ref=e195]:
+                    - link "Workflow file" [ref=e196] [cursor=pointer]:
+                      - /url: /odysseythink/gpowers/actions/runs/26015662953/workflow
+                      - generic:
+                        - img
+                      - generic [ref=e198]: Workflow file
+          - generic [ref=e200]:
+            - region "Workflow run summary" [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]:
+                  - generic [ref=e204]: Triggered via push May 18, 2026 05:3929 minutes ago
+                  - generic [ref=e205]:
+                    - link "@odysseythink odysseythink" [ref=e206] [cursor=pointer]:
+                      - /url: /odysseythink
+                      - img "@odysseythink" [ref=e207]
+                      - text: odysseythink
+                    - generic [ref=e208]:
+                      - generic [ref=e209]: pushed
+                      - link "2c9da3d" [ref=e210] [cursor=pointer]:
+                        - /url: /odysseythink/gpowers/commit/2c9da3d1b7a186db7852a1bc751da3bbffd9dcab
+                        - img [ref=e211]
+                        - text: 2c9da3d
+                    - link "main" [ref=e213] [cursor=pointer]:
+                      - /url: /odysseythink/gpowers/tree/refs/heads/main
+                - generic [ref=e214]:
+                  - generic [ref=e215]: Status
+                  - text: Failure
+                - generic [ref=e216]:
+                  - generic [ref=e217]: Total duration
+                  - link "1m 54s" [ref=e218] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/actions/runs/26015662953/usage
+                - generic [ref=e219]:
+                  - generic [ref=e220]: Artifacts
+                  - text: –
+            - region "Workflow run graph" [ref=e221]:
+              - generic [ref=e223]:
+                - generic [ref=e225]:
+                  - heading "ci.yml" [level=2] [ref=e226]:
+                    - link "ci.yml" [ref=e227] [cursor=pointer]:
+                      - /url: /odysseythink/gpowers/actions/runs/26015662953/workflow
+                  - generic [ref=e228]: "on: push"
+                - generic [ref=e230]:
+                  - generic [ref=e231]:
+                    - img
+                    - img
+                    - generic [ref=e233]:
+                      - 'link "failed: shellcheck 11s" [ref=e235] [cursor=pointer]':
+                        - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077443
+                        - generic [ref=e237]:
+                          - img "failed:" [ref=e239]
+                          - generic [ref=e242]: shellcheck
+                          - generic [ref=e243]: 11s
+                      - 'link "failed: unit 1m 50s" [ref=e245] [cursor=pointer]':
+                        - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077444
+                        - generic [ref=e247]:
+                          - img "failed:" [ref=e249]
+                          - generic [ref=e252]: unit
+                          - generic [ref=e253]: 1m 50s
+                      - 'link "failed: integration 40s" [ref=e255] [cursor=pointer]':
+                        - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077438
+                        - generic [ref=e257]:
+                          - img "failed:" [ref=e259]
+                          - generic [ref=e262]: integration
+                          - generic [ref=e263]: 40s
+                      - 'link "completed successfully: smoke-claude-code 1m 3s" [ref=e265] [cursor=pointer]':
+                        - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077427
+                        - generic [ref=e267]:
+                          - img "completed successfully:" [ref=e269]
+                          - generic [ref=e272]: smoke-claude-code
+                          - generic [ref=e273]: 1m 3s
+                  - generic [ref=e274]:
+                    - paragraph [ref=e275]: Oh hello! Nice to see you.
+                    - paragraph [ref=e276]:
+                      - text: Made with ❤️ by
+                      - link [ref=e277] [cursor=pointer]:
+                        - /url: https://actions.github.io/humans.txt
+                        - text: humans.txt
+                - generic [ref=e278]:
+                  - button "Fit to window" [disabled] [ref=e279]:
+                    - img
+                  - generic [ref=e280]:
+                    - button "Zoom out" [disabled] [ref=e282]:
+                      - img
+                    - button "Zoom in" [disabled] [ref=e284]:
+                      - img
+            - region "Annotations" [ref=e285]:
+              - generic [ref=e286]:
+                - generic [ref=e288]:
+                  - heading "Annotations" [level=2] [ref=e289]
+                  - generic [ref=e290]: 3 errors and 7 warnings
+                - table [ref=e291]:
+                  - rowgroup [ref=e292]:
+                    - row "shellcheck Process completed with exit code 2." [ref=e293]:
+                      - cell "shellcheck Process completed with exit code 2." [ref=e294]:
+                        - generic [ref=e295]:
+                          - img [ref=e297]
+                          - generic [ref=e299]:
+                            - link "shellcheck" [ref=e300] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077443#step:4:94
+                              - strong [ref=e301]: shellcheck
+                            - generic [ref=e304]: Process completed with exit code 2.
+                    - row "integration Process completed with exit code 123." [ref=e305]:
+                      - cell "integration Process completed with exit code 123." [ref=e306]:
+                        - generic [ref=e307]:
+                          - img [ref=e309]
+                          - generic [ref=e311]:
+                            - link "integration" [ref=e312] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077438#step:6:92
+                              - strong [ref=e313]: integration
+                            - generic [ref=e316]: Process completed with exit code 123.
+                    - row "unit Process completed with exit code 123." [ref=e317]:
+                      - cell "unit Process completed with exit code 123." [ref=e318]:
+                        - generic [ref=e319]:
+                          - img [ref=e321]
+                          - generic [ref=e323]:
+                            - link "unit" [ref=e324] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077444#step:6:341
+                              - strong [ref=e325]: unit
+                            - generic [ref=e328]: Process completed with exit code 123.
+                    - 'row "shellcheck Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e329]':
+                      - 'cell "shellcheck Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e330]':
+                        - generic [ref=e331]:
+                          - img [ref=e333]
+                          - generic [ref=e335]:
+                            - link "shellcheck" [ref=e336] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077443#step:9:2
+                              - strong [ref=e337]: shellcheck
+                            - generic [ref=e338]:
+                              - generic [ref=e340]:
+                                - text: "Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see:"
+                                - link "https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/" [ref=e341] [cursor=pointer]:
+                                  - /url: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+                              - button "Show more" [ref=e342] [cursor=pointer]
+                    - 'row "integration Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e343]':
+                      - 'cell "integration Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e344]':
+                        - generic [ref=e345]:
+                          - img [ref=e347]
+                          - generic [ref=e349]:
+                            - link "integration" [ref=e350] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077438#step:13:2
+                              - strong [ref=e351]: integration
+                            - generic [ref=e352]:
+                              - generic [ref=e354]:
+                                - text: "Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see:"
+                                - link "https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/" [ref=e355] [cursor=pointer]:
+                                  - /url: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+                              - button "Show more" [ref=e356] [cursor=pointer]
+                    - 'row "integration Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum Show more" [ref=e357]':
+                      - 'cell "integration Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum Show more" [ref=e358]':
+                        - generic [ref=e359]:
+                          - img [ref=e361]
+                          - generic [ref=e363]:
+                            - link "integration" [ref=e364] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077438#step:3:23
+                              - strong [ref=e365]: integration
+                            - generic [ref=e366]:
+                              - generic [ref=e368]: "Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum"
+                              - button "Show more" [ref=e369] [cursor=pointer]
+                    - 'row "smoke-claude-code Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e370]':
+                      - 'cell "smoke-claude-code Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e371]':
+                        - generic [ref=e372]:
+                          - img [ref=e374]
+                          - generic [ref=e376]:
+                            - link "smoke-claude-code" [ref=e377] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077427#step:15:2
+                              - strong [ref=e378]: smoke-claude-code
+                            - generic [ref=e379]:
+                              - generic [ref=e381]:
+                                - text: "Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see:"
+                                - link "https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/" [ref=e382] [cursor=pointer]:
+                                  - /url: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+                              - button "Show more" [ref=e383] [cursor=pointer]
+                    - 'row "smoke-claude-code Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum Show more" [ref=e384]':
+                      - 'cell "smoke-claude-code Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum Show more" [ref=e385]':
+                        - generic [ref=e386]:
+                          - img [ref=e388]
+                          - generic [ref=e390]:
+                            - link "smoke-claude-code" [ref=e391] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077427#step:3:23
+                              - strong [ref=e392]: smoke-claude-code
+                            - generic [ref=e393]:
+                              - generic [ref=e395]: "Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum"
+                              - button "Show more" [ref=e396] [cursor=pointer]
+                    - 'row "unit Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e397]':
+                      - 'cell "unit Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/ Show more" [ref=e398]':
+                        - generic [ref=e399]:
+                          - img [ref=e401]
+                          - generic [ref=e403]:
+                            - link "unit" [ref=e404] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077444#step:13:2
+                              - strong [ref=e405]: unit
+                            - generic [ref=e406]:
+                              - generic [ref=e408]:
+                                - text: "Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/setup-go@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see:"
+                                - link "https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/" [ref=e409] [cursor=pointer]:
+                                  - /url: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+                              - button "Show more" [ref=e410] [cursor=pointer]
+                    - 'row "unit Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum Show more" [ref=e411]':
+                      - 'cell "unit Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum Show more" [ref=e412]':
+                        - generic [ref=e413]:
+                          - img [ref=e415]
+                          - generic [ref=e417]:
+                            - link "unit" [ref=e418] [cursor=pointer]:
+                              - /url: /odysseythink/gpowers/actions/runs/26015662953/job/76465077444#step:3:23
+                              - strong [ref=e419]: unit
+                            - generic [ref=e420]:
+                              - generic [ref=e422]: "Restore cache failed: Dependencies file is not found in /home/runner/work/gpowers/gpowers. Supported file pattern: go.sum"
+                              - button "Show more" [ref=e423] [cursor=pointer]

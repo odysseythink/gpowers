@@ -1,0 +1,543 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]:
+                  - text: Platform
+                  - img [ref=e21]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]:
+                  - text: Solutions
+                  - img [ref=e26]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]:
+                  - text: Resources
+                  - img [ref=e31]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]:
+                  - text: Open Source
+                  - img [ref=e36]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]:
+                  - text: Enterprise
+                  - img [ref=e41]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+                  - generic [ref=e45]: Pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - img [ref=e51]
+            - link "Sign in" [ref=e54] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fodysseythink%2Fgpowers%2Factions%2Fruns%2F26024358326
+            - link "Sign up" [ref=e55] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Factions%2Fworkflow_runs%2Fshow&source=header-repo&source_repo=odysseythink%2Fgpowers
+            - button "Appearance settings" [ref=e58] [cursor=pointer]:
+              - img
+  - main [ref=e62]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e67]:
+            - img [ref=e68]
+            - link "odysseythink" [ref=e71] [cursor=pointer]:
+              - /url: /odysseythink
+            - generic [ref=e72]: /
+            - strong [ref=e73]:
+              - link "gpowers" [ref=e74] [cursor=pointer]:
+                - /url: /odysseythink/gpowers
+            - generic [ref=e75]: Public
+          - generic [ref=e76]:
+            - list:
+              - listitem [ref=e77]:
+                - link "You must be signed in to change notification settings" [ref=e78] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fodysseythink%2Fgpowers
+                  - img [ref=e79]
+                  - text: Notifications
+              - listitem [ref=e81]:
+                - link "Fork 0" [ref=e82] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fodysseythink%2Fgpowers
+                  - img [ref=e83]
+                  - text: Fork
+                  - generic "0" [ref=e85]
+              - listitem [ref=e86]:
+                - link "You must be signed in to star a repository" [ref=e88] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fodysseythink%2Fgpowers
+                  - img [ref=e89]
+                  - text: Star
+                  - generic "1 user starred this repository" [ref=e91]: "1"
+        - navigation "Repository" [ref=e92]:
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "Code" [ref=e95] [cursor=pointer]:
+                - /url: /odysseythink/gpowers
+                - img [ref=e96]
+                - generic [ref=e98]: Code
+            - listitem [ref=e99]:
+              - link "Issues" [ref=e100] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/issues
+                - img [ref=e101]
+                - generic [ref=e104]: Issues
+            - listitem [ref=e105]:
+              - link "Pull requests" [ref=e106] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/pulls
+                - img [ref=e107]
+                - generic [ref=e109]: Pull requests
+            - listitem [ref=e110]:
+              - link "Actions" [ref=e111] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/actions
+                - img [ref=e112]
+                - generic [ref=e114]: Actions
+            - listitem [ref=e115]:
+              - link "Projects" [ref=e116] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/projects
+                - img [ref=e117]
+                - generic [ref=e119]: Projects
+            - listitem [ref=e120]:
+              - link "Security and quality" [ref=e121] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/security
+                - img [ref=e122]
+                - generic [ref=e124]: Security and quality
+            - listitem [ref=e125]:
+              - link "Insights" [ref=e126] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/pulse
+                - img [ref=e127]
+                - generic [ref=e129]: Insights
+      - generic [ref=e130]:
+        - 'heading "Actions: odysseythink/gpowers" [level=1] [ref=e317]'
+        - generic [ref=e320]:
+          - generic [ref=e321]:
+            - heading "Actions" [level=2] [ref=e323]
+            - navigation "Actions Workflows" [ref=e327]:
+              - list [ref=e329]:
+                - listitem [ref=e330]:
+                  - link "All workflows" [ref=e331] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/actions
+                    - generic [ref=e332]: All workflows
+                - listitem [ref=e333]
+                - listitem [ref=e334]:
+                  - list "Workflows" [ref=e338]:
+                    - listitem [ref=e339]:
+                      - link "ci" [ref=e340] [cursor=pointer]:
+                        - /url: /odysseythink/gpowers/actions/workflows/ci.yml
+                        - generic [ref=e341]: ci
+                    - listitem [ref=e342]:
+                      - link "release" [ref=e343] [cursor=pointer]:
+                        - /url: /odysseythink/gpowers/actions/workflows/release.yml
+                        - generic [ref=e344]: release
+                - listitem [ref=e345]
+                - listitem [ref=e346]:
+                  - generic [ref=e349]:
+                    - heading "Management" [level=3] [ref=e351]
+                    - list "Management" [ref=e352]:
+                      - listitem [ref=e353]:
+                        - link "Caches" [ref=e354] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/actions/caches
+                          - generic:
+                            - img
+                          - generic [ref=e355]: Caches
+          - generic [ref=e358]:
+            - generic [ref=e359]:
+              - generic [ref=e360]:
+                - heading "release" [level=2] [ref=e362]:
+                  - generic [ref=e364]: release
+                - generic [ref=e365]:
+                  - search [ref=e368]:
+                    - combobox "Filter workflow runs" [ref=e369]
+                    - img
+                  - button "Show workflow options" [ref=e372] [cursor=pointer]:
+                    - img
+              - link "release.yml" [ref=e374] [cursor=pointer]:
+                - /url: /odysseythink/gpowers/blob/main/.github/workflows/release.yml
+            - generic [ref=e375]:
+              - generic [ref=e376]:
+                - strong [ref=e379]: 13 workflow runs
+                - generic [ref=e380]:
+                  - button "Event" [ref=e384] [cursor=pointer]:
+                    - generic [ref=e386]: Event
+                    - generic:
+                      - img
+                  - button "Status" [ref=e390] [cursor=pointer]:
+                    - generic [ref=e392]: Status
+                    - generic:
+                      - img
+                  - button "Branch" [ref=e396] [cursor=pointer]:
+                    - generic [ref=e398]: Branch
+                    - generic:
+                      - img
+                  - button "Actor" [ref=e402] [cursor=pointer]:
+                    - generic [ref=e404]: Actor
+                    - generic:
+                      - img
+              - generic [ref=e405]:
+                - generic [ref=e407]:
+                  - generic [ref=e408]:
+                    - 'link "failed: Run 13 of release. ci: add verbose logging to GoReleaser step for debugging" [ref=e409] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26024358326
+                      - img "failed:" [ref=e411]
+                      - generic [ref=e413]: "ci: add verbose logging to GoReleaser step for debugging"
+                    - generic [ref=e414]:
+                      - text: "release #13:"
+                      - generic [ref=e415]:
+                        - text: Commit
+                        - link "42ad797" [ref=e416] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/42ad797e5b64ae96793926a20b6afe31f9f437dc
+                        - text: pushed by
+                        - link "odysseythink" [ref=e417] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.0.1" [ref=e419] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.0.1
+                  - generic [ref=e421]:
+                    - generic [ref=e422]:
+                      - generic [ref=e423]:
+                        - img [ref=e425]
+                        - generic "May 18, 2026, 5:13 PM GMT+8" [ref=e427]: 4 minutes ago
+                      - generic [ref=e428]:
+                        - img "Run duration" [ref=e429]
+                        - text: 3m 1s
+                    - group [ref=e432]:
+                      - generic "Show options" [ref=e433] [cursor=pointer]:
+                        - img "Show options" [ref=e434]
+                - generic [ref=e437]:
+                  - generic [ref=e438]:
+                    - 'link "failed: Run 12 of release. ci: add diagnostics for integration test failures in CI" [ref=e439] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26024015693
+                      - img "failed:" [ref=e441]
+                      - generic [ref=e443]: "ci: add diagnostics for integration test failures in CI"
+                    - generic [ref=e444]:
+                      - text: "release #12:"
+                      - generic [ref=e445]:
+                        - text: Commit
+                        - link "3771642" [ref=e446] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/37716422ec33ff83e41adc111e5ee74383e3b641
+                        - text: pushed by
+                        - link "odysseythink" [ref=e447] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.0.1" [ref=e449] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.0.1
+                  - generic [ref=e451]:
+                    - generic [ref=e452]:
+                      - generic [ref=e453]:
+                        - img [ref=e455]
+                        - generic "May 18, 2026, 5:06 PM GMT+8" [ref=e457]: 12 minutes ago
+                      - generic [ref=e458]:
+                        - img "Run duration" [ref=e459]
+                        - text: 2m 35s
+                    - group [ref=e462]:
+                      - generic "Show options" [ref=e463] [cursor=pointer]:
+                        - img "Show options" [ref=e464]
+                - generic [ref=e467]:
+                  - generic [ref=e468]:
+                    - 'link "failed: Run 11 of release. ci: add diagnostics for integration test failures in CI" [ref=e469] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26023389345
+                      - img "failed:" [ref=e471]
+                      - generic [ref=e473]: "ci: add diagnostics for integration test failures in CI"
+                    - generic [ref=e474]:
+                      - text: "release #11:"
+                      - generic [ref=e475]:
+                        - text: Commit
+                        - link "3771642" [ref=e476] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/37716422ec33ff83e41adc111e5ee74383e3b641
+                        - text: pushed by
+                        - link "odysseythink" [ref=e477] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.0.1" [ref=e479] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.0.1
+                  - generic [ref=e481]:
+                    - generic [ref=e482]:
+                      - generic [ref=e483]:
+                        - img [ref=e485]
+                        - generic "May 18, 2026, 4:53 PM GMT+8" [ref=e487]: 25 minutes ago
+                      - generic [ref=e488]:
+                        - img "Run duration" [ref=e489]
+                        - text: 3m 0s
+                    - group [ref=e492]:
+                      - generic "Show options" [ref=e493] [cursor=pointer]:
+                        - img "Show options" [ref=e494]
+                - generic [ref=e497]:
+                  - generic [ref=e498]:
+                    - 'link "failed: Run 10 of release. fix: remove business module refs from upgrade scripts and tests, fix …" [ref=e499] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26022104313
+                      - img "failed:" [ref=e501]
+                      - generic [ref=e503]: "fix: remove business module refs from upgrade scripts and tests, fix …"
+                    - generic [ref=e504]:
+                      - text: "release #10:"
+                      - generic [ref=e505]:
+                        - text: Commit
+                        - link "1c6abcf" [ref=e506] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/1c6abcfe1cc63924c2638b4f254e2d6f52cf8bf2
+                        - text: pushed by
+                        - link "odysseythink" [ref=e507] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.0.1" [ref=e509] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.0.1
+                  - generic [ref=e511]:
+                    - generic [ref=e512]:
+                      - generic [ref=e513]:
+                        - img [ref=e515]
+                        - generic "May 18, 2026, 4:25 PM GMT+8" [ref=e517]: 52 minutes ago
+                      - generic [ref=e518]:
+                        - img "Run duration" [ref=e519]
+                        - text: 3m 5s
+                    - group [ref=e522]:
+                      - generic "Show options" [ref=e523] [cursor=pointer]:
+                        - img "Show options" [ref=e524]
+                - generic [ref=e527]:
+                  - generic [ref=e528]:
+                    - 'link "failed: Run 9 of release." [ref=e529] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26022007731
+                      - img "failed:" [ref=e531]
+                      - generic [ref=e533]: release
+                    - generic [ref=e534]:
+                      - text: "release #9:"
+                      - generic [ref=e535]:
+                        - text: by
+                        - link "odysseythink" [ref=e536] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.0.1" [ref=e538] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.0.1
+                  - generic [ref=e540]:
+                    - generic [ref=e541]:
+                      - generic [ref=e542]:
+                        - img [ref=e544]
+                        - generic "May 18, 2026, 4:23 PM GMT+8" [ref=e546]: 1 hour ago
+                      - generic [ref=e547]:
+                        - img "Run duration" [ref=e548]
+                        - text: 3m 16s
+                    - group [ref=e551]:
+                      - generic "Show options" [ref=e552] [cursor=pointer]:
+                        - img "Show options" [ref=e553]
+                - generic [ref=e556]:
+                  - generic [ref=e557]:
+                    - 'link "failed: Run 8 of release. chore: bump version to v0.2.0" [ref=e558] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26015662976
+                      - img "failed:" [ref=e560]
+                      - generic [ref=e562]: "chore: bump version to v0.2.0"
+                    - generic [ref=e563]:
+                      - text: "release #8:"
+                      - generic [ref=e564]:
+                        - text: Commit
+                        - link "e9ddd1f" [ref=e565] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/e9ddd1ff2ac9636536d1f8a05db25bdb9adc890b
+                        - text: pushed by
+                        - link "odysseythink" [ref=e566] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.2.0" [ref=e568] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.2.0
+                  - generic [ref=e570]:
+                    - generic [ref=e571]:
+                      - generic [ref=e572]:
+                        - img [ref=e574]
+                        - generic "May 18, 2026, 1:39 PM GMT+8" [ref=e576]: Today at 1:39 PM
+                      - generic [ref=e577]:
+                        - img "Run duration" [ref=e578]
+                        - text: 3m 11s
+                    - group [ref=e581]:
+                      - generic "Show options" [ref=e582] [cursor=pointer]:
+                        - img "Show options" [ref=e583]
+                - generic [ref=e586]:
+                  - generic [ref=e587]:
+                    - 'link "failed: Run 7 of release. ci: build platform-native binaries in CI, remove committed binaries f…" [ref=e588] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26015662969
+                      - img "failed:" [ref=e590]
+                      - generic [ref=e592]: "ci: build platform-native binaries in CI, remove committed binaries f…"
+                    - generic [ref=e593]:
+                      - text: "release #7:"
+                      - generic [ref=e594]:
+                        - text: Commit
+                        - link "3d7f6ae" [ref=e595] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/3d7f6ae3a6d70d6b38ae535a576cd0d9ee4eccec
+                        - text: pushed by
+                        - link "odysseythink" [ref=e596] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.1.0" [ref=e598] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.1.0
+                  - generic [ref=e600]:
+                    - generic [ref=e601]:
+                      - generic [ref=e602]:
+                        - img [ref=e604]
+                        - generic "May 18, 2026, 1:39 PM GMT+8" [ref=e606]: Today at 1:39 PM
+                      - generic [ref=e607]:
+                        - img "Run duration" [ref=e608]
+                        - text: 3m 24s
+                    - group [ref=e611]:
+                      - generic "Show options" [ref=e612] [cursor=pointer]:
+                        - img "Show options" [ref=e613]
+                - generic [ref=e616]:
+                  - generic [ref=e617]:
+                    - 'link "failed: Run 6 of release. chore: bump version to v0.2.1" [ref=e618] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26015662955
+                      - img "failed:" [ref=e620]
+                      - generic [ref=e622]: "chore: bump version to v0.2.1"
+                    - generic [ref=e623]:
+                      - text: "release #6:"
+                      - generic [ref=e624]:
+                        - text: Commit
+                        - link "2c9da3d" [ref=e625] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/2c9da3d1b7a186db7852a1bc751da3bbffd9dcab
+                        - text: pushed by
+                        - link "odysseythink" [ref=e626] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.2.1" [ref=e628] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.2.1
+                  - generic [ref=e630]:
+                    - generic [ref=e631]:
+                      - generic [ref=e632]:
+                        - img [ref=e634]
+                        - generic "May 18, 2026, 1:39 PM GMT+8" [ref=e636]: Today at 1:39 PM
+                      - generic [ref=e637]:
+                        - img "Run duration" [ref=e638]
+                        - text: 3m 17s
+                    - group [ref=e641]:
+                      - generic "Show options" [ref=e642] [cursor=pointer]:
+                        - img "Show options" [ref=e643]
+                - generic [ref=e646]:
+                  - generic [ref=e647]:
+                    - 'link "failed: Run 5 of release. chore: bump version to v0.2.0" [ref=e648] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26013776654
+                      - img "failed:" [ref=e650]
+                      - generic [ref=e652]: "chore: bump version to v0.2.0"
+                    - generic [ref=e653]:
+                      - text: "release #5:"
+                      - generic [ref=e654]:
+                        - text: Commit
+                        - link "e9ddd1f" [ref=e655] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/e9ddd1ff2ac9636536d1f8a05db25bdb9adc890b
+                        - text: pushed by
+                        - link "odysseythink" [ref=e656] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.2.0" [ref=e658] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.2.0
+                  - generic [ref=e660]:
+                    - generic [ref=e661]:
+                      - generic [ref=e662]:
+                        - img [ref=e664]
+                        - generic "May 18, 2026, 12:36 PM GMT+8" [ref=e666]: Today at 12:36 PM
+                      - generic [ref=e667]:
+                        - img "Run duration" [ref=e668]
+                        - text: 3m 11s
+                    - group [ref=e671]:
+                      - generic "Show options" [ref=e672] [cursor=pointer]:
+                        - img "Show options" [ref=e673]
+                - generic [ref=e676]:
+                  - generic [ref=e677]:
+                    - 'link "failed: Run 4 of release. ci: build platform-native binaries in CI, remove committed binaries f…" [ref=e678] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26012058059
+                      - img "failed:" [ref=e680]
+                      - generic [ref=e682]: "ci: build platform-native binaries in CI, remove committed binaries f…"
+                    - generic [ref=e683]:
+                      - text: "release #4:"
+                      - generic [ref=e684]:
+                        - text: Commit
+                        - link "3d7f6ae" [ref=e685] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/3d7f6ae3a6d70d6b38ae535a576cd0d9ee4eccec
+                        - text: pushed by
+                        - link "odysseythink" [ref=e686] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.1.0" [ref=e688] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.1.0
+                  - generic [ref=e690]:
+                    - generic [ref=e691]:
+                      - generic [ref=e692]:
+                        - img [ref=e694]
+                        - generic "May 18, 2026, 11:34 AM GMT+8" [ref=e696]: Today at 11:34 AM
+                      - generic [ref=e697]:
+                        - img "Run duration" [ref=e698]
+                        - text: 3m 32s
+                    - group [ref=e701]:
+                      - generic "Show options" [ref=e702] [cursor=pointer]:
+                        - img "Show options" [ref=e703]
+                - generic [ref=e706]:
+                  - generic [ref=e707]:
+                    - 'link "failed: Run 3 of release. chore: bump version to v0.1.1" [ref=e708] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26011837729
+                      - img "failed:" [ref=e710]
+                      - generic [ref=e712]: "chore: bump version to v0.1.1"
+                    - generic [ref=e713]:
+                      - text: "release #3:"
+                      - generic [ref=e714]:
+                        - text: Commit
+                        - link "053447d" [ref=e715] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/053447d72312e453614cafc151e643fddbf22dbe
+                        - text: pushed by
+                        - link "odysseythink" [ref=e716] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.1.0" [ref=e718] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.1.0
+                  - generic [ref=e720]:
+                    - generic [ref=e721]:
+                      - generic [ref=e722]:
+                        - img [ref=e724]
+                        - generic "May 18, 2026, 11:26 AM GMT+8" [ref=e726]: Today at 11:26 AM
+                      - generic [ref=e727]:
+                        - img "Run duration" [ref=e728]
+                        - text: 3m 2s
+                    - group [ref=e731]:
+                      - generic "Show options" [ref=e732] [cursor=pointer]:
+                        - img "Show options" [ref=e733]
+                - generic [ref=e736]:
+                  - generic [ref=e737]:
+                    - 'link "failed: Run 2 of release. chore: bump version to v0.1.1" [ref=e738] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/26011256990
+                      - img "failed:" [ref=e740]
+                      - generic [ref=e742]: "chore: bump version to v0.1.1"
+                    - generic [ref=e743]:
+                      - text: "release #2:"
+                      - generic [ref=e744]:
+                        - text: Commit
+                        - link "984134b" [ref=e745] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/984134bd9adf22e1869a44023dc019af0ea6f8bd
+                        - text: pushed by
+                        - link "odysseythink" [ref=e746] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.1.1" [ref=e748] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.1.1
+                  - generic [ref=e750]:
+                    - generic [ref=e751]:
+                      - generic [ref=e752]:
+                        - img [ref=e754]
+                        - generic "May 18, 2026, 11:04 AM GMT+8" [ref=e756]: Today at 11:04 AM
+                      - generic [ref=e757]:
+                        - img "Run duration" [ref=e758]
+                        - text: 2m 51s
+                    - group [ref=e761]:
+                      - generic "Show options" [ref=e762] [cursor=pointer]:
+                        - img "Show options" [ref=e763]
+                - generic [ref=e766]:
+                  - generic [ref=e767]:
+                    - 'link "failed: Run 1 of release. chore: remove obsolete install_debug.bat" [ref=e768] [cursor=pointer]':
+                      - /url: /odysseythink/gpowers/actions/runs/25991072738
+                      - img "failed:" [ref=e770]
+                      - generic [ref=e772]: "chore: remove obsolete install_debug.bat"
+                    - generic [ref=e773]:
+                      - text: "release #1:"
+                      - generic [ref=e774]:
+                        - text: Commit
+                        - link "7171459" [ref=e775] [cursor=pointer]:
+                          - /url: /odysseythink/gpowers/commit/7171459b543f2a3392ca44466ef4fed280d12d7e
+                        - text: pushed by
+                        - link "odysseythink" [ref=e776] [cursor=pointer]:
+                          - /url: /odysseythink
+                  - link "v0.1.0" [ref=e778] [cursor=pointer]:
+                    - /url: /odysseythink/gpowers/tree/refs/tags/v0.1.0
+                  - generic [ref=e780]:
+                    - generic [ref=e781]:
+                      - generic [ref=e782]:
+                        - img [ref=e784]
+                        - generic "May 17, 2026, 8:38 PM GMT+8" [ref=e786]: May 17, 8:38 PM GMT+8
+                      - generic [ref=e787]:
+                        - img "Run duration" [ref=e788]
+                        - text: 2m 39s
+                    - group [ref=e791]:
+                      - generic "Show options" [ref=e792] [cursor=pointer]:
+                        - img "Show options" [ref=e793]
