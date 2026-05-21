@@ -60,14 +60,34 @@ yaml.safe_load(''.join(lines[start+1:end]))
   done
 }
 
-@test "Kimi adapter contains init-deep" {
+@test "Kimi adapter file exists" {
   [ -f "$REPO/platforms/kimi/adapters/gpowers-init-deep/SKILL.md" ]
 }
 
-@test "skills.json contains init-deep entry" {
+@test "Kimi kimi-skills.json contains init-deep adapter entry" {
   python3 -c "
 import json
 data = json.load(open('$REPO/platforms/kimi/kimi-skills.json'))
 assert 'gpowers-init-deep' in data.get('adapters', []), 'missing gpowers-init-deep'
 "
+}
+
+@test "all platforms have init-deep in skills.json" {
+  for p in claude-code codex cursor copilot gemini opencode qoder; do
+    f="$REPO/platforms/$p/skills.json"
+    [ -f "$f" ] || { echo "missing $f"; exit 1; }
+    python3 -c "
+import json
+data = json.load(open('$f'))
+assert any(s.get('name') == 'init-deep' for s in data.get('skills', [])), 'init-deep missing in $p'
+" || exit 1
+  done
+}
+
+@test "all platforms have init-deep command or adapter file" {
+  for p in claude-code codex cursor copilot gemini opencode; do
+    f="$REPO/platforms/$p/commands/init-deep.md"
+    [ -f "$f" ] || { echo "missing $f"; exit 1; }
+  done
+  [ -f "$REPO/platforms/qoder/adapters/init-deep.md" ] || { echo "missing qoder adapter"; exit 1; }
 }
