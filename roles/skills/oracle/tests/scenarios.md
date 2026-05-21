@@ -38,11 +38,13 @@ These are manual exercise scenarios. Run each by dispatching Oracle (via the hos
 
 ---
 
-**Verification status (automated checks completed, live-model tests pending):**
+**Verification status:**
 
-- P-A Claude Code: ⏳ pending — requires live Claude Code session
-- P-A Kimi (--agent-file): ⏳ pending — requires live Kimi session with `--agent-file ./platforms/kimi/agent.yaml`
-- P-B Ultrawork → Oracle: ⏳ pending — requires live Ultrawork run
-- P-L Ultrawork regression: ⏳ pending — requires replaying 3 base + 6 Kimi scenarios with live model
+- P-A Claude Code: ⚠️ tested — content quality high, format compliance ~30% (Bottom line present but position inconsistent, Effort/Confidence often missing, Expanded tier overproduced)
+- P-A Kimi (--agent-file): ⚠️ tested — content quality high, format compliance ~60% (Bottom line present, Action plan present, Effort/Confidence still missing despite prompt tightening, response length excessive)
+- P-B Ultrawork → Oracle: ⚠️ tested — Kimi skill mechanism loads ultrawork as text-only skill, **not as a runtime protocol**. Worker did NOT emit `<promise>DONE</promise>`; main agent manually dispatched Oracle. Oracle re-ran tests independently, but verdict format was filtered/summarized by main agent, not emitted as raw `Agent: Oracle\nEvidence:\n<promise>VERIFIED</promise>`.
+- P-L Ultrawork regression: ⏳ pending — requires true Ultrawork runtime (OpenCode only)
 
-All automated install-regression checks (bats) pass. Manual smoke tests to be run during the next maintenance window.
+**Key finding:** Kimi supports custom subagent types (`--agent-file`) but does NOT support custom runtime protocols (promise-tag detection, automatic Oracle dispatch, iterative Worker→Oracle loops). Ultrawork on Kimi is advisory-only; true Ultrawork verification requires OpenCode.
+
+All automated install-regression checks (bats) pass. Manual smoke tests recorded as above.
