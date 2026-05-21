@@ -289,6 +289,12 @@
       "path": "tools/skills/health/SKILL.md"
     },
     {
+      "name": "init-deep",
+      "module": "tools",
+      "description": "|",
+      "path": "tools/skills/init-deep/SKILL.md"
+    },
+    {
       "name": "land-and-deploy",
       "module": "tools",
       "description": "|",

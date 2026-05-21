@@ -26,6 +26,7 @@
     "gpowers-freeze",
     "gpowers-guard",
     "gpowers-health",
+    "gpowers-init-deep",
     "gpowers-investigate",
     "gpowers-land-and-deploy",
     "gpowers-landing-report",
