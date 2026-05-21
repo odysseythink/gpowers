@@ -1,0 +1,25 @@
+# Oracle subagent spec for Kimi
+# Registered under the user's agent.yaml → subagents: oracle:
+# Installer resolves the `extend:` path at install time.
+
+version: 1
+agent:
+  # Resolved by installer to the user's default agent.yaml (project or builtin)
+  extend: "{{RESOLVED_AT_INSTALL_TIME}}"
+  name: oracle
+  when_to_use: |
+    Independent verification of Worker's <promise>DONE</promise>.
+    Re-runs verification commands; never trusts Worker's pasted output.
+    Must cite specific evidence (file paths, test names, command output)
+    before emitting the promise tag.
+  system_prompt_path: ./oracle.md
+  allowed_tools:
+    - kimi_cli.tools.shell:Shell
+    - kimi_cli.tools.file:ReadFile
+    - kimi_cli.tools.file:Glob
+    - kimi_cli.tools.file:Grep
+  exclude_tools:
+    - kimi_cli.tools.file:WriteFile
+    - kimi_cli.tools.file:StrReplaceFile
+    - kimi_cli.tools.agent:Agent
+    - kimi_cli.tools.ask_user:AskUserQuestion

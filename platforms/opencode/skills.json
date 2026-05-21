@@ -55,6 +55,12 @@
       "path": "core/skills/test-driven-development/SKILL.md"
     },
     {
+      "name": "ultrawork",
+      "module": "core",
+      "description": "Cross-platform verify-then-exit loop with independent Oracle verification — prevents premature \"done\" claims by requiring a fresh subagent to re-run verification and emit VERIFIED before exit",
+      "path": "core/skills/ultrawork/SKILL.md"
+    },
+    {
       "name": "using-git-worktrees",
       "module": "core",
       "description": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback",
