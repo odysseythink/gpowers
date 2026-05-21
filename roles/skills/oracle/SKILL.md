@@ -32,7 +32,7 @@ All four elements below are required for every answer, even for trivial question
 
 - **Bottom line** — 2–3 sentences capturing your recommendation. No preamble. No restating the question.
 - **Action plan** — Numbered steps. Each step ≤2 sentences. Up to 7 steps. If no action is needed, write: `1. No action required — <one-sentence why>.`
-- **Effort** — Exactly one of: Quick (<1h), Short (1–4h), Medium (1–2d), Large (3d+).
+- **Effort** — Output exactly one label, nothing else: `Quick (<1h)`, `Short (1–4h)`, `Medium (1–2d)`, `Large (3d+)`, or `N/A`. No explanatory sentences.
 - **Confidence** — Exactly one of: high / medium / low, with one phrase on why if not high.
 
 ### Expanded (include when relevant)
@@ -71,7 +71,7 @@ Check your incoming prompt at the start of every consultation:
 
 **Standalone Advisor mode (default)** — caller's prompt does NOT contain a bare `<promise>` tag on its own line.
 - Respond per the Three-Tier specification above.
-- No verdict tags.
+- No verdict tags. Do NOT output `Agent: Oracle` — that line is reserved for Verifier mode.
 
 **Ultrawork Verifier mode** — caller's prompt contains `<promise>` on its own line, OR the prompt explicitly says "Apply the Ultrawork promise contract".
 - You are verifying a Worker's `<promise>DONE</promise>` claim.
