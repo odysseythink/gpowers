@@ -33,5 +33,23 @@
     "local_renamed": {
       "review": "pr-review"
     }
+  },
+  "personas": {
+    "upstream": {
+      "repo": "github.com/codingsh/oh-my-openagent",
+      "ref": "v3.17.10",
+      "sha": ""
+    },
+    "ported": [
+      "oracle"
+    ],
+    "patterns_only": [
+      "sisyphus",
+      "hephaestus",
+      "prometheus",
+      "librarian",
+      "explore"
+    ],
+    "note": "Only Oracle is a registered subagent type (Kimi + OpenCode). Others are documented as patterns in docs/methodology/executor-patterns.md."
   }
 }
