@@ -1,0 +1,18 @@
+# gpowers Oracle adapter for OpenCode
+#
+# OpenCode ships oh-my-opencode as a native plugin and already has Oracle in
+# its persona runtime. This adapter is a thin pointer that ensures the gpowers
+# canonical prompt body (roles/skills/oracle/SKILL.md) is the source of truth
+# even when running inside OpenCode — no prompt duplication.
+
+name: oracle
+mode: subagent
+description: |
+  Read-only strategic advisor. Dispatched for complex reasoning, architecture
+  decisions, and independent verification of completed work.
+prompt_source: ../../../../roles/skills/oracle/SKILL.md
+permission:
+  edit: deny
+  write: deny
+  apply_patch: deny
+  task: deny
