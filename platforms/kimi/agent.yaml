@@ -9,13 +9,13 @@ agent:
   extend: default
   subagents:
     coder:
-      path: ~/.local/share/kimi/agents/default/coder.yaml
+      path: /Users/ranwei/.local/share/uv/tools/kimi-cli/lib/python3.13/site-packages/kimi_cli/agents/default/coder.yaml
       description: "Kimi built-in coder subagent."
     explore:
-      path: ~/.local/share/kimi/agents/default/explore.yaml
+      path: /Users/ranwei/.local/share/uv/tools/kimi-cli/lib/python3.13/site-packages/kimi_cli/agents/default/explore.yaml
       description: "Kimi built-in codebase explorer."
     plan:
-      path: ~/.local/share/kimi/agents/default/plan.yaml
+      path: /Users/ranwei/.local/share/uv/tools/kimi-cli/lib/python3.13/site-packages/kimi_cli/agents/default/plan.yaml
       description: "Kimi built-in planner."
     oracle:
       path: ./oracle.yaml
