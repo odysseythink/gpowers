@@ -166,7 +166,7 @@ Baseline: 6 fixed explore agents.
 ```bash
 total_files=$(find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' | wc -l)
 total_lines=$(find . -type f \( -name "*.ts" -o -name "*.py" -o -name "*.go" -o -name "*.js" -o -name "*.rs" \) -not -path '*/node_modules/*' -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}')
-large_files=$(find . -type f \( -name "*.ts" -o -name "*.py" -o -name "*.go" -o -name "*.js" -o -name "*.rs" \) -not -path '*/node_modules/*' -exec wc -l {} + 2>/dev/null | awk '$1 > 500 {count++} END {print count+0}')
+large_files=$(find . -type f \( -name "*.ts" -o -name "*.py" -o -name "*.go" -o -name "*.js" -o -name "*.rs" \) -not -path '*/node_modules/*' -exec wc -l {} + 2>/dev/null | awk '$1 > 500 && $2 != "total" {count++} END {print count+0}')
 max_depth=$(find . -type d -not -path '*/node_modules/*' -not -path '*/.git/*' | awk -F/ '{print NF}' | sort -rn | head -1)
 ```
 
@@ -286,7 +286,7 @@ For each generated file:
 
 ## Edge Cases & Error Handling
 
-1. **No code files in project.** If `total_files < 10` or no code-extension files detected: generate root only; skip scoring and fan-out phases. Final report notes "skipped scoring (project too small)".
+1. **No code files in project.** If `total_files < 10` or no code-extension files detected: generate root only; skip scoring and fan-out phases. Final report notes "skipped scoring/fan-out (project too small)".
 
 2. **Host lacks parallel agent dispatch.** Degrade to sequential analysis. One-line warning in final report: `Mode: sequential (host lacks parallel dispatch)`.
 

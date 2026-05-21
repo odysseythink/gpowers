@@ -163,6 +163,12 @@
       "path": "roles/skills/office-hours/SKILL.md"
     },
     {
+      "name": "oracle",
+      "module": "roles",
+      "description": "|",
+      "path": "roles/skills/oracle/SKILL.md"
+    },
+    {
       "name": "pair-agent",
       "module": "roles",
       "description": "|",
