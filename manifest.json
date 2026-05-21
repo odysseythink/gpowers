@@ -19,9 +19,9 @@
     },
     "roles": {
       "installed": true,
-      "skill_count_non_browser": 19,
+      "skill_count_non_browser": 20,
       "skill_count_browser": 1,
-      "skill_count_total": 20,
+      "skill_count_total": 21,
       "upstream": "gstack@main"
     },
     "business": {

@@ -14,9 +14,9 @@ setup() {
   done
 }
 
-@test "exactly 20 role skills present" {
+@test "exactly 21 role skills present" {
   count=$(find "$ROLES" -mindepth 1 -maxdepth 1 -type d | wc -l)
-  [ "$count" -eq 20 ]
+  [ "$count" -eq 21 ]
 }
 
 @test "every role declares namespace: roles" {
