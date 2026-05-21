@@ -35,3 +35,14 @@ These are manual exercise scenarios. Run each by dispatching Oracle (via the hos
 - Kimi scenarios K-A..K-F from `ultrawork/platforms/kimi/tests/` still pass.
 - Oracle prompt resolves from `roles/skills/oracle/SKILL.md` via the rewritten pointer.
 - No regression in `VERIFIED` / `NOT-VERIFIED` ratios across the 3 base scenarios.
+
+---
+
+**Verification status (automated checks completed, live-model tests pending):**
+
+- P-A Claude Code: ⏳ pending — requires live Claude Code session
+- P-A Kimi (--agent-file): ⏳ pending — requires live Kimi session with `--agent-file ./platforms/kimi/agent.yaml`
+- P-B Ultrawork → Oracle: ⏳ pending — requires live Ultrawork run
+- P-L Ultrawork regression: ⏳ pending — requires replaying 3 base + 6 Kimi scenarios with live model
+
+All automated install-regression checks (bats) pass. Manual smoke tests to be run during the next maintenance window.
