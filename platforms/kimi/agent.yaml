@@ -1,0 +1,22 @@
+# gpowers Kimi agent.yaml
+# Opt in via:  kimi --agent-file ./platforms/kimi/agent.yaml
+#
+# Caveat: Kimi subagents inheritance is overwrite, not merge.
+# We re-declare the built-in subagents (coder/explore/plan) so they remain available.
+
+version: 1
+agent:
+  extend: default
+  subagents:
+    coder:
+      path: ~/.local/share/kimi/agents/default/coder.yaml
+      description: "Kimi built-in coder subagent."
+    explore:
+      path: ~/.local/share/kimi/agents/default/explore.yaml
+      description: "Kimi built-in codebase explorer."
+    plan:
+      path: ~/.local/share/kimi/agents/default/plan.yaml
+      description: "Kimi built-in planner."
+    oracle:
+      path: ./oracle.yaml
+      description: "Read-only strategic advisor — dispatched for complex reasoning and Ultrawork verification."

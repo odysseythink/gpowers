@@ -1,0 +1,26 @@
+# gpowers Oracle subagent spec for Kimi
+# Referenced by platforms/kimi/agent.yaml under subagents.oracle.path
+
+version: 1
+agent:
+  extend: default
+  name: oracle
+  when_to_use: |
+    Read-only strategic advisor. Dispatch for:
+    - Architecture decisions / multi-system trade-offs
+    - Self-review after significant implementation
+    - Independent verification of a Worker's <promise>DONE</promise> claim
+    Oracle re-runs verification commands itself; never trusts pasted output.
+    Must cite specific evidence (file paths, test names, command output)
+    before any verdict.
+  system_prompt_path: ../../roles/skills/oracle/SKILL.md
+  allowed_tools:
+    - kimi_cli.tools.shell:Shell
+    - kimi_cli.tools.file:ReadFile
+    - kimi_cli.tools.file:Glob
+    - kimi_cli.tools.file:Grep
+  exclude_tools:
+    - kimi_cli.tools.file:WriteFile
+    - kimi_cli.tools.file:StrReplaceFile
+    - kimi_cli.tools.agent:Agent
+    - kimi_cli.tools.ask_user:AskUserQuestion
