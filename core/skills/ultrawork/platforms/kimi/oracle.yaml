@@ -12,7 +12,7 @@ agent:
     Re-runs verification commands; never trusts Worker's pasted output.
     Must cite specific evidence (file paths, test names, command output)
     before emitting the promise tag.
-  system_prompt_path: ./oracle.md
+  system_prompt_path: ../../../../../roles/skills/oracle/SKILL.md
   allowed_tools:
     - kimi_cli.tools.shell:Shell
     - kimi_cli.tools.file:ReadFile
