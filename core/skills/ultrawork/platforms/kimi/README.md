@@ -105,7 +105,7 @@ The Kimi path matches oh-my-opencode's runtime primitives but with fail-open sem
 
 ## Testing
 
-Run the manual exercise scripts in `tests/`:
+Run the manual exercise scenarios in `tests/`:
 
 | Scenario | What it tests |
 |---|---|

@@ -18,8 +18,8 @@ flowchart TD
     check_promise -->|yes| dispatch_oracle[Worker: call Agent subagent_type=oracle, prompt=task+diff]
     dispatch_oracle --> record_verdict{Oracle verdict?}
     record_verdict -->|VERIFIED| cleanup[Remove .ultrawork-flow-active] --> END_OK([END success])
-    record_verdict -->|NOT-VERIFIED| worker_iterate
-    record_verdict -->|iter == 100| cleanup_fail[Remove .ultrawork-flow-active] --> END_FAIL([END fail-loud])
+    record_verdict -->|NOT-VERIFIED + iter < 100| worker_iterate
+    record_verdict -->|NOT-VERIFIED + iter == 100| cleanup_fail[Remove .ultrawork-flow-active] --> END_FAIL([END fail-loud])
 ```
 
 ## Flow Node Details

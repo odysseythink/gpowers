@@ -48,8 +48,9 @@ else
   EXTEND_PATH="builtin:default"
 fi
 
-sed "s|{{RESOLVED_AT_INSTALL_TIME}}|$EXTEND_PATH|" "$SCRIPT_DIR/oracle.yaml" \
-  > "$KIMI_DIR/agents/oracle/oracle.yaml"
+# Safer substitution: awk gsub does not interpret & or \ like sed does
+awk -v path="$EXTEND_PATH" '{gsub(/\{\{RESOLVED_AT_INSTALL_TIME\}\}/, path); print}' \
+  "$SCRIPT_DIR/oracle.yaml" > "$KIMI_DIR/agents/oracle/oracle.yaml"
 echo "  [OK] oracle spec → $KIMI_DIR/agents/oracle/oracle.yaml"
 echo "  [OK] oracle prompt → $KIMI_DIR/agents/oracle/oracle.md"
 
@@ -115,17 +116,29 @@ $ORACLE_ENTRY
 YAML
   echo "  [OK] created agent.yaml with oracle subagent"
 else
-  if grep -q "^\s*oracle:" "$AGENT_FILE"; then
+  if grep -q "^[[:space:]]*oracle:" "$AGENT_FILE"; then
     if [ "$FORCE" = true ]; then
-      awk -v entry="$ORACLE_ENTRY" '
-        /^\s*oracle:/ {
-          print entry
-          skip=1
+      ENTRY_TMP=$(mktemp)
+      printf '%s\n' "$ORACLE_ENTRY" > "$ENTRY_TMP"
+      awk -v entryfile="$ENTRY_TMP" '
+        BEGIN { oracle_indent = -1 }
+        /^[[:space:]]*oracle:/ {
+          while ((getline line < entryfile) > 0) print line
+          close(entryfile)
+          oracle_indent = match($0, /[^ ]/) - 1
+          if (oracle_indent < 0) oracle_indent = 0
           next
         }
-        skip && /^[a-zA-Z]/ && !/^[ ]/ { skip=0 }
-        !skip { print }
+        oracle_indent >= 0 {
+          if ($0 ~ /^[[:space:]]*$/ || $0 ~ /^[[:space:]]*#/) { print; next }
+          line_indent = match($0, /[^ ]/) - 1
+          if (line_indent < 0) line_indent = 0
+          if (line_indent <= oracle_indent) { oracle_indent = -1; print; next }
+          next
+        }
+        { print }
       ' "$AGENT_FILE" > "$AGENT_FILE.tmp" && mv "$AGENT_FILE.tmp" "$AGENT_FILE"
+      rm -f "$ENTRY_TMP"
       echo "  [OK] overwrote existing oracle: key (forced)"
     else
       echo "  [ERROR] oracle: key already present in agent.yaml"
@@ -134,10 +147,18 @@ else
     fi
   else
     if grep -q "^subagents:" "$AGENT_FILE"; then
-      awk -v entry="$ORACLE_ENTRY" '
-        /^subagents:/ { print; print entry; next }
+      ENTRY_TMP=$(mktemp)
+      printf '%s\n' "$ORACLE_ENTRY" > "$ENTRY_TMP"
+      awk -v entryfile="$ENTRY_TMP" '
+        /^subagents:/ {
+          print
+          while ((getline line < entryfile) > 0) print line
+          close(entryfile)
+          next
+        }
         { print }
       ' "$AGENT_FILE" > "$AGENT_FILE.tmp" && mv "$AGENT_FILE.tmp" "$AGENT_FILE"
+      rm -f "$ENTRY_TMP"
     else
       echo "" >> "$AGENT_FILE"
       echo "subagents:" >> "$AGENT_FILE"
