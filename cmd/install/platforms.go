@@ -211,20 +211,45 @@ func registerPlatform(platform, gpowersHome string, nonInteractive bool) error {
 		return fmt.Errorf("create parent dir %s: %w", parent, err)
 	}
 
+	fmt.Printf("[install] register platform=%s source=%s target=%s os=%s\n", platform, source, target, runtime.GOOS)
+
 	if info, err := os.Lstat(target); err == nil {
+		fmt.Printf("[install] target exists: mode=%o isSymlink=%v\n", info.Mode(), info.Mode()&os.ModeSymlink != 0)
 		if info.Mode()&os.ModeSymlink != 0 {
+			fmt.Printf("[install] removing existing symlink: %s\n", target)
 			if err := os.Remove(target); err != nil {
 				return fmt.Errorf("remove existing symlink %s: %w", target, err)
 			}
 		} else {
 			return fmt.Errorf("%s exists and is not a symlink; skipping", target)
 		}
+	} else if os.IsNotExist(err) {
+		fmt.Printf("[install] target does not exist yet\n")
+	} else {
+		fmt.Printf("[install] lstat target error: %v\n", err)
 	}
 
-	if err := os.Symlink(source, target); err != nil {
-		return fmt.Errorf("symlink %s -> %s: %w", source, target, err)
+	if runtime.GOOS == "windows" {
+		fmt.Printf("[install] attempting junction: mklink /J %s %s\n", target, source)
+		cmd := exec.Command("cmd", "/c", "mklink", "/J", target, source)
+		out, err := cmd.CombinedOutput()
+		if err == nil {
+			fmt.Printf("[install] junction created: %s -> %s\n", target, source)
+		} else {
+			fmt.Printf("[install] junction failed: err=%v output=%s\n", err, strings.TrimSpace(string(out)))
+			fmt.Printf("[install] falling back to copyDir: %s -> %s\n", source, target)
+			if err := copyDir(source, target); err != nil {
+				return fmt.Errorf("copy %s -> %s: %w", source, target, err)
+			}
+			fmt.Printf("[install] copied: %s -> %s\n", source, target)
+		}
+	} else {
+		fmt.Printf("[install] attempting symlink: %s -> %s\n", source, target)
+		if err := os.Symlink(source, target); err != nil {
+			return fmt.Errorf("symlink %s -> %s: %w", source, target, err)
+		}
+		fmt.Printf("[install] symlink created: %s -> %s\n", target, source)
 	}
-	fmt.Printf("[install] linked %s -> %s\n", target, source)
 
 	if platform == "claude-code" {
 		if err := setupClaudeCodeAutoLoad(nonInteractive); err != nil {
