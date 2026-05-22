@@ -46,16 +46,16 @@ build-browse: $(BIN_BROWSE)
 
 build-terminal: $(BIN_TERMINAL)
 
-$(BIN_INSTALL): cmd/install/**/*.go go.mod
+$(BIN_INSTALL): cmd/install/*.go go.mod
 	$(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $@ ./cmd/install
 
 $(BIN_REWRITE): bin/gpowers-rewrite-browser.go go.mod
 	$(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $@ ./bin/gpowers-rewrite-browser.go
 
-$(BIN_BROWSE): tools/skills/browse-go/cmd/browse/**/*.go tools/skills/browse-go/go.mod
+$(BIN_BROWSE): tools/skills/browse-go/cmd/browse/*.go tools/skills/browse-go/go.mod
 	cd tools/skills/browse-go && $(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ../../$@ ./cmd/browse
 
-$(BIN_TERMINAL): tools/skills/browse-go/cmd/terminal-agent/**/*.go tools/skills/browse-go/go.mod
+$(BIN_TERMINAL): tools/skills/browse-go/cmd/terminal-agent/*.go tools/skills/browse-go/go.mod
 	cd tools/skills/browse-go && $(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ../../$@ ./cmd/terminal-agent
 
 # ── Test ─────────────────────────────────────────────────────────────
