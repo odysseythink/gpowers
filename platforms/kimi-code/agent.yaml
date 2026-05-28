@@ -1,0 +1,18 @@
+# gpowers Kimi Code agent.yaml
+# Kimi Code profile format (camelCase). Extends the built-in "agent" profile.
+#
+# Caveat: Kimi Code subagents inheritance is overwrite, not merge.
+# We re-declare the built-in subagents (coder/explore/plan) so they remain available.
+
+name: agent
+description: gpowers agent for Kimi Code
+extends: agent
+subagents:
+  coder:
+    description: Good at general software engineering tasks.
+  explore:
+    description: Fast codebase exploration with prompt-enforced read-only behavior.
+  plan:
+    description: Read-only implementation planning and architecture design.
+  oracle:
+    description: Read-only strategic advisor — dispatched for complex reasoning and Ultrawork verification.

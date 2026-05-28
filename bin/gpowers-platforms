@@ -8,7 +8,7 @@ set -euo pipefail
 : "${GPOWERS_HOME:?GPOWERS_HOME required}"
 SHAPES="$GPOWERS_HOME/platforms/_platform-shapes.json"
 
-all_platforms() { jq -r '.platforms | keys[]' < "$SHAPES"; }
+all_platforms() { jq -r '.platforms | keys[]' < "$SHAPES" | tr -d '\r'; }
 
 cmd_list() {
   printf '%-12s %-22s %s\n' PLATFORM MANIFEST INSTALL-LINK
@@ -25,12 +25,16 @@ cmd_gen() {
     while read -r p; do
       if [ "$p" = "kimi" ]; then
         "$GPOWERS_HOME/bin/_gpowers-gen-kimi.sh"
+      elif [ "$p" = "kimi-code" ]; then
+        "$GPOWERS_HOME/bin/_gpowers-gen-kimi-code.sh"
       else
         "$GPOWERS_HOME/bin/_gpowers-gen-platform.sh" "$p"
       fi
     done < <(all_platforms)
   elif [ "$target" = "kimi" ]; then
     "$GPOWERS_HOME/bin/_gpowers-gen-kimi.sh"
+  elif [ "$target" = "kimi-code" ]; then
+    "$GPOWERS_HOME/bin/_gpowers-gen-kimi-code.sh"
   else
     "$GPOWERS_HOME/bin/_gpowers-gen-platform.sh" "$target"
   fi

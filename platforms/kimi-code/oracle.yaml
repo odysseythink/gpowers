@@ -1,0 +1,28 @@
+# gpowers Oracle subagent spec for Kimi Code
+# Referenced by platforms/kimi-code/agent.yaml under subagents.oracle
+
+name: oracle
+description: Read-only strategic advisor
+extends: agent
+whenToUse: |
+  Read-only strategic advisor. Dispatch for:
+  - Architecture decisions / multi-system trade-offs
+  - Self-review after significant implementation
+  - Independent verification of a Worker's <promise>DONE</promise> claim
+  Oracle re-runs verification commands itself; never trusts pasted output.
+  Must cite specific evidence (file paths, test names, command output)
+  before any verdict.
+systemPromptPath: ../../roles/skills/oracle/SKILL.md
+tools:
+  - Read
+  - Grep
+  - Glob
+  - Bash
+  - TaskList
+  - TaskOutput
+  - TaskStop
+  - TodoList
+  - WebSearch
+  - FetchURL
+  - AskUserQuestion
+  - EnterPlanMode

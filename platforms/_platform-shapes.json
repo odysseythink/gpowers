@@ -60,6 +60,14 @@
       "namespace_mode": "flat-prefix",
       "install_link_target": "~/.kimi/skills"
     },
+    "kimi-code": {
+      "manifest_filename": "kimi-code-skills.json",
+      "command_dir": "adapters",
+      "command_filename_pattern": "gpowers-{slash}",
+      "supports_hooks": false,
+      "namespace_mode": "flat-prefix",
+      "install_link_target": "~/.kimi-code/skills"
+    },
     "qoder": {
       "manifest_filename": "qoder-skills.json",
       "command_dir": "adapters",

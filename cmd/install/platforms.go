@@ -199,6 +199,9 @@ func registerPlatform(platform, gpowersHome string, nonInteractive bool) error {
 	if platform == "kimi" {
 		return registerKimi(gpowersHome)
 	}
+	if platform == "kimi-code" {
+		return registerFlatSkills(gpowersHome, "kimi-code")
+	}
 	if platform == "qoder" {
 		return registerQoder(gpowersHome)
 	}
@@ -336,54 +339,5 @@ claude() {
 }
 
 func registerKimi(gpowersHome string) error {
-	adaptersDir := filepath.Join(gpowersHome, "platforms", "kimi", "adapters")
-	kimiSkills := expandPath("~/.kimi/skills")
-	if err := os.MkdirAll(kimiSkills, 0755); err != nil {
-		return fmt.Errorf("create kimi skills dir: %w", err)
-	}
-
-	entries, err := os.ReadDir(adaptersDir)
-	if err != nil {
-		return err
-	}
-
-	for _, ent := range entries {
-		if !ent.IsDir() {
-			continue
-		}
-		name := ent.Name()
-		source := filepath.Join(adaptersDir, name)
-		target := filepath.Join(kimiSkills, name)
-
-		if info, err := os.Stat(target); err == nil {
-			if info.IsDir() {
-				if err := os.RemoveAll(target); err != nil {
-					return fmt.Errorf("remove existing dir %s: %w", target, err)
-				}
-			} else {
-				if err := os.Remove(target); err != nil {
-					return fmt.Errorf("remove existing file %s: %w", target, err)
-				}
-			}
-		}
-
-		if runtime.GOOS == "windows" {
-			cmd := exec.Command("cmd", "/c", "mklink", "/J", target, source)
-			if err := cmd.Run(); err == nil {
-				fmt.Printf("[OK] Junction: %s\n", name)
-				continue
-			}
-			if err := copyDir(source, target); err != nil {
-				return fmt.Errorf("copy %s -> %s: %w", source, target, err)
-			}
-			fmt.Printf("[OK] Copied:  %s\n", name)
-		} else {
-			if err := os.Symlink(source, target); err != nil {
-				return fmt.Errorf("symlink %s -> %s: %w", source, target, err)
-			}
-			fmt.Printf("[install] linked %s -> %s\n", target, source)
-		}
-	}
-	fmt.Printf("[install] kimi skills registered in: %s\n", kimiSkills)
-	return nil
+	return registerFlatSkills(gpowersHome, "kimi")
 }

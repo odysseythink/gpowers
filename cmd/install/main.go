@@ -69,13 +69,9 @@ func run() error {
 
 	for _, p := range platforms {
 		switch p {
-		case "kimi":
-			if err := generateKimiAdapters(opts.Location); err != nil {
-				return fmt.Errorf("generate kimi adapters: %w", err)
-			}
-		case "qoder":
-			if err := generateQoderAdapters(opts.Location); err != nil {
-				return fmt.Errorf("generate qoder adapters: %w", err)
+		case "kimi", "kimi-code", "qoder":
+			if err := generateFlatAdapters(opts.Location, p); err != nil {
+				return fmt.Errorf("generate %s adapters: %w", p, err)
 			}
 		default:
 			if err := generatePlatformManifest(p, opts.Location, modules); err != nil {
