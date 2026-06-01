@@ -103,7 +103,12 @@ Every project goes through this process. A todo list, a single-function utility,
 
 You MUST create a task for each of these items and complete them in order:
 
-1. **Explore project context** — check files, docs, recent commits
+1. **Explore project context** — check files, docs, recent commits. Also select the audit strategy (see Audit Strategy section below):
+   - Ask once: "For this design, how deep should my assumptions be checked against your intent?"
+   - **Basic** — Only high-stakes assumptions (architecture, security, data, ops) are flagged for your confirmation
+   - **Standard** — Every [C:INFERRED] assumption is surfaced in the User Audit Gate for your review
+   - **Deep** — I ask you to confirm the key claim of every numbered section
+   - Record the choice. The strategy can be upgraded mid-session (see In-session upgrade).
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
 3. **Extract upstream/reference feature inventory** (conditional) — If the user wants to port, adapt, or learn from an existing system (e.g., "introduce hermes-agent's design", "port X's compressor"), BEFORE asking any clarifying questions you MUST:
    - Read the upstream source code or reference documentation
@@ -152,6 +157,43 @@ digraph brainstorming {
 ```
 
 **The terminal state is invoking writing-plans.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.
+
+## Audit Strategy
+
+The audit strategy controls how aggressively assumptions are surfaced to the user for confirmation. It is selected once at session start (step 1) and can be upgraded mid-session. The strategy affects three control points: §Assumptions threshold, User Audit Gate content, and Spec self-review #5 strictness.
+
+### Basic (default)
+
+**When to use:** Most projects. Suitable when the user trusts the AI to handle implementation details and only wants to validate major architectural/safety decisions.
+
+**Behavior:**
+- §Assumptions: Warning at >3 Medium/Low items. Spec can proceed.
+- Audit Gate: Surfaces only high-stakes `[C:INFERRED]` items (architecture, security, data persistence, ops). General heuristics (token estimation defaults, common config values) are hidden.
+- Spec review: Checks that `[C:USER]` and `[C:DEFERRED]` are consistent. Flags high-stakes `[C:INFERRED]` that bypassed the gate.
+
+**Trade-off:** Fastest path to design approval. Risk: some implementation details are inferred without user confirmation.
+
+### Standard
+
+**When to use:** Projects involving external systems, compliance requirements, or when the user wants to see every assumption the AI made.
+
+**Behavior:**
+- §Assumptions: Warning at >1 Medium/Low item. User must explicitly accept or defer each.
+- Audit Gate: Surfaces **every** `[C:INFERRED]` assumption. User must sign off on each (`[C:USER]`), defer it (`[C:DEFERRED]`), or provide a correction.
+- Spec review: If any `[C:INFERRED]` was NOT presented to the user, the review FAILS.
+
+**Trade-off:** Moderate overhead (~+1 round of interaction). Eliminates hidden assumptions.
+
+### Deep
+
+**When to use:** Mission-critical systems, complex migrations, or when the user wants to validate every significant design claim.
+
+**Behavior:**
+- §Assumptions: **Blocking** at any Low confidence item. Medium items require explicit user sign-off.
+- Audit Gate: Confirms **every numbered section's key claim** plus all `[C:INFERRED]` assumptions. No section can have purely inferred claims.
+- Spec review: Every section must have `[C:USER]` or `[C:UPSTREAM]`. Pure inference = blocking.
+
+**Trade-off:** Highest overhead (~+2-3 rounds). Maximum confidence that the design reflects user intent.
 
 ## The Process
 
@@ -291,8 +333,15 @@ Add a final section `## Assumptions & Unverified Items` before `## Open Question
 |---|-----------|-----------|-----------------|---------------|
 | 1 | ... | High/Medium/Low | ... | ... |
 
-If there are more than 3 Medium/Low confidence items, add a warning block:
-> ⚠️ This design relies on N unverified assumptions. Consider verifying them before implementation.
+The warning threshold depends on the chosen audit strategy:
+
+| Strategy | Warning threshold | Blocking rule |
+|---|---|---|
+| **Basic** | >3 Medium/Low items | Warning only; spec can proceed with explicit `[C:INFERRED]` labels |
+| **Standard** | >1 Medium/Low item | Warning + user must explicitly accept or downgrade each Medium/Low item in the Audit Gate |
+| **Deep** | Any Low confidence item | **Blocking** — spec is NOT ready until all Low items are verified or removed. Medium items require explicit user sign-off in the Audit Gate |
+
+Apply the threshold that matches the recorded strategy. If the user upgrades mid-session, re-evaluate §Assumptions against the new threshold immediately.
 
 **Spec Self-Review:**
 After writing the spec document, look at it with fresh eyes:
@@ -301,25 +350,106 @@ After writing the spec document, look at it with fresh eyes:
 2. **Internal consistency:** Do any sections contradict each other? Does the architecture match the feature descriptions?
 3. **Scope check:** Is this focused enough for a single implementation plan, or does it need decomposition?
 4. **Ambiguity check:** Could any requirement be interpreted two different ways? If so, pick one and make it explicit.
-5. **Decision trace review:** Scan the "Resolved decisions" list against the design doc:
+5. **Decision trace review:** Scan the "Resolved decisions" list against the design doc. The strictness depends on the audit strategy:
+
+   **For Basic strategy:**
    - Every `[C:USER]`-tagged section must map to a confirmed decision. Missing? Ask the user or downgrade to `[C:INFERRED]`.
    - Every `[C:DEFERRED]` item must be ABSENT from the design. Found? Remove it immediately.
    - Any section with NO `[C:USER]` or `[C:UPSTREAM]` tags is inference-only — verify it is listed in §Assumptions.
-   - If §Assumptions has more than 3 Medium/Low items, the spec is NOT ready. Either verify them or add explicit `[C:INFERRED]` warnings.
+   - If §Assumptions has >3 Medium/Low items: warning, but spec can proceed with explicit `[C:INFERRED]` labels.
+   - Sections tagged `[C:INFERRED]` that affect architecture, security, data persistence, or ops → flag as high-stakes; these should have been surfaced in the Audit Gate.
+
+   **For Standard strategy (everything in Basic, plus):**
+   - EVERY `[C:INFERRED]` item must have been surfaced in the Audit Gate. If any `[C:INFERRED]` was NOT presented to the user, the spec self-review FAILS. Re-run the Audit Gate.
+   - If §Assumptions has >1 Medium/Low item: spec is NOT ready. User must explicitly accept or downgrade each in the Audit Gate.
+
+   **For Deep strategy (everything in Standard, plus):**
+   - EVERY numbered section must have either `[C:USER]` or `[C:UPSTREAM]`. If a section has neither, it is pure inference — downgrade it or add it to §Assumptions with Low confidence.
+   - Any Low confidence item in §Assumptions → **BLOCKING**. Spec is NOT ready.
+   - Every section's key claim must have been confirmed by the user in the Deep Audit Gate. If any section was skipped, re-run the gate.
 
 Fix any issues inline. No need to re-review — just fix and move on.
 
-**User Review Gate:**
-After the spec review loop passes, ask the user to review the written spec before proceeding:
+**User Audit Gate:**
+After the spec review loop passes, present the audit summary to the user. The content depends on the chosen audit strategy:
 
-> "Spec written and committed to `<path>`. Please review it and let me know if you want to make any changes before we start writing out the implementation plan."
+**Basic Audit Gate:**
+Present:
+1. A summary of all `[C:USER]` decisions extracted (numbered list)
+2. All `[C:DEFERRED]` items — ask user to confirm none are accidentally needed
+3. Only **high-stakes** `[C:INFERRED]` assumptions (architecture, security, data persistence, ops) — ask user to confirm or correct each
 
-Wait for the user's response. If they request changes, make them and re-run the spec review loop. Only proceed once the user approves.
+> "Spec written and committed to `<path>`.
+> 
+> **Your confirmed decisions (12 items):** ...
+> **Deferred to V2+ (7 items):** ... — Confirm none are needed now?
+> **High-stakes assumptions requiring confirmation (3 items):**
+> 1. [Assumption A] ...
+> 2. [Assumption B] ...
+> 
+> Please confirm, correct, or request changes. If you want deeper validation of all assumptions, say 'upgrade to Standard' or 'upgrade to Deep'."
+
+**Standard Audit Gate:**
+Present:
+1. All `[C:USER]` decisions (numbered list)
+2. All `[C:DEFERRED]` items
+3. **Every** `[C:INFERRED]` assumption — user must explicitly accept (`[C:USER]`) or defer (`[C:DEFERRED]`) each. If user provides a different value, update and re-run spec self-review.
+
+> "Spec written and committed to `<path>`.
+> 
+> **Your confirmed decisions (12 items):** ...
+> **Deferred to V2+ (7 items):** ...
+> **[C:INFERRED] assumptions requiring your sign-off (8 items):**
+> 1. [Assumption A] ... → Accept / Defer / Correct?
+> 2. [Assumption B] ... → Accept / Defer / Correct?
+> ...
+> 
+> If you want to confirm every section's key claims instead, say 'upgrade to Deep'."
+
+**Deep Audit Gate:**
+Present:
+1. All `[C:USER]` decisions
+2. All `[C:DEFERRED]` items
+3. For **every numbered section**, extract its key claim (the single most important assertion) and ask user to confirm
+4. All `[C:INFERRED]` assumptions (same as Standard)
+
+> "Spec written and committed to `<path>`.
+> 
+> **Section-by-section key claim confirmation:**
+> §1 Purpose: '[one-sentence summary]' — Correct?
+> §4 Architecture: '[key claim]' — Correct?
+> ...
+> **Your confirmed decisions (12 items):** ...
+> **[C:INFERRED] assumptions (8 items):** ...
+> 
+> Please confirm, correct, or request changes."
+
+**Rules for all strategies:**
+- If the user corrects any assumption, update the design doc, re-tag the source, and re-run spec self-review before proceeding.
+- If the user upgrades the strategy mid-gate, re-generate the audit content at the new level immediately.
+- Only proceed to implementation once the user approves the audit gate at the current strategy level.
 
 **Implementation:**
 
 - Invoke the writing-plans skill to create a detailed implementation plan
 - Do NOT invoke any other skill. writing-plans is the next step.
+
+**In-session upgrade:**
+
+The user can upgrade the audit strategy at any time by saying:
+- "upgrade to Standard" — Re-run the Audit Gate at Standard level. All `[C:INFERRED]` items must be re-surfaced for confirmation.
+- "upgrade to Deep" — Re-run the Audit Gate at Deep level. Every section's key claim must be confirmed.
+- "upgrade to Basic" — Downgrade is allowed but rare. Warn the user that this reduces validation coverage.
+
+**Upgrade procedure:**
+1. Record the new strategy level
+2. Re-evaluate §Assumptions against the new threshold immediately
+3. Re-generate the Audit Gate content at the new level
+4. Re-run spec self-review #5 with the new strictness rules
+5. Present the delta to the user: "Upgrading to [level] surfaces N additional items requiring your confirmation: [list]"
+
+**Downgrade handling:**
+Downgrading mid-session is generally not recommended. If the user requests it, confirm: "Downgrading to Basic means N assumptions will no longer require your confirmation. Proceed?"
 
 ## Key Principles
 
