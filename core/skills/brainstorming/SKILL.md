@@ -105,13 +105,19 @@ You MUST create a task for each of these items and complete them in order:
 
 1. **Explore project context** — check files, docs, recent commits
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
-3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
-4. **Propose 2-3 approaches** — with trade-offs and your recommendation
-5. **Present design** — in sections scaled to their complexity, get user approval after each section
-6. **Write design doc** — save to `$(gpowers-path project)/designs/YYYY-MM-DD-<topic>-design.md` and commit
-7. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
-8. **User reviews written spec** — ask user to review the spec file before proceeding
-9. **Transition to implementation** — invoke writing-plans skill to create implementation plan
+3. **Extract upstream/reference feature inventory** (conditional) — If the user wants to port, adapt, or learn from an existing system (e.g., "introduce hermes-agent's design", "port X's compressor"), BEFORE asking any clarifying questions you MUST:
+   - Read the upstream source code or reference documentation
+   - Enumerate the upstream system's complete feature/module list
+   - Note which features the current codebase already has, which are missing, and which need adaptation
+   - This inventory becomes your question checklist; every item must be confirmed with the user before proceeding
+   - Do NOT skip this step even if the user says "just port everything" — feature parity decisions are never that simple
+4. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria. After EACH answer, immediately record the decision in a running "Resolved decisions" list (used later in the design doc). Do not batch decisions — record them as they happen.
+5. **Propose 2-3 approaches** — with trade-offs and your recommendation
+6. **Present design** — in sections scaled to their complexity, get user approval after each section
+7. **Write design doc** — save to `$(gpowers-path project)/designs/YYYY-MM-DD-<topic>-design.md` and commit
+8. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
+9. **User reviews written spec** — ask user to review the spec file before proceeding
+10. **Transition to implementation** — invoke writing-plans skill to create implementation plan
 
 ## Process Flow
 
@@ -158,6 +164,25 @@ digraph brainstorming {
 - Prefer multiple choice questions when possible, but open-ended is fine too
 - Only one question per message - if a topic needs more exploration, break it into multiple questions
 - Focus on understanding: purpose, constraints, success criteria
+
+**The Seven-Dimension Decision Checklist — do not stop asking until all are covered:**
+
+Before you can propose approaches (step 6), every dimension below must have a user-confirmed decision recorded in your "Resolved decisions" list. Use this as your hard stop condition:
+
+| Dimension | What to confirm | Example questions |
+|---|---|---|
+| **Scope** | Which paths/users/scenarios are covered? What is explicitly deferred? | "V1 covers chat + agent paths. LCM alternative engine is V2." |
+| **Data & State** | New data structures? Persistence layer? Lifecycle? | "Summary persisted in `workspace_chats` as synthetic row, `Include=false` soft-delete for compressed rows." |
+| **Integration** | Insertion point per call path? Interaction with existing code? | "Chat path: `chat_service.go:buildRAGContext()` line ~48. Agent path: `wsconn.go` runLoop before `Stream()`." |
+| **Error & Degradation** | Failure scenarios? Degradation path? Retry/cooldown strategy? | "LLM failure → tiered cooldown (30s/60s/600s). No provider → 600s. Fallback to message-count truncation." |
+| **Security** | Sensitive data handling? Permission? Secret lifecycle? | "Redact applied at compression input AND output. 9 patterns covering API keys, PATs, JWTs, private keys." |
+| **Observability** | Logging? Metrics? Telemetry? User-visible events? | "`mlog.Info` on chat path compression. `ws.SendEvent('context.compressed', res)` on agent path. Telemetry: `compaction_finished` with before/after tokens, retry count." |
+| **Operations** | Configuration? Feature toggle? Manual intervention? Capacity planning? | "Global `context_compress_enabled` SystemSetting. Per-workspace toggle is V2. Manual `/compress` endpoint included." |
+
+**How to use the checklist:**
+- After each user answer, tag which dimension(s) it covers
+- Before saying "I think I understand enough to propose approaches", scan the checklist: are all 7 dimensions confirmed?
+- If a dimension is missing, ask targeted questions to fill it — do not proceed with gaps
 
 **Exploring approaches:**
 
@@ -272,6 +297,16 @@ Wait for the user's response. If they request changes, make them and re-run the 
 - **Explore alternatives** - Always propose 2-3 approaches before settling
 - **Incremental validation** - Present design, get approval before moving on
 - **Be flexible** - Go back and clarify when something doesn't make sense
+
+**Anti-premature-design guard — ask three more times before stopping:**
+
+When you feel you have asked enough questions and are ready to propose approaches, you MUST ask yourself these three questions. If ANY of them has an answer other than "nothing, I'm fully confident", keep asking:
+
+1. **What upstream/reference features haven't I asked about yet?** — Scan your feature inventory (step 3). Are there modules, edge cases, or configuration options from the upstream system that never came up in conversation?
+2. **What complexity is hidden behind the user's "simple"?** — When the user says "just port it" or "that should be easy", dig deeper. Simple requests often mask cross-cutting concerns (two code paths with different data shapes, auth implications, state migration). Ask: "What could go wrong if we ship the simplest version?"
+3. **What would an implementer still need to ask the PM after reading my design?** — Put yourself in the implementer's shoes. Look at your recorded decisions. Are there hand-waved areas ("we'll handle errors gracefully", "configure as needed") that an implementer cannot act on without clarification?
+
+**This guard is not optional.** The quality difference between a 250-line design and a 550-line design is not writing skill — it is whether the clarifying phase captured 80% of the decisions or 20%. Do not enter the "Propose approaches" step until all three guard questions return empty.
 
 ## Visual Companion
 
