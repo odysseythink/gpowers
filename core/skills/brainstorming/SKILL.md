@@ -114,7 +114,7 @@ You MUST create a task for each of these items and complete them in order:
 4. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria. After EACH answer, immediately record the decision in a running "Resolved decisions" list (used later in the design doc). Do not batch decisions — record them as they happen.
 5. **Propose 2-3 approaches** — with trade-offs and your recommendation
 6. **Present design** — in sections scaled to their complexity, get user approval after each section
-7. **Write design doc** — save to `$(gpowers-path project)/designs/YYYY-MM-DD-<topic>-design.md` and commit
+7. **Write design doc** — save to `$(gpowers-path project)/designs/YYYY-MM-DD-<topic>-design.md` and commit. Every section MUST carry a decision-source tag (`[C:USER]`, `[C:INFERRED]`, `[C:UPSTREAM]`, `[C:DEFERRED]`). Include a mandatory `## Assumptions & Unverified Items` chapter before the design doc is complete.
 8. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
 9. **User reviews written spec** — ask user to review the spec file before proceeding
 10. **Transition to implementation** — invoke writing-plans skill to create implementation plan
@@ -267,6 +267,33 @@ When writing the final design document (step 6), every section must be concrete 
 - Use elements-of-style:writing-clearly-and-concisely skill if available
 - Commit the design document to git
 
+**Decision tagging requirement:**
+
+Every section, configuration field, interface, and API endpoint in the design doc MUST carry a decision-source tag. Use these 4 tags consistently:
+
+| Tag | Meaning | Example |
+|-----|---------|---------|
+| `[C:USER]` | User explicitly confirmed during clarifying questions | `[C:USER] ThresholdPercent: 0.75 (chat) / 0.50 (agent)` |
+| `[C:INFERRED]` | Inferred by you from codebase analysis; must call out as "Assumption: ..." | `[C:INFERRED] CharsPerToken: 4 — standard heuristic; see §Assumptions` |
+| `[C:UPSTREAM]` | Ported directly from upstream/reference without user modification | `[C:UPSTREAM] 9 secret patterns from hermes redact.py` |
+| `[C:DEFERRED]` | User explicitly deferred to V2+ | `[C:DEFERRED] Per-workspace toggle — user deferred, not in V1 Config` |
+
+**Rules:**
+- Every numbered section must have at least one tag in its first paragraph.
+- If a section has NO `[C:USER]` or `[C:UPSTREAM]` tags, it is entirely inference — flag it in §Assumptions.
+- Do NOT mix tags inside the same sentence; tag the paragraph or bullet point.
+
+**Assumptions & Unverified Items (mandatory chapter):**
+
+Add a final section `## Assumptions & Unverified Items` before `## Open Questions / Resolved Decisions`. For every assumption you made to complete the design:
+
+| # | Assumption | Confidence | Impact if Wrong | How to Verify |
+|---|-----------|-----------|-----------------|---------------|
+| 1 | ... | High/Medium/Low | ... | ... |
+
+If there are more than 3 Medium/Low confidence items, add a warning block:
+> ⚠️ This design relies on N unverified assumptions. Consider verifying them before implementation.
+
 **Spec Self-Review:**
 After writing the spec document, look at it with fresh eyes:
 
@@ -274,6 +301,11 @@ After writing the spec document, look at it with fresh eyes:
 2. **Internal consistency:** Do any sections contradict each other? Does the architecture match the feature descriptions?
 3. **Scope check:** Is this focused enough for a single implementation plan, or does it need decomposition?
 4. **Ambiguity check:** Could any requirement be interpreted two different ways? If so, pick one and make it explicit.
+5. **Decision trace review:** Scan the "Resolved decisions" list against the design doc:
+   - Every `[C:USER]`-tagged section must map to a confirmed decision. Missing? Ask the user or downgrade to `[C:INFERRED]`.
+   - Every `[C:DEFERRED]` item must be ABSENT from the design. Found? Remove it immediately.
+   - Any section with NO `[C:USER]` or `[C:UPSTREAM]` tags is inference-only — verify it is listed in §Assumptions.
+   - If §Assumptions has more than 3 Medium/Low items, the spec is NOT ready. Either verify them or add explicit `[C:INFERRED]` warnings.
 
 Fix any issues inline. No need to re-review — just fix and move on.
 
