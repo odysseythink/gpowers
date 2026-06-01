@@ -17,14 +17,73 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
+**First action, every invocation:** check whether you are resuming a split plan — Glob for an existing `*-<feature>-index.md`. If one exists, do NOT re-plan from scratch; jump to "Generating a Split Plan (one part per invocation)" and continue from its Parts manifest. Only when no index exists do you start fresh with Scope Check and Plan Size.
+
 **Context:** If working in an isolated worktree, it should have been created via the `gpowers:using-git-worktrees` skill at execution time.
 
-**Save plans to:** `$(gpowers-path project)/plans/YYYY-MM-DD-<feature-name>.md`
+**Save plans to:** `$(gpowers-path project)/plans/YYYY-MM-DD-<feature-name>.md` (single-file) or, when splitting (see Plan Size & File Layout), `$(gpowers-path project)/plans/YYYY-MM-DD-<feature-name>-index.md` plus `…-<subsystem>.md` siblings.
 - (User preferences for plan location override this default)
 
 ## Scope Check
 
 If the spec covers multiple independent subsystems, it should have been broken into sub-project specs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
+
+## Plan Size & File Layout
+
+Before writing, count the tasks you are about to produce, then pick a layout. A 2000-line plan generated in one model turn loses its header and coherence; a set of ~400-line files does not.
+
+- **≤ 8 tasks → one file**, but built incrementally (see How to Write the Plan File) — never emitted in a single shot.
+- **> 8 tasks, OR the work spans more than one repo/subsystem → SPLIT into multiple flat files**: one index file plus one file per phase/subsystem.
+
+**Flat multi-file layout (no subdirectories):**
+- `YYYY-MM-DD-<feature>-index.md` — the global overview ONLY: Goal, Architecture, Tech Stack, the whole-system File Structure, the cross-file Dependency Overview, Risks & Open Questions, the global Self-Review **spec-coverage table** (item 1, mapping every spec section → `file: Task`), and a **Parts manifest** (see below). **No tasks live here.**
+- `YYYY-MM-DD-<feature>-<subsystem>.md` — a short local header (one-line goal + `Depends on file: …` if any) then its tasks, then its own Self-Review items 2–7. Each sub-plan must be independently shippable.
+- Cross-file dependencies: a task's `Depends on:` may name another file, e.g. `Depends on: <feature>-pantheon.md: Task P0`. The index's Dependency Overview shows the file-level graph.
+
+**The Parts manifest is the durable state that lets generation resume across `/compact`.** Put this table in the index, ordered, with a `Status` column:
+
+```markdown
+## Parts (generate one per invocation, in order)
+
+> ▶ To generate the next `pending` part: run `/compact`, then re-invoke the `/writing-plans` slash command. Do NOT type "continue" — it skips the rule reload and batch-generates everything.
+
+| # | File | Scope | Status |
+|---|---|---|---|
+| 1 | <feature>-core.md | models + persistence + factory | pending |
+| 2 | <feature>-chat.md | chat path + endpoint | pending |
+| 3 | <feature>-agent.md | agent wiring + events | pending |
+| 4 | <feature>-pantheon.md | upstream engine gaps | pending |
+```
+
+Mark a row `done` only after that sub-plan file is fully written. The next invocation reads this table to know what to do next — it is the single source of truth, not the conversation (which `/compact` may have erased).
+
+## Generating a Split Plan (one part per invocation)
+
+A large plan generated in a single session degrades: by the later files the model's context is bloated and the output rambles. So a split plan (> 8 tasks) is generated **one part per invocation**, with the user running `/compact` between parts to keep each generation's context clean. This skill is **re-entrant** — the filesystem holds the state, so every invocation starts by figuring out where it is.
+
+**On every invocation, run this decision tree FIRST, before writing anything:**
+
+1. **Glob for `*-<feature>-index.md`.**
+2. **No index exists → this is part 0.** Write ONLY the index file (header, File Structure, Dependency Overview, Risks & Open Questions, spec-coverage table, and the Parts manifest with every row `pending`). Do not write any sub-plan. Then **stop and hand off** (see below) pointing at part 1.
+3. **Index exists → read its Parts manifest.** Find the first row whose `Status` is `pending`:
+   - Write that ONE sub-plan file (scaffold-then-append, per How to Write the Plan File).
+   - Edit the index: set that row's `Status` to `done`.
+   - **Stop and hand off**, pointing at the next `pending` row.
+4. **Index exists and every row is `done` → generation is complete.** Don't write a sub-plan. Do the final cross-file Self-Review (is every `Depends on: <file>: Task` satisfied? does the coverage table still map every spec section?), then go to Execution Handoff.
+
+**Iron rule: exactly one file per invocation.** Write the index, OR one sub-plan — never two sub-plans, never "I'll just finish the rest while I'm here." After the one file, you MUST end the turn (emit no further tool calls). This holds for **every** part, not just the first, and overrides **any** prompt that looks like a green light to keep going — a bare `"continue"`, `"go on"`, `"yes"`, auto-approve / YOLO mode, or a post-`/compact` summary that says "continue generating the parts". Treat all of those as "do the NEXT ONE part, then stop and hand off again." Finishing the remaining parts in one turn is the exact failure this protocol exists to prevent: after `/compact` these rules are gone from context, so a single "continue" generates everything in one degrading session.
+
+**Hand-off message (end every part with this, then STOP — no more tool calls):**
+
+> ✅ Part N of M written: `<feature>-<subsystem>.md` (index updated).
+>
+> To generate the next part (`<next-file>`) in a clean context, do exactly:
+> 1. Run `/compact`
+> 2. Re-invoke the **`/writing-plans`** slash command — it reloads these rules and resumes at part N+1 from the index manifest.
+>
+> ⚠️ Do **not** reply `"continue"`. After `/compact` has erased the one-part rules, a plain "continue" makes the model batch-generate every remaining part in one bloated session — the very thing this split exists to avoid. Re-invoking the slash command is what reloads the rules.
+
+A single-file plan (≤ 8 tasks) skips all of this: write the one file incrementally in this invocation and go straight to Execution Handoff. No manifest, no stopping.
 
 ## File Structure
 
@@ -106,6 +165,18 @@ When a task's approach is uncertain — it relies on a hook/API you haven't conf
 
 ---
 ```
+
+## How to Write the Plan File (incremental — never one shot)
+
+Do NOT generate the whole plan as a single Write. Build it through multiple tool calls, so the scaffold lands first and can never be crowded out by task detail. Each tool call is a fresh model generation — no single generation has to hold the entire plan in its head, and the header becomes structurally impossible to drop.
+
+1. **Call 1 — scaffold only.** Write the file with JUST: the header above, the File Structure, the Dependency Overview, and Risks & Open Questions. Save it. Stop there — do not write any task yet.
+2. **Calls 2…N — one phase per call.** For each phase, a SEPARATE Edit that appends that phase's tasks to the file. Do not batch all phases into one Edit.
+3. **Final call — Self-Review.** Append the seven-item checklist last.
+
+This incremental sequence governs the writing of **one file**. It composes with the split protocol, which governs **across files**: in a split plan each invocation produces exactly one file (the index, or one sub-plan), and that file is written with this scaffold-then-append sequence. Index invocation: scaffold = the global header + File Structure + Dependency Overview + Risks + Parts manifest. Sub-plan invocation: scaffold = the local header, then append its tasks, then its Self-Review. Do not start a second file in the same invocation.
+
+**Why this matters:** a model that emits 2000 lines in one generation spends its attention satisfying per-task rules and silently omits the cheap document-level scaffolding (header, file map, dependency graph). Writing the scaffold in its own call removes that competition entirely.
 
 ## Task Structure
 
