@@ -20,3 +20,4 @@ dist/
 bin/_gpowers-rewrite-browser
 bin/_gpowers-rewrite-browser.exe
 build/
+tools/build/
