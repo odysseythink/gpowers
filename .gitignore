@@ -19,3 +19,4 @@ dist/
 # browse-go rewriter binary (built in CI)
 bin/_gpowers-rewrite-browser
 bin/_gpowers-rewrite-browser.exe
+build/
