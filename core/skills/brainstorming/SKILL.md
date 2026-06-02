@@ -103,14 +103,15 @@ Every project goes through this process. A todo list, a single-function utility,
 
 You MUST create a task for each of these items and complete them in order:
 
-1. **Explore project context** — check files, docs, recent commits. Also select the audit strategy (see Audit Strategy section below):
-   - Ask once: "For this design, how deep should my assumptions be checked against your intent?"
-   - **Basic** — Only high-stakes assumptions (architecture, security, data, ops) are flagged for your confirmation
-   - **Standard** — Every [C:INFERRED] assumption is surfaced in the User Audit Gate for your review
-   - **Deep** — I ask you to confirm the key claim of every numbered section
-   - Record the choice. The strategy can be upgraded mid-session (see In-session upgrade).
+1. **Explore project context, then select the audit strategy** — this item produces TWO separate tasks; create both, and do them in this order:
+   - **(1a) Explore project context** — check files, docs, recent commits. Autonomous; no user interaction.
+   - **(1b) Select the audit strategy** — a BLOCKING question to the user, and its OWN task — not a side-effect of exploring, and not something you may infer. Ask once: "For this design, how deep should my assumptions be checked against your intent?" Present all three options and WAIT for an answer:
+     - **Basic** — Only high-stakes assumptions (architecture, security, data, ops) are flagged for your confirmation
+     - **Standard** — Every [C:INFERRED] assumption is surfaced in the User Audit Gate for your review
+     - **Deep** — I ask you to confirm the key claim of every numbered section
+     - Record the choice. Do NOT silently apply a default; if the user doesn't answer, ask again. Only fall back to Basic if the user explicitly declines to choose. The strategy can be upgraded mid-session (see In-session upgrade).
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
-3. **Extract upstream/reference feature inventory** (conditional) — If the user wants to port, adapt, or learn from an existing system (e.g., "introduce hermes-agent's design", "port X's compressor"), BEFORE asking any clarifying questions you MUST:
+3. **Extract upstream/reference feature inventory** (conditional) — If the user wants to port, adapt, or learn from an existing system (e.g., "introduce hermes-agent's design", "port X's compressor"), first confirm step 1b (audit strategy) is already recorded — if not, ask it before starting; the inventory work below is autonomous and must not carry you past that question. Then, BEFORE asking any clarifying questions you MUST:
    - Read the upstream source code or reference documentation
    - Enumerate the upstream system's complete feature/module list
    - Note which features the current codebase already has, which are missing, and which need adaptation
@@ -129,6 +130,7 @@ You MUST create a task for each of these items and complete them in order:
 ```dot
 digraph brainstorming {
     "Explore project context" [shape=box];
+    "Select audit strategy\n(ask once — BLOCKING)" [shape=box];
     "Visual questions ahead?" [shape=diamond];
     "Offer Visual Companion\n(own message, no other content)" [shape=box];
     "Ask clarifying questions" [shape=box];
@@ -140,7 +142,8 @@ digraph brainstorming {
     "User reviews spec?" [shape=diamond];
     "Invoke writing-plans skill" [shape=doublecircle];
 
-    "Explore project context" -> "Visual questions ahead?";
+    "Explore project context" -> "Select audit strategy\n(ask once — BLOCKING)";
+    "Select audit strategy\n(ask once — BLOCKING)" -> "Visual questions ahead?";
     "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
     "Visual questions ahead?" -> "Ask clarifying questions" [label="no"];
     "Offer Visual Companion\n(own message, no other content)" -> "Ask clarifying questions";
@@ -160,11 +163,15 @@ digraph brainstorming {
 
 ## Audit Strategy
 
-The audit strategy controls how aggressively assumptions are surfaced to the user for confirmation. It is selected once at session start (step 1) and can be upgraded mid-session. The strategy affects three control points: §Assumptions threshold, User Audit Gate content, and Spec self-review #5 strictness.
+The audit strategy controls how aggressively assumptions are surfaced to the user for confirmation. It is selected once at session start (step 1b) and can be upgraded mid-session. The strategy affects three control points: §Assumptions threshold, User Audit Gate content, and Spec self-review #5 strictness.
 
-### Basic (default)
+<HARD-GATE>
+You MUST ask the user to choose Basic / Standard / Deep (step 1b) and record their answer BEFORE asking any clarifying question (step 4) or proposing approaches (step 5). Do not infer the strategy, do not silently apply a default, and do not let project exploration (step 1a) or upstream feature-inventory work (step 3) build enough momentum to carry you past this question. "Every project goes through this" applies here too — there is no "too simple to need a strategy" exemption. If you find yourself at clarifying questions or approaches without a recorded strategy, STOP and ask now.
+</HARD-GATE>
 
-**When to use:** Most projects. Suitable when the user trusts the AI to handle implementation details and only wants to validate major architectural/safety decisions.
+### Basic
+
+**When to use:** Most projects, and the fallback if the user explicitly declines to choose. Suitable when the user trusts the AI to handle implementation details and only wants to validate major architectural/safety decisions. Note: "fallback when the user declines" is NOT "default without asking" — you must still ask step 1b first.
 
 **Behavior:**
 - §Assumptions: Warning at >3 Medium/Low items. Spec can proceed.
