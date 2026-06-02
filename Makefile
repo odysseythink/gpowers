@@ -53,10 +53,10 @@ $(BIN_REWRITE): cmd/rewrite-browser/*.go go.mod
 	$(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $@ ./cmd/rewrite-browser
 
 $(BIN_BROWSE): tools/skills/browse-go/cmd/browse/*.go tools/skills/browse-go/go.mod
-	cd tools/skills/browse-go && $(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ../../$@ ./cmd/browse
+	cd tools/skills/browse-go && $(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ../../../$@ ./cmd/browse
 
 $(BIN_TERMINAL): tools/skills/browse-go/cmd/terminal-agent/*.go tools/skills/browse-go/go.mod
-	cd tools/skills/browse-go && $(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ../../$@ ./cmd/terminal-agent
+	cd tools/skills/browse-go && $(CGO) $(GO) build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ../../../$@ ./cmd/terminal-agent
 
 # ── Test ─────────────────────────────────────────────────────────────
 test: test-root test-browse
