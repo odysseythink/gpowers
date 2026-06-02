@@ -104,6 +104,16 @@ func resolveSourceDir(opts Options) (string, error) {
 	if sourceDir == "" {
 		return "", fmt.Errorf("cannot determine source directory; use --source-dir")
 	}
+	// Dev mode fallback: if the executable lives in a subdirectory (e.g. build/)
+	// and the parent contains platforms/, use the parent instead.
+	if _, err := os.Stat(filepath.Join(sourceDir, "platforms")); os.IsNotExist(err) {
+		parent := filepath.Dir(sourceDir)
+		if parent != sourceDir {
+			if _, err := os.Stat(filepath.Join(parent, "platforms")); err == nil {
+				sourceDir = parent
+			}
+		}
+	}
 	return sourceDir, nil
 }
 
