@@ -87,24 +87,30 @@ exit /b 0
 
 :_build_browse
 if not exist "%BIN%" mkdir "%BIN%"
-echo [build] browse.exe (root module)
-go build -trimpath -ldflags "%LDFLAGS%" -o "%BIN%\browse.exe" ./cmd/browse
-if errorlevel 1 exit /b %ERRORLEVEL%
-echo [build] browse.exe (browse-go module)
-pushd tools\skills\browse-go
-go build -trimpath -ldflags "%LDFLAGS%" -o "..\..\..\%BIN%\browse.exe" .
-if errorlevel 1 (
+if exist "tools\skills\browse-go" (
+    echo [build] browse.exe [browse-go module]
+    pushd tools\skills\browse-go
+    go build -trimpath -ldflags "%LDFLAGS%" -o "..\..\..\%BIN%\browse.exe" ./cmd/browse
+    if errorlevel 1 (
+        popd
+        exit /b %ERRORLEVEL%
+    )
     popd
-    exit /b %ERRORLEVEL%
 )
-popd
 exit /b 0
 
 :_build_terminal
 if not exist "%BIN%" mkdir "%BIN%"
-echo [build] terminal-agent.exe
-go build -trimpath -ldflags "%LDFLAGS%" -o "%BIN%\terminal-agent.exe" ./cmd/terminal-agent
-if errorlevel 1 exit /b %ERRORLEVEL%
+if exist "tools\skills\browse-go" (
+    echo [build] terminal-agent.exe [browse-go module]
+    pushd tools\skills\browse-go
+    go build -trimpath -ldflags "%LDFLAGS%" -o "..\..\..\%BIN%\terminal-agent.exe" ./cmd/terminal-agent
+    if errorlevel 1 (
+        popd
+        exit /b %ERRORLEVEL%
+    )
+    popd
+)
 exit /b 0
 
 :_test
