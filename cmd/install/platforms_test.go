@@ -11,13 +11,18 @@ func TestDetectPlatforms(t *testing.T) {
 	t.Setenv("HOME", tmpHome)
 
 	os.MkdirAll(filepath.Join(tmpHome, ".kimi"), 0755)
+	os.MkdirAll(filepath.Join(tmpHome, ".kimi-code"), 0755)
 	os.MkdirAll(filepath.Join(tmpHome, ".qoder"), 0755)
 	detected := detectPlatforms()
 	foundKimi := false
+	foundKimiCode := false
 	foundQoder := false
 	for _, p := range detected {
 		if p == "kimi" {
 			foundKimi = true
+		}
+		if p == "kimi-code" {
+			foundKimiCode = true
 		}
 		if p == "qoder" {
 			foundQoder = true
@@ -29,8 +34,36 @@ func TestDetectPlatforms(t *testing.T) {
 	if !foundKimi {
 		t.Errorf("expected kimi to be detected, got %v", detected)
 	}
+	if !foundKimiCode {
+		t.Errorf("expected kimi-code to be detected, got %v", detected)
+	}
 	if !foundQoder {
 		t.Errorf("expected qoder to be detected, got %v", detected)
+	}
+}
+
+func TestDetectKimiCodeDistinctFromKimi(t *testing.T) {
+	tmpHome := t.TempDir()
+	t.Setenv("HOME", tmpHome)
+
+	// Only ~/.kimi-code present, not ~/.kimi: the two must not be conflated.
+	os.MkdirAll(filepath.Join(tmpHome, ".kimi-code"), 0755)
+	detected := detectPlatforms()
+	foundKimi := false
+	foundKimiCode := false
+	for _, p := range detected {
+		if p == "kimi" {
+			foundKimi = true
+		}
+		if p == "kimi-code" {
+			foundKimiCode = true
+		}
+	}
+	if foundKimi {
+		t.Errorf("expected kimi NOT to be detected when only ~/.kimi-code exists, got %v", detected)
+	}
+	if !foundKimiCode {
+		t.Errorf("expected kimi-code to be detected, got %v", detected)
 	}
 }
 

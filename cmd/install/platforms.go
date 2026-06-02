@@ -20,6 +20,7 @@ var platformMarkers = map[string]string{
 	"opencode":    "~/.config/opencode",
 	"copilot":     "~/.config/copilot-cli",
 	"kimi":        "~/.kimi",
+	"kimi-code":   "~/.kimi-code",
 	"qoder":       "~/.qoder",
 }
 
